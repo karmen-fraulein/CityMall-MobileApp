@@ -10,6 +10,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-navigation/stack": "^6.0.7",
+    "axios": "^0.21.1",
     "react": "17.0.2",
     "react-native": "0.65.1"
   },
