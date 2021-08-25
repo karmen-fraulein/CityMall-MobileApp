@@ -1,5 +1,5 @@
 
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Image,
   ScrollView,
@@ -7,19 +7,19 @@ import {
   Text,
   View,
 } from 'react-native';
-import AppProvider, {AppContext} from './AppContext/AppContext';
+import AppProvider, { AppContext } from './AppContext/AppContext';
 import HomeScreen from './Screens/HomeScreen';
 
 
 
 const App = () => {
-  const {setIsAuth} = useContext(AppContext);
+  const { setIsAuth } = useContext(AppContext);
 
-  
+
   return (
-        <AppProvider>
-          <HomeScreen/>
-        </AppProvider>
+    <AppProvider>
+      <HomeScreen />
+    </AppProvider>
   );
 };
 
