@@ -8,14 +8,67 @@ interface IPageProps {
     style?: StyleProp<ViewStyle>;
 }
 
+
 const PaginationDots: React.FC<IPageProps> = (props) => {
     const [length, setLength] = useState<number[]>([]);
 
+    const DotCollor = (i: number) => {
+        if(i % 4 === 1) {
+            return styles.dotRed;
+        } else if (i% 4 === 2) {
+            return styles.dotBlue;
+        } if(i % 4 === 3) {
+            return styles.dotLightBlue;
+        } else {
+            return styles.dotYellow;   
+        }
+    }
+
+    const styles = StyleSheet.create({
+        container: {
+            flexDirection: 'row',
+            justifyContent: 'center'
+        },
+        dot: {
+            width: 4,
+            height: 4,
+            borderRadius: 50,
+            marginHorizontal: 5,
+        },
+
+        dotYellow: {
+            backgroundColor: Colors.yellow
+        },
+
+        dotBlue : {
+            backgroundColor: Colors.blue
+        },
+
+        dotRed: {
+            backgroundColor: Colors.red
+        },
+
+        dotLightBlue: {
+            backgroundColor: Colors.lightBlue
+        },
+    
+        dotActive: {
+            width: 6,
+            height: 6,
+            borderRadius: 50,
+            marginHorizontal: 5,
+            backgroundColor: Colors.yellow
+        }
+    })
+    
+
     useEffect(() => {
         setLength([...Array(props.length).keys()].map(() => 0))
-    }, []);
+    }, [props.length]);
 
-    const dots = length.map((_, i) => <View key={i} style={{ ...styles.dot, backgroundColor: i === props.step ? Colors.black : Colors.bgColor }}></View>);
+    const dots = length.map((_, i) => 
+    <View key={i} style={[i === props.step ?styles.dotActive : styles.dot, DotCollor(i) ]}></View>
+    );
 
     return (
         <View style={[styles.container, props.style]}>
@@ -24,17 +77,5 @@ const PaginationDots: React.FC<IPageProps> = (props) => {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'center'
-    },
-    dot: {
-        width: 5,
-        height: 5,
-        borderRadius: 50,
-        marginHorizontal: 6
-    }
-})
 
 export default PaginationDots;

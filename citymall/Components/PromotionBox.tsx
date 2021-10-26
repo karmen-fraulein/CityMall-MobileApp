@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { Colors } from '../Colors/Colors';
 
-const PromotionBox = () => {
+const PromotionBox = (props: any) => {
     return (
         <View style={styles.promotionBox}>
             <View style={styles.container}>
@@ -10,11 +10,11 @@ const PromotionBox = () => {
             </View>
             <Image style={styles.promotionImg} source={require('../assets/images/promotion_img.png')} />
             <TouchableOpacity>
-                <Text style={styles.promotionTitle}>საგაზაფხულო ფასდალკება</Text>
-                <Text style={styles.promotionBodyText}>საცურაო აუზი -30% ფასდაკლება</Text>
+                <Text style={styles.promotionTitle}>{props.data.title }</Text>
+                <Text style={styles.promotionBodyText} numberOfLines={1}>{props.data.subtitle }</Text>
                 <View style={styles.promotionBottom}>
                     <Text style={styles.promotionBottomText}>ვრცლად</Text>
-                    <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow.png')} />
+                    <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
                 </View>
             </TouchableOpacity>
         </View>
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     promotionBox: {
         width: 159,
         height: 180,
-        backgroundColor: Colors.bgColor,
         borderRadius: 10,
         margin: 15
     },
@@ -34,7 +33,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 46,
         height: 12,
-        backgroundColor: Colors.bgColor,
         borderRadius: 10,
         position: 'absolute',
         top: 9,
@@ -52,14 +50,13 @@ const styles = StyleSheet.create({
     },
 
     promotionTitle: {
-        width: 94,
         height: 24,
         fontFamily: 'Pangram-Regular',
         textTransform: 'uppercase',
         fontWeight: '500',
         fontSize: 10,
         lineHeight: 12,
-        color: Colors.black,
+        color: Colors.white,
         margin: 6
     },
 
@@ -67,11 +64,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Pangram-Regular',
         textTransform: 'uppercase',
         fontWeight: '500',
-        fontSize: 4,
-        lineHeight: 5,
-        color: Colors.black,
+        fontSize: 9,
+        lineHeight: 11,
+        color: Colors.white,
         marginLeft: 6,
-        marginBottom: 9
+        marginBottom: 9,
+        
     },
 
     promotionBottom: {
@@ -80,10 +78,10 @@ const styles = StyleSheet.create({
     },
 
     promotionBottomText: {
-        color: Colors.black,
+        color: Colors.white,
         fontFamily: 'Pangram-Bold',
-        fontSize: 5,
-        lineHeight: 6,
+        fontSize: 7,
+        lineHeight: 9,
         marginRight: 2,
         marginLeft: 6,
 
