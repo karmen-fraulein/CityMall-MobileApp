@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import AppProvider, { AppContext } from './AppContext/AppContext';
 import HomeScreen from './Screens/HomeScreen';
+import AppNavigator from './Navigation/AppNavitagor';
 
 
 
@@ -18,7 +19,7 @@ const App = () => {
 
   return (
     <AppProvider>
-      <HomeScreen />
+      <AppNavigator />
     </AppProvider>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacityBase, TouchableOpacity } from 'react-native';
 import { Colors } from '../Colors/Colors';
 import AppHeader from "../Components/AppHeader";
+import BackDrop from "../Components/BackDrop";
 import PaginationDots from "../Components/PaginationDots";
 import PromotionBox from "../Components/PromotionBox";
 import { useDimension } from "../Hooks/UseDimension";
@@ -97,7 +98,7 @@ const dummyData = [
 // } 
 
 
-const HomeScreen = () => {
+const HomeScreen = (props: any) => {
     const { width, height } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offers, setOffers] = useState<any[]>();
@@ -167,21 +168,21 @@ const HomeScreen = () => {
     }, [])
     console.log('(offers?.length',offers?.length)
     return (
-        <View style={[Grid.col_12, { backgroundColor: Colors.black }]}>
-            <AppHeader />
-            <View style={[Grid.col_4, { justifyContent: 'flex-end' }]}>
+        <View style={[Grid.col_12, { backgroundColor: Colors.black ,}]}>
+            
+            <View style={[Grid.col_5, { justifyContent: 'flex-end' }]}>
                 <View style={[Grid.col_10, { alignItems: 'center' }]}>
                     <Image style={sytles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
                 </View>
                 <View style={[Grid.col_2, { justifyContent: 'space-around' }]}>
-                    <TouchableOpacity style={sytles.authBtn} onPress={() => { }}>
+                    <TouchableOpacity style={sytles.authBtn} onPress={() => props.navigation.navigate('AuthScreen')}>
                         <Text style={sytles.authBtnText}>ავტორიზაცია</Text>
                         <Image style={{ marginLeft: 7 }} source={require('../assets/images/arrow-sm.png')} />
                     </TouchableOpacity>
                     <Image source={require('../assets/images/gradient-line.png')} />
                 </View>
             </View>
-            <View style={[Grid.col_7, {padding: 30}]}>
+            <View style={[Grid.col_7, {padding: '7%'}]}>
                 
                 <View style={[Grid.col_12]}>
                 <View style={[Grid.col_1, sytles.promotionContainer]}>
