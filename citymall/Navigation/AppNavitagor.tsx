@@ -21,7 +21,7 @@ const AppNavigator = () => {
                     component={HomeScreen}
                     options={{
                         header: () => <AppHeader />,
-                        headerStyle: {
+                        headerStyle: {  
                             height: Grid.col_1.height,
                             backgroundColor: Colors.black,
 

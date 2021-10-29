@@ -16,6 +16,7 @@ import AppNavigator from './Navigation/AppNavitagor';
 const App = () => {
   const { setIsAuth } = useContext(AppContext);
 
+  
 
   return (
     <AppProvider>

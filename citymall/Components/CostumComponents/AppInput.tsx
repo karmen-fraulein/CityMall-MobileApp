@@ -8,26 +8,30 @@ import { Colors } from '../../Colors/Colors';
 
 
 const AppInput = (props: any) => {
+    console.log(props.type)
     return (
-        <View style={{ position: 'relative',   borderColor: Colors.white }}>
-            <TextInput placeholder='მომხმარებელი' style={{ height: 60, borderBottomWidth: 1, borderBottomColor: Colors.white }} />
+        <View style={{ position: 'relative', borderColor: Colors.white }}>
+            <TextInput
+               {...props}
+                
+            />
             <TouchableOpacity
                 style={{
                     position: 'absolute',
                     top: 23,
                     right: 5
                 }}>
-                <Image source={ props.type === 'password'?
+                <Image source={props.type === 'password' ?
                     require('../../assets/images/password-eye.png')
                     :
-                    require('../../assets/images/password-eye-shown.png')
-                } 
+                    null
+                }
 
-                 style={{
-                    width: 22,
-                    height: 13,
-                    
-                }}/>
+                    style={{
+                        width: 22,
+                        height: 13,
+
+                    }} />
             </TouchableOpacity>
 
         </View>
