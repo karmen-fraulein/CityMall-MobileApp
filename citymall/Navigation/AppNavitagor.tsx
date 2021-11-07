@@ -1,21 +1,49 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Grid from '../Styles/grid';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import AppHeader from '../Components/AppHeader';
 import HomeScreen from '../Screens/HomeScreen';
 import AuthScreen from '../Screens/AuthScreen';
 import SignInScreen from '../Screens/SignInScreen';
+import { Colors } from '../Colors/Colors';
+import DrawerItems from '../Constants/DrawerItems';
+import BurgerMenu from '../Components/BurgerMenu';
+
 
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+const HomeStack = createStackNavigator();
+const SignInStack = createStackNavigator();
+
+const HomeStackScreen = ({ navigation }: {navigation: any}) => (
+    <HomeStack.Navigator initialRouteName='HomeScreen'>
+        <HomeStack.Screen
+            name='HomeScreen'
+            component={HomeScreen}
+            options={{
+                header: () => <AppHeader toggleDrawer = {() => navigation.toggleDrawer()}/>,
+                headerStyle: {
+                    height: Grid.col_1.height,
+                    backgroundColor: Colors.black,
+                }
+            }}
+            
+        />
+    </HomeStack.Navigator>
+)
 
 const AppNavigator = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='SignInScreen'>
+            <Drawer.Navigator initialRouteName="HomeScreen" >
+                <Drawer.Screen name="HomeScreen" component={BurgerMenu} options={{headerShown: false}}/>
+                <Drawer.Screen name="AuthScreen" component={AuthScreen} />
+            </Drawer.Navigator>
+            {/* <Stack.Navigator initialRouteName='HomeScreen'>
                 <Stack.Screen
                     name='HomeScreen'
                     component={HomeScreen}
@@ -24,8 +52,6 @@ const AppNavigator = () => {
                         headerStyle: {  
                             height: Grid.col_1.height,
                             backgroundColor: Colors.black,
-
-
                         }
                     }}
                 />
@@ -69,7 +95,7 @@ const AppNavigator = () => {
                         }
                     }}
                 />
-            </Stack.Navigator>
+            </Stack.Navigator> */}
         </NavigationContainer>
     );
 };

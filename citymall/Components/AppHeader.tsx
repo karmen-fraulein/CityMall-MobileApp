@@ -8,7 +8,7 @@ import BackDrop from "./BackDrop";
 
 
 
-const AppHeader = () => {
+const AppHeader = (props: any) => {
 
     const { width } = useDimension();
     const [isLocationActive, setIsLocationActive] = useState<boolean>(false);
@@ -105,11 +105,11 @@ const AppHeader = () => {
         <>
             <View style={styles.apphHeader}>
                 <View style={styles.appHeaderRight}>
-                    <View style={styles.burgerIcon}>
+                    <TouchableOpacity style={styles.burgerIcon} onPress = {props.toggleDrawer}>
                         <View style={styles.burgerIconLine} />
                         <View style={styles.burgerIconLine} />
                         <View style={styles.burgerIconLine} />
-                    </View>
+                    </TouchableOpacity>
                     <View style={{ width: 70 }}>
                         <Text style={styles.langText}>ENG </Text>
                     </View>

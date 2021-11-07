@@ -9,7 +9,7 @@ import Grid from '../Styles/grid';
 
 
 
-const AuthScreen = () => {
+const AuthScreen = (props: any ) => {
 
     const styles = StyleSheet.create({
         authBtnContainer: {
@@ -53,7 +53,7 @@ const AuthScreen = () => {
                 <TouchableOpacity style={styles.authBtn}>
                     <Text style={styles.btnText}>რეგისტრაცია</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.authBtn}>
+                <TouchableOpacity style={styles.authBtn} onPress={() => props.navigation.navigate('SignInScreen')}>
                     <Text style={styles.btnText}>ავტორიზაცია</Text>
                 </TouchableOpacity>
 
