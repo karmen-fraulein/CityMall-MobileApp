@@ -17,7 +17,6 @@ const AppProvider: React.FC = ({children}) => {
     const setIsAuth = (value: boolean) => {
         setIsAuthenticated(value);
     };
-
     return (
         <AppContext.Provider value ={{
             isAuthenticated,

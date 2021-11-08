@@ -15,9 +15,9 @@ interface IBmItemProps {
 const BurgerMenuItem: React.FC<IBmItem> = (props) => {
     const [isColapsed, setIsColapsed] = useState<boolean>(false);
     return (
-        <View>
+        <View style = {{height: Grid.col_1.height}}>
             <TouchableOpacity style={{ flexDirection: 'row', alignContent: 'flex-start', alignItems: 'center' }} onPress={() => setIsColapsed(!isColapsed)}>
-                <Image style={[{ width: 7, height: 12 },
+                <Image style={[{ width: 7, height: 7 },
                 isColapsed ? {
                     transform: [{
                         rotate: '90deg'
@@ -26,7 +26,7 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
                     : {}
                 ]}
                     source={props.item.icon} />
-                <Text style={{ color: Colors.white }}>{props.item.name}</Text>
+                <Text style={{ color: Colors.white, marginLeft: 5 }}>{props.item.name}</Text>
             </TouchableOpacity>
             {
                 isColapsed ?

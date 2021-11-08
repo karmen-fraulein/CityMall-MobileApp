@@ -7,6 +7,7 @@ import PaginationDots from "../Components/PaginationDots";
 import PromotionBox from "../Components/PromotionBox";
 import { useDimension } from "../Hooks/UseDimension";
 import Grid from "../Styles/grid";
+import AppLayout from "../Components/AppLayout";
 
 const dummyData = [
     {
@@ -151,56 +152,57 @@ const HomeScreen = (props: any) => {
     });
 
     useEffect(() => {
-        for (let i = 4; i < dummyData.length+4; i += 4) {
-           const renderElement = 
-            <View style={sytles.promotions}>
-                {dummyData[i-4] && <PromotionBox data = {dummyData[i-4]} />}
-                {dummyData[i-3] && <PromotionBox data = {dummyData[i-3]} />}
-                {dummyData[i-2] && <PromotionBox data = {dummyData[i-2]} />}
-                {dummyData[i-1] && <PromotionBox data = {dummyData[i-1]} />}
-                
-            </View>
+        for (let i = 4; i < dummyData.length + 4; i += 4) {
+            const renderElement =
+                <View style={sytles.promotions}>
+                    {dummyData[i - 4] && <PromotionBox data={dummyData[i - 4]} />}
+                    {dummyData[i - 3] && <PromotionBox data={dummyData[i - 3]} />}
+                    {dummyData[i - 2] && <PromotionBox data={dummyData[i - 2]} />}
+                    {dummyData[i - 1] && <PromotionBox data={dummyData[i - 1]} />}
+
+                </View>
             setOffers(prev => {
                 return [...(prev || []), renderElement]
             })
         }
-        
+
     }, [])
-    console.log('(offers?.length',offers?.length)
     return (
-        <View style={[Grid.col_12, { backgroundColor: Colors.black ,}]}>
-            
-            <View style={[Grid.col_5, { justifyContent: 'flex-end' }]}>
-                <View style={[Grid.col_10, { alignItems: 'center' }]}>
-                    <Image style={sytles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
+        <AppLayout>
+            <View style={[Grid.col_12, { backgroundColor: Colors.black, }]}>
+
+                <View style={[Grid.col_5, { justifyContent: 'flex-end' }]}>
+                    <View style={[Grid.col_10, { alignItems: 'center' }]}>
+                        <Image style={sytles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
+                    </View>
+                    <View style={[Grid.col_2, { justifyContent: 'space-around' }]}>
+                        <TouchableOpacity style={sytles.authBtn} onPress={() => props.navigation.navigate('RegistrationScreen')}>
+                            <Text style={sytles.authBtnText}>ავტორიზაცია</Text>
+                            <Image style={{ marginLeft: 7 }} source={require('../assets/images/arrow-sm.png')} />
+                        </TouchableOpacity>
+                        <Image source={require('../assets/images/gradient-line.png')} />
+                    </View>
                 </View>
-                <View style={[Grid.col_2, { justifyContent: 'space-around' }]}>
-                    <TouchableOpacity style={sytles.authBtn} onPress={() => props.navigation.navigate('AuthScreen')}>
-                        <Text style={sytles.authBtnText}>ავტორიზაცია</Text>
-                        <Image style={{ marginLeft: 7 }} source={require('../assets/images/arrow-sm.png')} />
-                    </TouchableOpacity>
-                    <Image source={require('../assets/images/gradient-line.png')} />
-                </View>
-            </View>
-            <View style={[Grid.col_7, {padding: '7%'}]}>
-                
-                <View style={[Grid.col_12]}>
-                <View style={[Grid.col_1, sytles.promotionContainer]}>
-                    <Text style={sytles.promotionsTitle}>შეთავაზებები</Text>
-                    <PaginationDots length={offers?.length} step={offersStep} />
-                </View>
-                    <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
-                        <ScrollView contentContainerStyle={{ flexDirection: 'row' }} horizontal={true} onScroll={handleOffersScroll}>
-                          {offers?.map((el, i) => (
-                              <View key = {i}>
-                                    {el}
-                              </View>
-                          ))}
+                <View style={[Grid.col_7, { padding: '7%' }]}>
+
+                    <View style={[Grid.col_12]}>
+                        <View style={[Grid.col_1, sytles.promotionContainer]}>
+                            <Text style={sytles.promotionsTitle}>შეთავაზებები</Text>
+                            <PaginationDots length={offers?.length} step={offersStep} />
+                        </View>
+                        <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
+                            <ScrollView contentContainerStyle={{ flexDirection: 'row' }} horizontal={true} onScroll={handleOffersScroll}>
+                                {offers?.map((el, i) => (
+                                    <View key={i}>
+                                        {el}
+                                    </View>
+                                ))}
+                            </ScrollView>
                         </ScrollView>
-                    </ScrollView>
+                    </View>
                 </View>
             </View>
-        </View>
+        </AppLayout>
     );
 
 };

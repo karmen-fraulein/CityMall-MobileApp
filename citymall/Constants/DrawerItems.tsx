@@ -1,7 +1,7 @@
 export default [
     {
         name: 'მთავარი',
-        icon: require('../assets/images/arrow-sm.png'),
+         icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
                 location: 'საბურთალო'

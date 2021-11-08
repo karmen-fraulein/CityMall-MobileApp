@@ -10,17 +10,23 @@ import {
 import AppProvider, { AppContext } from './AppContext/AppContext';
 import HomeScreen from './Screens/HomeScreen';
 import AppNavigator from './Navigation/AppNavitagor';
+import AppStack from './Navigation/AppStack';
+import AuthScreen from './Screens/AuthScreen';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 
 const App = () => {
-  const { setIsAuth } = useContext(AppContext);
+  const { setIsAuth, isAuthenticated } = useContext(AppContext);
+  useEffect(() => {
+
+  }, [isAuthenticated])
 
   
 
   return (
     <AppProvider>
-      <AppNavigator />
+      <AppStack/>
     </AppProvider>
   );
 };

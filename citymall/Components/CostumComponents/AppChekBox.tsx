@@ -8,7 +8,6 @@ interface IAppChekBox {
 }
 
 const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
-    console.log(props.checked)
     const [isChecked, setIsChecked] = useState<boolean>(props.checked);
     useEffect(() => {
         setIsChecked(props.checked);
