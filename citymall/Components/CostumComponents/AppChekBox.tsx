@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../Colors/Colors';
 
 interface IAppChekBox {
     checked: boolean,
-    onChange?: () => void
+    onChange?: () => void,
+    hasError?: boolean
 }
 
 const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
-    const [isChecked, setIsChecked] = useState<boolean>(props.checked);
+    const { checked, onChange, hasError } = props;
+
+    const [isChecked, setIsChecked] = useState<boolean>(checked);
+
     useEffect(() => {
-        setIsChecked(props.checked);
-    }, [props.checked]);
+        setIsChecked(checked);
+    }, [checked]);
 
 
     const styles = StyleSheet.create({
         roundCheck: {
+            position: 'relative',
             width: 24,
             height: 24,
             borderRadius: 12,
@@ -43,7 +48,13 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
             height: 10
         },
 
-        
+        errorText: {
+            position: 'absolute',
+            top: 26,
+            color: Colors.red,
+            fontSize: 11,
+            fontFamily: 'Pangram-Regular'
+        }
 
     })
 
@@ -51,10 +62,12 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
 
 
     return (
-        <TouchableOpacity style={[styles.roundCheck, isChecked ? styles.activeColor : styles.inactiveColor]} onPress={props.onChange}>
+        <>
+        <TouchableOpacity style={[styles.roundCheck, isChecked ? styles.activeColor : styles.inactiveColor]} onPress={onChange}>
             <View style={styles.checkmark}/>
-            
         </TouchableOpacity>
+           {hasError? <Text style={styles.errorText}>გთხოვთ დაეთანხმოთ წესებს და პირობებს</Text> : null}
+        </>
     );
 };
 

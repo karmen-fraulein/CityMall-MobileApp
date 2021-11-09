@@ -1,24 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
-    Dimensions, Image, View, StatusBar, Text,
-    ScrollView, StyleSheet, NativeSyntheticEvent,
+    View, Text,
+    StyleSheet, NativeSyntheticEvent,
     TouchableOpacity, Pressable
 } from 'react-native';
 import axios from 'axios';
-import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import AppInput from '../Components/CostumComponents/AppInput';
 import OneTimeCode from '../Components/OneTimeCode';
 import Grid from '../Styles/grid';
 import AppChekBox from '../Components/CostumComponents/AppChekBox';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Layout from '../Components/Layouts/Layout';
+import { AppContext } from '../AppContext/AppContext';
 
-const authObj = {
-    grant_type: 'password',
-    client_id: 'ClientApp',
-    UserName: '995558120936',
-    client_secret: 'secret'
-}
+
 
 const AuthScreen: React.FC = (props) => {
 
@@ -31,7 +26,7 @@ const AuthScreen: React.FC = (props) => {
         authTitle: {
             textAlign: 'center',
             color: Colors.white,
-            fontFamily: 'Pangram-Medium',
+            fontFamily: 'Pangram-Bold',
             fontSize: 18,
             fontWeight: '700',
             lineHeight: 22,
@@ -72,34 +67,49 @@ const AuthScreen: React.FC = (props) => {
 
     });
 
-    const { setIsAuth } = useContext(AppContext);
+    const { setIsAuth, isDarkTheme } = useContext(AppContext);
 
     const [step, setStep] = useState<number>(0);
     const [phoneNumber, setPhoneNumber] = useState<string>('995');
     const [otp, setOtp] = useState<string>('');
+    const [otpError, setOtpError] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
+    const [agreedTermsError, setAgreedTermsError] = useState<boolean>(false);
+
 
     const getOtpValue = (value: string) => {
         console.log('getOtpValue', value)
         setOtp(value);
     };
 
+    const toggleAgreedTerms = () => {
+        setAgreedTerms(!agreedTerms);
+        setAgreedTermsError(false);
+    };
+
+    
+
     const signIn = async () => {
+        if (step === 1 && !agreedTerms) {
+            setAgreedTermsError(true);
+            return;
+        }
         // setIsAuth(true);
         let data = new URLSearchParams();
         data.append('grant_type', 'password');
-        data.append('client_id','ClientApp');
-        data.append('client_secret','secret');
+        data.append('client_id', 'ClientApp');
+        data.append('client_secret', 'secret');
         data.append('UserName', phoneNumber);
-        if(otp !== '') {
+        if (otp !== '') {
             data.append('OTP', otp)
-        }
+        };
+        setOtpError(false);
 
         const config = {
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
-          }
+        };
 
 
         await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', data, config)
@@ -108,53 +118,53 @@ const AuthScreen: React.FC = (props) => {
                 setIsAuth(true);
             })
             .catch(e => {
-                console.log('catch e =====>', );
-                if(JSON.parse(JSON.stringify(e.response)).data.error === 'require_otp') {
+                let error = JSON.parse(JSON.stringify(e.response)).data.error;
+                console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
+                if (error === 'require_otp') {
                     setStep(1);
-                }
-                
+                } else if (error === 'inalid_otp') {
+                    setOtpError(true);
+                    return;
+                };
             });
     }
 
+
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.black }}>
-            <View style={[Grid.col_3, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                <Text style={{ color: Colors.white, fontFamily: 'Pangram-Medium', paddingLeft: 31, paddingTop: 40 }}>ENG</Text>
-                <Image style={{ width: 135, height: 17, marginTop: 40 }} source={require('../assets/images/city-mall-title.png')} />
-                <Image style={{ width: 89, height: 89 }} source={require('../assets/images/arrow-down.png')} />
-            </View>
-            <View style={[Grid.col_5, styles.authContainer]}>
-                <View style={[Grid.row_1]}>
+        <Layout>
+            <View style={[Grid.col_12, { paddingHorizontal: '10%' }]}>
+                <View style={[Grid.col_3, { justifyContent: 'center' }]}>
                     <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
                 </View>
-                <View style={[Grid.row_2]}>
+                <View style={[Grid.col_6, { justifyContent: 'space-around' }]}>
                     <AppInput
-                        style={{ width: 250, height: '100%', color: Colors.white }}
-                        keyboardType = 'numeric'
+                        style={{ color: isDarkTheme ? Colors.white : Colors.black }}
+                        keyboardType='numeric'
                         value={phoneNumber}
                         onChangeText={(val: string) => setPhoneNumber(val)} />
+                    <View style={[Grid.row_8, { marginTop: 60, justifyContent: 'space-around' }]}>
+                        {step === 1 ?
+                            <>
+                                <OneTimeCode getValue={getOtpValue} resend={signIn} hasError={otpError} />
+                                <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                    <AppChekBox
+                                        checked={agreedTerms}
+                                        onChange={toggleAgreedTerms}
+                                        hasError={agreedTermsError} />
+                                    <Text style={styles.agreeTermsText}>ვეთანხმები წესებს და პირობებს</Text>
+                                </View>
+                            </> : null}
+                    </View>
                 </View>
-                <View style={[Grid.row_2, {}]}>
-                    {step === 1 ? <OneTimeCode getValue={getOtpValue} /> : null}
-                </View>
-                <View style={[Grid.row_1,]}>
-                    {step === 1 ? <TouchableOpacity style={{ alignItems: 'center', flexDirection: 'row' }}
-                        onPress={() => setAgreedTerms(!agreedTerms)}>
-                        <AppChekBox checked={agreedTerms} onChange={() => setAgreedTerms(!agreedTerms)} />
-                        <Text style={styles.agreeTermsText}>ვეთანხმები წესებს და პირობებს</Text>
-                    </TouchableOpacity> : null}
+                <View style={[Grid.col_3, { justifyContent: 'flex-end' }]}>
+                    <TouchableOpacity style={styles.authBtn} onPress={signIn}>
+                        <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
-            <View style={[Grid.col_1,]}>
 
-            </View>
-            <View style={[Grid.col_3, { justifyContent: 'space-between' }]}>
-                <TouchableOpacity style={styles.authBtn} onPress={signIn}>
-                    <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
-                </TouchableOpacity>
-                <Image style={{ width: 89, height: 89 }} source={require('../assets/images/arrow-up.png')} />
-            </View>
-        </SafeAreaView>
+
+        </Layout>
     );
 };
 

@@ -1,37 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
+
 interface IOtpProps {
-    getValue: (val: string)=> void
+    getValue: (val: string) => void,
+    resend: () => void,
+    hasError?: boolean
 }
 const OneTimeCode: React.FC<IOtpProps> = (props) => {
+    const {getValue, resend, hasError} = props;
+    const { isDarkTheme } = useContext(AppContext);
+
+    const styles = StyleSheet.create({
+        otpContainer: {
+            position: 'relative',
+            width: '100%',
+            borderColor: Colors.white,
+            borderBottomWidth: 1,
+        },
+        otpTitle: {
+            color: isDarkTheme ? Colors.white : Colors.black,
+            fontFamily: 'Pangram-Medium',
+            fontSize: 13,
+            fontWeight: '500',
+            lineHeight: 17,
+            marginBottom: 10
+        },
+        otpInput: {
+            paddingVertical: 12,
+            color: isDarkTheme ? Colors.white : Colors.black
+        },
+        otpIputPlaceholder : {
+            color: isDarkTheme ? Colors.white : Colors.black,
+            fontFamily: 'Pangram-Bold',
+            fontSize: 13,
+        },
+        otpResend: {
+            position: 'absolute',
+            top: 44,
+            right: 5
+        },
+        otpResendText: {
+            color: isDarkTheme ? Colors.white : Colors.black,
+            fontFamily: 'Pangram-Medium',
+            fontSize: 13,
+            fontWeight: '500',
+            lineHeight: 17,
+        },
+        errorText: {
+            position: 'absolute',
+            bottom: -20,
+            color: Colors.red,
+            fontSize: 11,
+            fontFamily: 'Pangram-Regular'
+        }
+    });
+
     const [oneTimeCode, setOneTimeCode] = useState<string>('');
 
     useEffect(() => {
-            props.getValue(oneTimeCode)
-    }, [oneTimeCode])
-    return (
-        <View style={{ position: 'relative', borderColor: Colors.white, borderBottomWidth: 1, width: '100%' }}>
-            <Text style={{color: Colors.white, fontFamily: 'Pangram-Regular', fontSize: 14}}>გთხოვთ შეიყვანოთ ერთჯერადი კოდი</Text>
-            <TextInput 
-               value = {oneTimeCode}
-               placeholder = 'sms კოდი'
-               placeholderTextColor = {Colors.white}
-               onChangeText = {(val: string) => setOneTimeCode(val)}
-               style={{ width: 250, height: 50, color: Colors.white}}
-               maxLength = {4}
-               keyboardType = 'numeric'
-            
-            />
-            <TouchableOpacity
-                style={{
-                    position: 'absolute',
-                    top: 35,
-                    right: 5
-                }}>
-               <Text style={{color: Colors.white}}>თავიდან</Text>
-            </TouchableOpacity>
+        getValue(oneTimeCode);
+    }, [oneTimeCode]);
 
+    const handleOneTimePasscode = (value: any) => {
+        if(isNaN(value)) {
+            return;
+        } else {
+            setOneTimeCode(value);
+        }
+    };
+
+    return (
+        <View style={styles.otpContainer}>
+            <Text style={styles.otpTitle}>გთხოვთ შეიყვანოთ ერთჯერადი კოდი</Text>
+            <TextInput
+                style = {styles.otpInput}
+                value={oneTimeCode}
+                placeholder='sms კოდი'
+                placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
+                onChangeText={(val: string) => handleOneTimePasscode(val)}
+                maxLength={4}
+                keyboardType='numeric'
+            />
+            <TouchableOpacity style={styles.otpResend} onPress={resend}>
+                <Text style={styles.otpResendText}>თავიდან</Text>
+            </TouchableOpacity>
+            {hasError? <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text> : null }
         </View>
     );
 };

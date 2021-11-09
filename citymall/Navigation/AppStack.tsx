@@ -1,12 +1,9 @@
 import React, {useContext, useEffect} from 'react';
-import Grid from '../Styles/grid';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import AppHeader from '../Components/AppHeader';
 import HomeScreen from '../Screens/HomeScreen';
 import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
-import { Colors } from '../Colors/Colors';
 import { AppContext } from '../AppContext/AppContext';
 
 const Stack = createStackNavigator();
