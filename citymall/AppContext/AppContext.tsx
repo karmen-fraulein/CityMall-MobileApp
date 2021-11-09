@@ -8,7 +8,7 @@ export interface IApp {
 };
 
 const AppState: IApp = {
-    isAuthenticated: true,
+    isAuthenticated: false,
     setIsAuth: (value: boolean) => { },
     isDarkTheme: true,
     setAppTheme: (value: boolean) => { }

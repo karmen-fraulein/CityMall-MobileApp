@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import {
-    View, Text,
-    StyleSheet, NativeSyntheticEvent,
-    TouchableOpacity, Pressable
+    View, Text, StyleSheet, NativeSyntheticEvent, TouchableOpacity, Pressable
 } from 'react-native';
 import axios from 'axios';
 import { Colors } from '../Colors/Colors';
@@ -12,6 +10,8 @@ import Grid from '../Styles/grid';
 import AppChekBox from '../Components/CostumComponents/AppChekBox';
 import Layout from '../Components/Layouts/Layout';
 import { AppContext } from '../AppContext/AppContext';
+import AuthService from '../Services/AuthService';
+import { setItem, getItem } from '../Services/StorageService';
 
 
 
@@ -87,46 +87,70 @@ const AuthScreen: React.FC = (props) => {
         setAgreedTermsError(false);
     };
 
-    
+
 
     const signIn = async () => {
         if (step === 1 && !agreedTerms) {
             setAgreedTermsError(true);
             return;
         }
+
+        let data = {
+            username: phoneNumber,
+            otp: ''
+        };
+
+        if(otp !== ''){
+            data.otp = otp;
+        };
+
+        console.log('data', data)
+        AuthService.SignIn(data).then(res => {
+            AuthService.setToken(res.data.access_token, res.data.refresh_token);
+            setIsAuth(true);
+        }).catch(e => {
+            let error = JSON.parse(JSON.stringify(e.response)).data.error;
+            console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
+            if (error === 'require_otp') {
+                setStep(1);
+            } else if (error === 'inalid_otp') {
+                setOtpError(true);
+                return;
+            };
+        })
         // setIsAuth(true);
-        let data = new URLSearchParams();
-        data.append('grant_type', 'password');
-        data.append('client_id', 'ClientApp');
-        data.append('client_secret', 'secret');
-        data.append('UserName', phoneNumber);
-        if (otp !== '') {
-            data.append('OTP', otp)
-        };
-        setOtpError(false);
+        // let data = new URLSearchParams();
+        // data.append('grant_type', 'password');
+        // data.append('client_id', 'ClientApp');
+        // data.append('client_secret', 'secret');
+        // data.append('UserName', phoneNumber);
+        // if (otp !== '') {
+        //     data.append('OTP', otp)
+        // };
+        // setOtpError(false);
 
-        const config = {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        };
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/x-www-form-urlencoded'
+        //     }
+        // };
 
 
-        await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', data, config)
-            .then(res => {
-                console.log('res.data ======>', res.data);
-                setIsAuth(true);
-            })
-            .catch(e => {
-                let error = JSON.parse(JSON.stringify(e.response)).data.error;
-                console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
-                if (error === 'require_otp') {
-                    setStep(1);
-                } else if (error === 'inalid_otp') {
-                    setOtpError(true);
-                    return;
-                };
-            });
+        // await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', data, config)
+        //     .then(res => {
+        //         console.log('res.data ======>', res.data);
+        //         setIsAuth(true);
+        //     })
+        //     .catch(e => {
+        //         let error = JSON.parse(JSON.stringify(e.response)).data.error;
+        //         console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
+        //         if (error === 'require_otp') {
+        //             setStep(1);
+        //         } else if (error === 'inalid_otp') {
+        //             setOtpError(true);
+        //             return;
+        //         };
+        //     });
     }
 
 
