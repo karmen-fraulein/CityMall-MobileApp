@@ -108,6 +108,9 @@ export default [
         ]
     },
     {
+        name: '_blank',
+    },
+    {
         name: 'ჩემი კაბინეტი',
          icon: require('../assets/images/arrow-sm.png'),
         _children: [

@@ -8,9 +8,34 @@ import { AppContext } from '../AppContext/AppContext';
 
 const BurgerMenu: React.FC = (props) => {
 
-    const {setIsAuth} = useContext(AppContext)
+    const { setIsAuth, isDarkTheme } = useContext(AppContext)
 
     const styles = StyleSheet.create({
+        burgerMenuCont: {
+            flex: 1,
+            backgroundColor: isDarkTheme ? Colors.black : Colors.white,
+            paddingLeft: '8%'
+        },
+        burgerMenuHeader: {
+            height: Grid.col_2.height,
+            justifyContent: 'space-around',
+            paddingRight: '8%'
+        },
+        usernameText: {
+            color: isDarkTheme ? Colors.white : Colors.black,
+            fontFamily: 'Pangram-Medium',
+            fontSize: 12,
+            lineHeight: 15,
+            fontWeight: '500'
+        },
+
+        burgerMenuSeparator: {
+            height: Grid.row_1.height,
+            justifyContent: 'center',
+            paddingRight: '8%'
+
+        },
+
         logoutBtn: {
             width: 224,
             height: 39,
@@ -19,30 +44,30 @@ const BurgerMenu: React.FC = (props) => {
             justifyContent: 'center',
             alignItems: 'center'
         }
-    })
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.black, paddingLeft: 35 }}>
-            <View style={[Grid.col_1, { justifyContent: 'center' }]}>
-                <Image source={require('../assets/images/city-mall-title.png')}  style={{ width: 135, height: 17}}/>
-            </View>
-            <View style={Grid.col_10}>
-                <View style={[Grid.row_1, { justifyContent: 'space-around' }]}>
-                    <Text style={{ color: Colors.white }}>გვანცა გაბუნია</Text>
-                    <Image source={require('../assets/images/gradient-line.png')} style={{ width: 210 }} />
-                </View>
-                <ScrollView>
-                    {DrawerItems.map((item: any, index: number) => (
-                        <BurgerMenuItem item={item} key={index} />
-                    ))}
-                </ScrollView>
+    });
 
+    return (
+        <SafeAreaView style={styles.burgerMenuCont}>
+            <View style={styles.burgerMenuHeader}>
+                <Image source={require('../assets/images/city-mall-title.png')} style={{ width: 135, height: 17 }} />
+                <Text style={styles.usernameText}>გვანცა გაბუნია</Text>
+                <Image source={require('../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
+            <ScrollView contentContainerStyle={{ marginVertical: '10%' }}>
+                {DrawerItems.map((item: any, index: number) => (
+                    item.name === '_blank' ?
+                        <View style={styles.burgerMenuSeparator} key='_blank'>
+                            <View style={{ borderColor: '#ffffff45', borderWidth: 1 }}></View>
+                        </View>
+                        :
+                        <BurgerMenuItem item={item} key={index} />
+                ))}
+            </ScrollView>
             <View style={[Grid.col_1, { justifyContent: 'flex-start' }]}>
-                <TouchableOpacity style={styles.logoutBtn} onPress = {() => setIsAuth(false)}>
+                <TouchableOpacity style={styles.logoutBtn} onPress={() => setIsAuth(false)}>
                     <Text>გამოსვლა</Text>
                 </TouchableOpacity>
             </View>
-
         </SafeAreaView>
     );
 };
