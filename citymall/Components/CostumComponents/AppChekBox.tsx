@@ -21,6 +21,7 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
     const styles = StyleSheet.create({
         roundCheck: {
             position: 'relative',
+            marginVertical: 5,
             width: 24,
             height: 24,
             borderRadius: 12,

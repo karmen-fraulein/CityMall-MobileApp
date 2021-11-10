@@ -74,6 +74,11 @@ const Grid = StyleSheet.create({
         borderColor: 'red',
         height: '10%'
     },
+    row_12_5: {
+        //borderWidth: 1,
+         borderColor: 'red',
+         height: '12.5%'
+     },
     row_2: {
        //borderWidth: 1,
         borderColor: 'red',

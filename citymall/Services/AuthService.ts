@@ -25,7 +25,7 @@ export interface IError {
 }
 export interface IAuthRequest {
   username?: string;
-  otp?: string | undefined,
+  otp: string ,
   scope?: string;
   client_id?: string;
   client_secret?: string;
@@ -81,18 +81,14 @@ class AuthService {
         'Content-Type': 'application/x-www-form-urlencoded',
       }
     }
-    console.log('data.otp', data.otp)
     const loginObj = new URLSearchParams();
     loginObj.append('UserName', data.username || '');
     if(data.otp !=='') {
-      console.log('aqane')
       loginObj.append('OTP', data.otp);
     };
     loginObj.append('grant_type', 'password');
     loginObj.append('client_id', 'ClientApp');
     loginObj.append('client_secret', 'secret');
-
-    console.log('loginObj', loginObj)
     return await axios.post(`${envs.CONNECT_URL}/connect/token`, loginObj, config);
   };
 
@@ -111,6 +107,7 @@ class AuthService {
     const setAuthToken = async (config: AxiosRequestConfig) => {
       config.headers = config.headers || {};
       let token = await this.getToken();
+      
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }

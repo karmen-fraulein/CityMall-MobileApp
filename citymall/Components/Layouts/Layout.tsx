@@ -1,19 +1,21 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { Animated, Image, StyleSheet, Text, View, StatusBar } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Animated, Image, Keyboard, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity  } from 'react-native';
+import GoBack from '../../Services/NavigationServices'
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import Grid from '../../Styles/grid';
 
 interface ILayoutProp {
     pageName?: string,
-    hasBackArrow?: boolean
+    hasBackArrow?: boolean,
 }
 
 const Layout: React.FC<ILayoutProp> = (props) => {
     const { isDarkTheme } = useContext(AppContext);
     const DownArrowAnim = useRef(new Animated.Value(0));
     const UpArrowAnim = useRef(new Animated.Value(0));
+
+    const [keyBoardShown, setKeyBoardShown] = useState<boolean>(false)
 
 
     const styles = StyleSheet.create({
@@ -74,21 +76,49 @@ const Layout: React.FC<ILayoutProp> = (props) => {
         }).start();
     }, []);
 
+    useEffect(() => {
+        const showListener = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyBoardShown(true);
+        });
+        const hideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyBoardShown(false);
+        });
+
+        return () => {
+            showListener.remove();
+            hideListener.remove();
+        }
+    }, []);
+
+    console.log('keyBoardShown', keyBoardShown)
     return (
         <View style={styles.layout}>
-        
-            <View style={[Grid.col_2, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                {/* <Image style={{ width: 12, height: 12 }} source={require('../../assets/images/back-arrow.png')} />
-                <Text style={{ color: Colors.white, fontFamily: 'Pangram-Medium', paddingLeft: 31}}>ENG</Text>
-                <Image style={{ width: 135, height: 17}} source={require('../../assets/images/city-mall-title.png')} /> */}
+            <View style={[Grid.col_2, { flexDirection: 'row' }]}>
+                <View style={{ marginTop: 10, flexDirection: 'row' }}>
+                    {props.hasBackArrow ?
+                        <>
+                            <TouchableOpacity style={{ marginLeft: 25 }} onPress={() => GoBack}>
+                                <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
+                            </TouchableOpacity>
+                            <TouchableOpacity >
+                                <Text style={{ color: Colors.white, fontFamily: 'Pangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
+                            </TouchableOpacity>
+
+                            <Image style={{ width: 135, height: 17 }} source={require('../../assets/images/city-mall-title.png')} />
+                        </>
+                        : null}
+                </View>
                 <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
             </View>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps = 'always'>
                 {props.children}
             </ScrollView>
+            {keyBoardShown?
+            null
+            :
             <Animated.View style={[Grid.col_2, { justifyContent: 'flex-end' }]}>
                 <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
-            </Animated.View >
+            </Animated.View >}
         </View>
     );
 };

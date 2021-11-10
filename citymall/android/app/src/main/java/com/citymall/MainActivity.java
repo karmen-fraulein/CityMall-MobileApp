@@ -2,6 +2,7 @@ package com.citymall;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
+import com.faizal.OtpVerify.RNOtpVerifyPackage;
 
 public class MainActivity extends ReactActivity {
 

@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import {
-    View, Text, StyleSheet, NativeSyntheticEvent, TouchableOpacity, Pressable
+    View, Text, StyleSheet, Keyboard, TouchableOpacity, Pressable, ActivityIndicatorBase, ActivityIndicator, Button
 } from 'react-native';
 import axios from 'axios';
 import { Colors } from '../Colors/Colors';
@@ -12,6 +12,12 @@ import Layout from '../Components/Layouts/Layout';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
 import { setItem, getItem } from '../Services/StorageService';
+
+
+
+
+ 
+
 
 
 
@@ -67,10 +73,11 @@ const AuthScreen: React.FC = (props) => {
 
     });
 
-    const { setIsAuth, isDarkTheme } = useContext(AppContext);
+    const { setIsAuth, isDarkTheme, setPhoneNumber } = useContext(AppContext);
 
     const [step, setStep] = useState<number>(0);
-    const [phoneNumber, setPhoneNumber] = useState<string>('995');
+    const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+    const [userPhoneNumber, setUserPhoneNumber] = useState<string>('995');
     const [otp, setOtp] = useState<string>('');
     const [otpError, setOtpError] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
@@ -78,81 +85,55 @@ const AuthScreen: React.FC = (props) => {
 
 
     const getOtpValue = (value: string) => {
-        console.log('getOtpValue', value)
         setOtp(value);
     };
 
     const toggleAgreedTerms = () => {
+        if(!otpError && otp !== '') {
+            Keyboard.dismiss();
+        };
         setAgreedTerms(!agreedTerms);
         setAgreedTermsError(false);
     };
 
-
-
-    const signIn = async () => {
-        if (step === 1 && !agreedTerms) {
-            setAgreedTermsError(true);
-            return;
-        }
-
-        let data = {
-            username: phoneNumber,
-            otp: ''
+    const signIn = async (type: string) => {
+        let data;
+        setButtonLoading(true);
+        if(type === 'new' || type === 'resend') {
+            setOtp('');
+            data = {
+                username: userPhoneNumber,
+                otp: ''
+            };
+        } else {
+            if (step === 1 && !agreedTerms) {
+                setAgreedTermsError(true);
+                return;
+            };
+            data = {
+                username: userPhoneNumber,
+                otp: otp
+            };
         };
-
-        if(otp !== ''){
-            data.otp = otp;
-        };
-
-        console.log('data', data)
+       
         AuthService.SignIn(data).then(res => {
             AuthService.setToken(res.data.access_token, res.data.refresh_token);
+            setButtonLoading(false);
+            setPhoneNumber(userPhoneNumber);
             setIsAuth(true);
+            
         }).catch(e => {
-            let error = JSON.parse(JSON.stringify(e.response)).data.error;
             console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
+            let error = JSON.parse(JSON.stringify(e.response)).data.error;
+            setButtonLoading(false);
             if (error === 'require_otp') {
                 setStep(1);
             } else if (error === 'inalid_otp') {
                 setOtpError(true);
                 return;
             };
-        })
-        // setIsAuth(true);
-        // let data = new URLSearchParams();
-        // data.append('grant_type', 'password');
-        // data.append('client_id', 'ClientApp');
-        // data.append('client_secret', 'secret');
-        // data.append('UserName', phoneNumber);
-        // if (otp !== '') {
-        //     data.append('OTP', otp)
-        // };
-        // setOtpError(false);
-
-        // const config = {
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded'
-        //     }
-        // };
-
-
-        // await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', data, config)
-        //     .then(res => {
-        //         console.log('res.data ======>', res.data);
-        //         setIsAuth(true);
-        //     })
-        //     .catch(e => {
-        //         let error = JSON.parse(JSON.stringify(e.response)).data.error;
-        //         console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
-        //         if (error === 'require_otp') {
-        //             setStep(1);
-        //         } else if (error === 'inalid_otp') {
-        //             setOtpError(true);
-        //             return;
-        //         };
-        //     });
-    }
-
+        });
+    };
 
     return (
         <Layout>
@@ -164,12 +145,12 @@ const AuthScreen: React.FC = (props) => {
                     <AppInput
                         style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                         keyboardType='numeric'
-                        value={phoneNumber}
-                        onChangeText={(val: string) => setPhoneNumber(val)} />
+                        value={userPhoneNumber}
+                        onChangeText={(val: string) => setUserPhoneNumber(val)} />
                     <View style={[Grid.row_8, { marginTop: 60, justifyContent: 'space-around' }]}>
                         {step === 1 ?
                             <>
-                                <OneTimeCode getValue={getOtpValue} resend={signIn} hasError={otpError} />
+                                <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError}  />
                                 <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                                     <AppChekBox
                                         checked={agreedTerms}
@@ -181,13 +162,17 @@ const AuthScreen: React.FC = (props) => {
                     </View>
                 </View>
                 <View style={[Grid.col_3, { justifyContent: 'flex-end' }]}>
-                    <TouchableOpacity style={styles.authBtn} onPress={signIn}>
-                        <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
+                    <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0? 'new' : 'signIn')} disabled={buttonLoading}>
+                        {buttonLoading ?
+                            <ActivityIndicator animating={buttonLoading} color='#dadde1' />
+                            :
+                            <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
+                        }
+
+
                     </TouchableOpacity>
                 </View>
             </View>
-
-
         </Layout>
     );
 };

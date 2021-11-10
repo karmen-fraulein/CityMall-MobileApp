@@ -18,8 +18,10 @@
     "axios": "^0.24.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
+    "react-native-datepicker": "^1.7.2",
     "react-native-dotenv": "^3.3.0",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-otp-verify": "^1.0.4",
     "react-native-reanimated": "^2.2.3",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.4.0"
@@ -30,6 +32,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.20",
     "@types/react-native": "^0.64.0",
+    "@types/react-native-datepicker": "^1.7.1",
     "@types/react-test-renderer": "^16.9.2",
     "babel-jest": "^27.3.1",
     "eslint": "^7.14.0",

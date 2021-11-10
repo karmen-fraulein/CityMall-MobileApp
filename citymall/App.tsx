@@ -13,13 +13,13 @@ const App = () => {
   const { setIsAuth, isAuthenticated, isDarkTheme } = useContext(AppContext);
 
   const [userToken, setUserToken] = useState<string>("");
+  const [isInit, setIsInit] = useState<boolean>(false);
   const AxiosInterceptor = useRef<IInterceptop[]>([]);
 
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config) => {
       return config;
     });
-
     let responseInterceptor = axios.interceptors.response.use(
       (response: any) => {
         if (!response.config.objectResponse || response.data.expires_in) {
@@ -35,9 +35,7 @@ const App = () => {
       }
     };
 
-  }
-
-
+  };
 
   const logOut = useCallback(async () => {
     await AuthService.SignOut();
@@ -47,19 +45,23 @@ const App = () => {
 
 
   useEffect(() => {
+    //console.log('Developer <--Avtandil Shaburishvili, 08.04.2021--> ')
     AuthService.getToken().then(data => {
       setUserToken(data || "");
+      if (data !== '') {
+        setIsAuth(true);
+      }
     });
-    console.log(userToken)
+    //console.log(userToken)
   }, [userToken]);
 
+
   useEffect(() => {
-    console.log('Developer <--Avtandil Shaburishvili, 08.04.2021--> ')
-    AxiosInterceptor.current = [RegisterCommonInterceptor(), AuthService.registerAuthInterceptor(async() => await logOut())];
+      AxiosInterceptor.current = [RegisterCommonInterceptor(), AuthService.registerAuthInterceptor(async () => await logOut())];
     return () => {
       AxiosInterceptor.current.forEach(sub => sub.unsubscribe());
     }
-  }, []);
+  }, [userToken]);
 
 
 

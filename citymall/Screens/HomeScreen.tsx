@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacityBase, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect, useState } from "react";
+import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity } from 'react-native';
+import ApiServices from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
-import AppHeader from "../Components/AppHeader";
-import BackDrop from "../Components/BackDrop";
 import PaginationDots from "../Components/PaginationDots";
 import PromotionBox from "../Components/PromotionBox";
 import { useDimension } from "../Hooks/UseDimension";
 import Grid from "../Styles/grid";
 import AppLayout from "../Components/AppLayout";
+import { AppContext } from "../AppContext/AppContext";
+import UserCardSmall from "../Components/UserCardSmall";
 
 const dummyData = [
     {
@@ -100,19 +101,56 @@ const dummyData = [
 
 
 const HomeScreen = (props: any) => {
+    const {setDetails, clientDetails} = useContext(AppContext)
     const { width, height } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offers, setOffers] = useState<any[]>();
+    const [barcode, setBarCode] = useState<string>('');
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         let overView = event.nativeEvent.contentOffset.x / (width - 25);
         setOffersStep(Math.round(overView));
+    };
+
+
+    const handleGetClientCards = () => {
+        ApiServices.GetClientCards().then(res => {
+            setDetails(res.data);
+            })
+            .catch(e => {
+                console.log(JSON.parse(JSON.stringify(e.response)).data);
+            });
+    };
+
+    const handleGetBarcode = (card: string) => {
+        ApiServices.GenerateBarcode(card)
+        .then(res => {
+            setBarCode(res.data.base64Data);
+        })
+        .catch(e => {
+            console.log(JSON.parse(JSON.stringify(e.response)).data)
+        });
     }
+
+    const handleSetOffers = () => {
+        for (let i = 4; i < dummyData.length + 4; i += 4) {
+            const renderElement =
+                <View style={sytles.promotions}>
+                    {dummyData[i - 4] && <PromotionBox data={dummyData[i - 4]} />}
+                    {dummyData[i - 3] && <PromotionBox data={dummyData[i - 3]} />}
+                    {dummyData[i - 2] && <PromotionBox data={dummyData[i - 2]} />}
+                    {dummyData[i - 1] && <PromotionBox data={dummyData[i - 1]} />}
+                </View>
+            setOffers(prev => {
+                return [...(prev || []), renderElement]
+            });
+        };
+    };
 
 
     const sytles = StyleSheet.create({
         giftCardImg: {
-            maxHeight: 186,
+            maxHeight: 187,
             maxWidth: 300,
             width: '100%',
             height: '100%'
@@ -152,33 +190,29 @@ const HomeScreen = (props: any) => {
     });
 
     useEffect(() => {
-        for (let i = 4; i < dummyData.length + 4; i += 4) {
-            const renderElement =
-                <View style={sytles.promotions}>
-                    {dummyData[i - 4] && <PromotionBox data={dummyData[i - 4]} />}
-                    {dummyData[i - 3] && <PromotionBox data={dummyData[i - 3]} />}
-                    {dummyData[i - 2] && <PromotionBox data={dummyData[i - 2]} />}
-                    {dummyData[i - 1] && <PromotionBox data={dummyData[i - 1]} />}
+        handleGetClientCards();
+        handleSetOffers();
+    }, []);
 
-                </View>
-            setOffers(prev => {
-                return [...(prev || []), renderElement]
-            })
-        }
+    useEffect(() => {
+        if(clientDetails !== undefined) {
+            console.log(clientDetails)
+            handleGetBarcode(clientDetails?.[0]?.card)
+        };
 
-    }, [])
+    }, [clientDetails]);
+
+    console.log(barcode)
     return (
         <AppLayout>
             <View style={[Grid.col_12, { backgroundColor: Colors.black, }]}>
-
-                <View style={[Grid.col_5, { justifyContent: 'flex-end' }]}>
-                    <View style={[Grid.col_10, { alignItems: 'center' }]}>
-                        <Image style={sytles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
-                    </View>
+                <View style={[Grid.col_4, { justifyContent: 'center' }]}>
+                        <UserCardSmall cardnumber = {clientDetails?.[0]?.card} navigateTo ={() =>  props.navigation.navigate('UserCardWithBarcode')}/>
+                    
                     <View style={[Grid.col_2, { justifyContent: 'space-around' }]}>
                         <TouchableOpacity style={sytles.authBtn} onPress={() => props.navigation.navigate('RegistrationScreen')}>
-                            <Text style={sytles.authBtnText}>ავტორიზაცია</Text>
-                            <Image style={{ marginLeft: 7 }} source={require('../assets/images/arrow-sm.png')} />
+                            <Text style={sytles.authBtnText}>რეგისტრაცია</Text>
+                            <Image style={{ marginLeft: 7, width: 7, height: 7 }} source={require('../assets/images/arrow-sm.png')} />
                         </TouchableOpacity>
                         <Image source={require('../assets/images/gradient-line.png')} />
                     </View>

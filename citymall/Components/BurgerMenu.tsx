@@ -5,6 +5,7 @@ import { Colors } from '../Colors/Colors';
 import BurgerMenuItem from './BurgerMenuItem';
 import DrawerItems from '../Constants/DrawerItems';
 import { AppContext } from '../AppContext/AppContext';
+import AuthService from '../Services/AuthService';
 
 const BurgerMenu: React.FC = (props) => {
 
@@ -64,7 +65,10 @@ const BurgerMenu: React.FC = (props) => {
                 ))}
             </ScrollView>
             <View style={[Grid.col_1, { justifyContent: 'flex-start' }]}>
-                <TouchableOpacity style={styles.logoutBtn} onPress={() => setIsAuth(false)}>
+                <TouchableOpacity style={styles.logoutBtn} onPress={() => {
+                    AuthService.SignOut();
+                    setIsAuth(false);
+                }}>
                     <Text>გამოსვლა</Text>
                 </TouchableOpacity>
             </View>
