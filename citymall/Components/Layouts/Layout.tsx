@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Animated, Image, Keyboard, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity  } from 'react-native';
+import { Animated, Image, Keyboard, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 import GoBack from '../../Services/NavigationServices'
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
@@ -8,6 +8,7 @@ import Grid from '../../Styles/grid';
 interface ILayoutProp {
     pageName?: string,
     hasBackArrow?: boolean,
+    hideArrows?: boolean
 }
 
 const Layout: React.FC<ILayoutProp> = (props) => {
@@ -93,32 +94,34 @@ const Layout: React.FC<ILayoutProp> = (props) => {
     console.log('keyBoardShown', keyBoardShown)
     return (
         <View style={styles.layout}>
-            <View style={[Grid.col_2, { flexDirection: 'row' }]}>
-                <View style={{ marginTop: 10, flexDirection: 'row' }}>
-                    {props.hasBackArrow ?
-                        <>
-                            <TouchableOpacity style={{ marginLeft: 25 }} onPress={() => GoBack}>
-                                <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
-                            </TouchableOpacity>
-                            <TouchableOpacity >
-                                <Text style={{ color: Colors.white, fontFamily: 'Pangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
-                            </TouchableOpacity>
-
-                            <Image style={{ width: 135, height: 17 }} source={require('../../assets/images/city-mall-title.png')} />
-                        </>
-                        : null}
+            {props.hideArrows && keyBoardShown ?
+                null :
+                <View style={[Grid.col_2, { flexDirection: 'row' }]}>
+                    <View style={{ marginTop: 10, flexDirection: 'row' }}>
+                        {props.hasBackArrow ?
+                            <>
+                                <TouchableOpacity style={{ marginLeft: 25 }} onPress={() => GoBack}>
+                                    <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
+                                </TouchableOpacity>
+                                <TouchableOpacity >
+                                    <Text style={{ color: Colors.white, fontFamily: 'Pangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
+                                </TouchableOpacity>
+                                <Image style={{ width: 135, height: 17 }} source={require('../../assets/images/city-mall-title.png')} />
+                            </>
+                            : null}
+                    </View>
+                    <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
                 </View>
-                <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
-            </View>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps = 'always'>
+            }
+            <ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps='always'>
                 {props.children}
             </ScrollView>
-            {keyBoardShown?
-            null
-            :
-            <Animated.View style={[Grid.col_2, { justifyContent: 'flex-end' }]}>
-                <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
-            </Animated.View >}
+            {keyBoardShown ?
+                null
+                :
+                <Animated.View style={[Grid.col_2, { justifyContent: 'flex-end' }]}>
+                    <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
+                </Animated.View >}
         </View>
     );
 };

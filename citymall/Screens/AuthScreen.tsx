@@ -11,6 +11,7 @@ import AppChekBox from '../Components/CostumComponents/AppChekBox';
 import Layout from '../Components/Layouts/Layout';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
+import AppSelect from '../Components/AppSelect/AppSelect';
 import { setItem, getItem } from '../Services/StorageService';
 
 
@@ -84,6 +85,7 @@ const AuthScreen: React.FC = (props) => {
     const [agreedTermsError, setAgreedTermsError] = useState<boolean>(false);
 
 
+
     const getOtpValue = (value: string) => {
         setOtp(value);
     };
@@ -135,6 +137,10 @@ const AuthScreen: React.FC = (props) => {
         });
     };
 
+    const handleSelectedValue = (data: any) => {
+        console.log(data)
+    }
+
     return (
         <Layout>
             <View style={[Grid.col_12, { paddingHorizontal: '10%' }]}>
@@ -142,11 +148,15 @@ const AuthScreen: React.FC = (props) => {
                     <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
                 </View>
                 <View style={[Grid.col_6, { justifyContent: 'space-around' }]}>
+                    <View style={{flexDirection: 'row'}}>
+                        {/* <AppSelect onSelect = {handleSelectedValue}/> */}
                     <AppInput
                         style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                         keyboardType='numeric'
                         value={userPhoneNumber}
                         onChangeText={(val: string) => setUserPhoneNumber(val)} />
+                    </View>
+                    
                     <View style={[Grid.row_8, { marginTop: 60, justifyContent: 'space-around' }]}>
                         {step === 1 ?
                             <>

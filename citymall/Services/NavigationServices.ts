@@ -1,40 +1,26 @@
-import {NavigationContainerRef} from '@react-navigation/core';
+// RootNavigation.js
+import * as React from 'react';
+import { createNavigationContainerRef, DrawerActions } from '@react-navigation/native';
 
+export const navigationRef = createNavigationContainerRef()
 
-let navigatorRef: NavigationContainerRef | undefined = undefined;
-export let OpenDrawer: Function[] = [() => {}, () => {}];
-export let CloseDrawer: Function[] = [() => {}, () => {}];
-export let ToggleDrawer: Function[] = [() => {}, () => {}];
+// export function navigate(name: any, params: any) {
+//   if (navigationRef.isReady()) {
+//     navigationRef.navigate(name, params);
+//   }
+// }
 
-let backHandler = () => {}
+export function GoBack() {
+  if (navigationRef.isReady()) {
+    navigationRef.goBack();
+  }
+};
 
-const setBackHandler = (fn: () => void) => {
-  backHandler = fn;
+export function toggleDrawer () {
+  if (navigationRef.isReady()) {
+    
+    navigationRef.dispatch(DrawerActions.openDrawer())
+  } 
 }
 
-function setDrawerOpen(ref: Function, index: number) {
-    OpenDrawer[index] = ref;
-  }
-  
-  function setDrawerClose(ref: Function, index: number) {
-    CloseDrawer[index] = ref;
-  }
-  
-  function setDrawerToggle(ref: Function, index: number) {
-    ToggleDrawer[index] = ref;
-  }
-
-  const GoBack = () => {
-      console.log('aqane')
-    backHandler();
-    navigatorRef?.goBack();
-  }
-
-  export default {
-    setDrawerOpen,
-    setDrawerClose,
-    setDrawerToggle,
-    setBackHandler,
-    GoBack
-  };
-
+// add other navigation functions that you need and export them

@@ -6,7 +6,7 @@ import { Colors } from '../../Colors/Colors';
 const AppInput = (props: any) => {
     return (
         <View style={{ position: 'relative', borderColor: Colors.white, borderBottomWidth: 1, width: '100%' }}>
-            <TextInput {...props} />
+            <TextInput {...props} selectionColor  = 'white'/>
         </View>
     );
 };

@@ -5,10 +5,10 @@ import Grid from '../Styles/grid';
 import AppHeader from './AppHeader';
 
 
-const AppLayout: React.FC = (props) => (
+const AppLayout = (props: any) => (
     <AppNavigator >
         <>
-            <AppHeader />
+            <AppHeader   />
             <View style={Grid.col_11}>
                 {props.children}
             </View>

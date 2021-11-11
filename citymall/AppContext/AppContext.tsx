@@ -11,6 +11,9 @@ export interface IApp {
     setCardDetails: (value: string) => void,
     userPhoneNumber: string,
     setPhoneNumber: (value: string) => void,
+    cardDetails: any,
+    
+    fillCardDetails: (data: any) => void,
 };
 
 const AppState: IApp = {
@@ -21,9 +24,11 @@ const AppState: IApp = {
     clientDetails: {},
     setDetails: (data: any) => { },
     userCardDetails: {},
-    setCardDetails: (data: any) => {},
+    setCardDetails: (data: any) => { },
     userPhoneNumber: '',
-    setPhoneNumber: (value: string) =>{}
+    setPhoneNumber: (value: string) => { },
+    cardDetails: {},
+    fillCardDetails: (data: any) => { }
 };
 
 export const AppContext = createContext<IApp>(AppState);
@@ -31,9 +36,10 @@ export const AppContext = createContext<IApp>(AppState);
 const AppProvider: React.FC = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(AppState.isAuthenticated);
     const [isDarkTheme, setDarkTheme] = useState<boolean>(AppState.isDarkTheme);
-    const [clientDetails, setClientDetails ] = useState<any>(AppState.clientDetails);
+    const [clientDetails, setClientDetails] = useState<any>(AppState.clientDetails);
     const [userCardDetails, setUserCardDetails] = useState<string>(AppState.userCardDetails);
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>(AppState.userPhoneNumber);
+    const [cardDetails, setCDetails ] = useState(AppState.cardDetails)
 
     const setIsAuth = (value: boolean) => {
         setIsAuthenticated(value);
@@ -48,11 +54,15 @@ const AppProvider: React.FC = ({ children }) => {
     };
 
     const setCardDetails = (data: any) => {
-        setUserCardDetails({...data});
+        setUserCardDetails({ ...data });
     };
 
     const setPhoneNumber = (value: string) => {
         setUserPhoneNumber(value);
+    };
+
+    const fillCardDetails = (data: any) => {
+        setCDetails(data);
     }
 
     return (
@@ -66,7 +76,9 @@ const AppProvider: React.FC = ({ children }) => {
             userCardDetails,
             setCardDetails,
             userPhoneNumber,
-            setPhoneNumber
+            setPhoneNumber,
+            cardDetails,
+            fillCardDetails
         }}>
             {children}
         </AppContext.Provider>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator } from 'react-native';
 import ApiServices from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
 import PaginationDots from "../Components/PaginationDots";
@@ -94,18 +94,19 @@ const dummyData = [
 ]
 
 // interface IOffers {
-//     title: string, 
+//     title: string, npm 
 //     subTitle: string, 
 //     imgUrl: string
 // } 
 
 
 const HomeScreen = (props: any) => {
-    const {setDetails, clientDetails} = useContext(AppContext)
+    const { setDetails, clientDetails, fillCardDetails } = useContext(AppContext)
     const { width, height } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offers, setOffers] = useState<any[]>();
     const [barcode, setBarCode] = useState<string>('');
+    const [initLoading, setInitLoading] = useState<boolean>(true);
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         let overView = event.nativeEvent.contentOffset.x / (width - 25);
@@ -115,21 +116,24 @@ const HomeScreen = (props: any) => {
 
     const handleGetClientCards = () => {
         ApiServices.GetClientCards().then(res => {
+            console.log('gamoidzaxa tavidan')
             setDetails(res.data);
-            })
+            setInitLoading(false);
+        })
             .catch(e => {
                 console.log(JSON.parse(JSON.stringify(e.response)).data);
+                setInitLoading(false);
             });
     };
 
     const handleGetBarcode = (card: string) => {
         ApiServices.GenerateBarcode(card)
-        .then(res => {
-            setBarCode(res.data.base64Data);
-        })
-        .catch(e => {
-            console.log(JSON.parse(JSON.stringify(e.response)).data)
-        });
+            .then(res => {
+                fillCardDetails({ barcode: res.data.base64Data, cardNumber: clientDetails?.[0]?.card });
+            })
+            .catch(e => {
+                console.log(JSON.parse(JSON.stringify(e.response)).data)
+            });
     }
 
     const handleSetOffers = () => {
@@ -146,6 +150,7 @@ const HomeScreen = (props: any) => {
             });
         };
     };
+
 
 
     const sytles = StyleSheet.create({
@@ -192,28 +197,38 @@ const HomeScreen = (props: any) => {
     useEffect(() => {
         handleGetClientCards();
         handleSetOffers();
+
     }, []);
 
     useEffect(() => {
-        if(clientDetails !== undefined) {
-            console.log(clientDetails)
+        if (clientDetails !== undefined) {
             handleGetBarcode(clientDetails?.[0]?.card)
         };
 
     }, [clientDetails]);
 
-    console.log(barcode)
+
     return (
-        <AppLayout>
+        <AppLayout >
             <View style={[Grid.col_12, { backgroundColor: Colors.black, }]}>
-                <View style={[Grid.col_4, { justifyContent: 'center' }]}>
-                        <UserCardSmall cardnumber = {clientDetails?.[0]?.card} navigateTo ={() =>  props.navigation.navigate('UserCardWithBarcode')}/>
-                    
+                <View style={[Grid.col_5, { justifyContent: 'center' }]}>
+                    {!initLoading ?
+                        <UserCardSmall
+                            cardnumber={clientDetails?.[0]?.card}
+                            navigateToBarCode={() => props.navigation.navigate('UserCardWithBarcode')}
+                            navigateToReg={() => props.navigation.navigate('RegistrationScreen')} />
+                        :
+                        <ActivityIndicator animating={initLoading} color='#dadde1' />
+                    }
+
                     <View style={[Grid.col_2, { justifyContent: 'space-around' }]}>
-                        <TouchableOpacity style={sytles.authBtn} onPress={() => props.navigation.navigate('RegistrationScreen')}>
-                            <Text style={sytles.authBtnText}>რეგისტრაცია</Text>
-                            <Image style={{ marginLeft: 7, width: 7, height: 7 }} source={require('../assets/images/arrow-sm.png')} />
-                        </TouchableOpacity>
+                        {clientDetails?.[0]?.card ?
+                            null
+                            :
+                            <TouchableOpacity style={sytles.authBtn} onPress={() => props.navigation.navigate('RegistrationScreen')}>
+                                <Text style={sytles.authBtnText}>რეგისტრაცია</Text>
+                                <Image style={{ marginLeft: 7, width: 7, height: 7 }} source={require('../assets/images/arrow-sm.png')} />
+                            </TouchableOpacity>}
                         <Image source={require('../assets/images/gradient-line.png')} />
                     </View>
                 </View>

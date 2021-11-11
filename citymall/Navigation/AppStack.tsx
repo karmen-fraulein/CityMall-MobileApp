@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { navigationRef } from '../Services/NavigationServices';
 import HomeScreen from '../Screens/HomeScreen';
 import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
@@ -16,13 +17,15 @@ const AppStack = () => {
     useEffect(() => {
 
     }, [isAuthenticated])
+
+    
     return (
         !isAuthenticated?
         //<RegistrationScreen/>
-        // <AppSelect/>
+        //<AppSelect onSelect = {handleSelectedValue}/>
         <AuthScreen/>
         :
-        <NavigationContainer>
+        <NavigationContainer  ref = {navigationRef}>
             <Stack.Navigator initialRouteName='HomeScreen'>
                 <Stack.Screen
                     name='HomeScreen'

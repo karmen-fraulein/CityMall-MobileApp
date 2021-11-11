@@ -175,7 +175,7 @@ class AuthService {
           skipRefresh: true
         }
         const refreshObj = new URLSearchParams();
-        refreshObj.append('grant_type', 'password');
+        refreshObj.append('grant_type', 'refresh_token');
         refreshObj.append('client_id', 'ClientApp');
         refreshObj.append('client_secret', 'secret');
         refreshObj.append('refresh_token', await this.getRefreshToken() || '');

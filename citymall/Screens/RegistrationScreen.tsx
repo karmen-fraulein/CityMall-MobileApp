@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { ActivityIndicator, Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import AppChekBox from '../Components/CostumComponents/AppChekBox';
@@ -9,9 +9,13 @@ import Layout from '../Components/Layouts/Layout';
 import Grid from '../Styles/grid';
 import ApiServices from '../Services/ApiServices';
 import { ScrollView } from 'react-native-gesture-handler';
+import { setItem, getItem } from '../Services/StorageService';
+import axios from 'axios';
+import AuthService from '../Services/AuthService';
 
 const RegistrationScreen: React.FC = (props: any) => {
-    const { isDarkTheme, userPhoneNumber } = useContext(AppContext);
+
+    const { isDarkTheme, userPhoneNumber, setDetails } = useContext(AppContext);
 
     const styles = StyleSheet.create({
         regTitle: {
@@ -101,7 +105,8 @@ const RegistrationScreen: React.FC = (props: any) => {
 
 
     const [step, setStep] = useState<number>(0);
-    const [buttonLoading, setButtonLoading] = useState<boolean>(false)
+    const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+    const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [nameError, setNameError] = useState<boolean>(false);
     const [lastname, setLastname] = useState<string>('');
@@ -163,9 +168,11 @@ const RegistrationScreen: React.FC = (props: any) => {
         if (verifyEmail) {
             handleSendMailOtp();
         };
-    }, [verifyEmail])
+    }, [verifyEmail]);
+
 
     const handleGenderChange = (type: string) => {
+        Keyboard.dismiss();
         if (type === 'male') {
             setGender({
                 male: true,
@@ -191,61 +198,64 @@ const RegistrationScreen: React.FC = (props: any) => {
     };
 
     const handleStep = () => {
-        // if(step === 0) {
-        //     if(name === '') {
-        //         setNameError(true);
-        //         return;
-        //     } else if (lastname === '') {
-        //         setLastnameError(true);
-        //         return;
-        //     } else if(isForeignResident && idNumber === '') {
-        //         setIdNumberError(true);
-        //         return
-        //     } else if (!gender.male || !gender.female || ! gender.other) {
-        //         setGender((prev: any) => {
-        //             return {
-        //                 ...prev, error: true
-        //             };
-        //         });
-        //         return;
-        //     };
-        // } else if (step === 1) {
-        //     if(dateOfBirth === '') {
-        //         setBirthDateError(true);
-        //         return;
-        //     } else if (district === '') {
-        //         setDistrictError(true);
-        //         return;
-        //     } else if (!agreedTerms) {
-        //         setAgreedTerms((prev: any) => {
-        //             return {
-        //                 ...prev, error: true
-        //             };
-        //         });
-        //     };
-        // }
-        if (step > 1) {
-            handleAddVirtualCard();
-            return
-        }
+        if (step === 0) {
+            if (name === '') {
+                setNameError(true);
+                return;
+            } else if (lastname === '') {
+                setNameError(false);
+                setLastnameError(true);
+                return;
+            } else if (isForeignResident && idNumber === '') {
+                setLastnameError(false);
+                setIdNumberError(true);
+                return
+            } else if (!gender.male && !gender.female && !gender.other) {
+                setIdNumberError(false);
+                setGender((prev: any) => {
+                    return {
+                        ...prev, error: true
+                    };
+                });
+                return;
+            };
+        } else if (step === 1) {
+            if (dateOfBirth === '') {
+                setBirthDateError(true);
+                return;
+            } else if (district === '') {
+                setBirthDateError(false);
+                setDistrictError(true);
+                return;
+            } else if (!agreedTerms) {
+                setDistrictError(false);
+                setAgreedTerms((prev: any) => {
+                    return {
+                        ...prev, error: true
+                    };
+                });
+            };
+        };
         setStep(step + 1);
-
     };
 
     const handleSendMailOtp = () => {
+        setButtonLoading(true);
         let data = {
             mail: email
         };
         ApiServices.SendMailOtp(data)
             .then(res => {
-                console.log('res', res);
+                setButtonLoading(false);
             })
             .catch(e => {
+                setButtonLoading(false);
                 console.log(JSON.parse(JSON.stringify(e.response)).data.error);
             });
     };
 
     const handleCheckMailOtp = () => {
+        setVerifyEmailLoading(true);
         let data = {
             email: email,
             otp: emailVerificationCode
@@ -253,9 +263,11 @@ const RegistrationScreen: React.FC = (props: any) => {
 
         ApiServices.CheckMailOtp(data)
             .then(res => {
-                console.log(res)
+                if (res.status === 200)
+                    setVerifyEmailLoading(false);
             })
             .catch(e => {
+                setVerifyEmailLoading(false);
                 console.log(JSON.parse(JSON.stringify(e.response)).data.error);
             });
     };
@@ -276,27 +288,60 @@ const RegistrationScreen: React.FC = (props: any) => {
         };
 
         ApiServices.AddVirtualCard(data)
-            .then(res => {
-                setButtonLoading(false);
-                console.log('AddVirtualCard', res.data);
-                setStep(2);
+            .then(async res => {
+                let refreshToken = await getItem('refresh_token');
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    skipRefresh: true
+                }
+                const refreshObj = new URLSearchParams();
+                refreshObj.append('grant_type', 'refresh_token');
+                refreshObj.append('client_id', 'ClientApp');
+                refreshObj.append('client_secret', 'secret');
+                refreshObj.append('refresh_token', refreshToken);
+
+                await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', refreshObj, config)
+                    .then(async response => {
+                        AuthService.setToken(response.data.access_token, response.data.refresh_token);
+                        setButtonLoading(false);
+                        setStep(2);
+                    })
+                    .catch(e => {
+                        setButtonLoading(false);
+                        console.log(JSON.parse(JSON.stringify(e.response)).data);
+                    });
             })
             .catch(e => {
                 setButtonLoading(false);
-                console.log(JSON.parse(JSON.stringify(e.response)).data.error);
+                console.log(JSON.parse(JSON.stringify(e.response)).data);
             });
-    }
-    console.log(userPhoneNumber)
+    };
+
+
+
+    const handleGetClientCards = () => {
+        ApiServices.GetClientCards().then(res => {
+            console.log('gamoidzaxa tavidan')
+            setDetails(res.data);
+            props.navigation.navigate('HomeScreen')
+            })
+            .catch(e => {
+                console.log(JSON.parse(JSON.stringify(e.response)).data);
+            });
+    };
 
     return (
-        <Layout hasBackArrow>
-            <ScrollView keyboardShouldPersistTaps='never' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%' }]}>
+        <Layout hasBackArrow hideArrows>
+            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%' }]}>
                 {step !== 2 ?
                     <View style={[Grid.row_12_5, {}]}>
+
                         <Text style={styles.regTitle}>რეგისტრაცია</Text>
                     </View> : null}
                 {step === 0 ?
-                    <View style={[Grid.col_9, {}]}> 
+                    <View style={[Grid.col_9, {}]}>
                         <AppInput
                             style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                             placeholder='სახელი'
@@ -319,6 +364,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                             <AppInput
                                 style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
                                 placeholder='პირადი ნომერი'
+                                maxLength={isForeignResident ? undefined : 11}
                                 placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                 keyboardType={isForeignResident ? 'default' : 'number-pad'}
                                 value={idNumber}
@@ -384,7 +430,6 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 }
                             }}
                         />
-
                         <AppInput
                             style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                             placeholder='საცხოვრებელი რაიონი'
@@ -401,10 +446,12 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                 keyboardType='email-address'
                                 value={email}
-                                onChangeText={(val: string) => setEmail(val)} />
+                                onChangeText={(val: string) => setEmail(val)}
+                            />
                             {emailError ?
                                 <Text style={styles.errorText}>არასწორი მეილის ფორმატი</Text>
                                 : null}
+
                             <View style={styles.mailVerification}>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                                     <Switch
@@ -412,30 +459,35 @@ const RegistrationScreen: React.FC = (props: any) => {
                                         thumbColor={Colors.white}
                                         ios_backgroundColor="#3e3e3e"
                                         onValueChange={() => setVerifyEmail(!verifyEmail)}
-                                        value={verifyEmail} />
+                                        value={verifyEmail}
+                                        disabled={email.length > 0 && !emailError ? false : true} />
                                     <View style={styles.mailVerificationTextWrap}>
                                         <Text style={styles.mailVerificationText}>ელ-ფოსტის ვერიფიკაცია</Text>
                                         <Text style={styles.mailVerificationSubtext}>ელ-ფოსტის ვერიფიკაციის გავლის შემდეგ მიიღებთ 100 ქულას საჩუქრად</Text>
                                     </View>
                                 </View>
                                 {verifyEmail ?
-                                    <>
+                                    <View style={{ position: 'relative' }}>
                                         <AppInput
                                             style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
                                             placeholder='ვერიფიკაციის კოდი'
                                             placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                             value={emailVerificationCode}
                                             onChangeText={(val: string) => setEmailVerificationCode(val)} />
-                                        <TouchableOpacity onPress={handleCheckMailOtp}>
-                                            <Text style={{ color: '#FFFFFF' }}>შეამოწმე</Text>
+                                        <TouchableOpacity onPress={handleCheckMailOtp} style={{ position: 'absolute', right: 5, top: 15 }}>
+                                            {verifyEmailLoading ?
+                                                <ActivityIndicator animating={verifyEmailLoading} color={Colors.white} />
+                                                :
+                                                <Text style={{ color: '#FFFFFF' }}>შეამოწმე</Text>
+                                            }
                                         </TouchableOpacity>
-                                    </>
+                                    </View>
                                     : null}
                             </View>
                         </View>
                         <View >
                             <View style={styles.inputWithLabel}>
-                                <AppChekBox checked={agreedTerms.value} onChange={() => setAgreedTerms({ value: !agreedTerms.value, error: false })} />
+                                <AppChekBox checked={agreedTerms.value} onChange={() => { setAgreedTerms({ value: !agreedTerms.value, error: false }); Keyboard.dismiss() }} />
                                 <Text style={styles.labelText}>ვეთანხმები წესებს და პირობებს</Text>
                                 {agreedTerms.error ?
                                     <Text style={styles.errorText}>გთხოვთ დაეთანხმოთ წესებსა და პირობებს</Text>
@@ -454,7 +506,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                             <Text style={styles.btnText}>შემდეგი</Text>
                         </TouchableOpacity> :
                         step === 1 ?
-                            <TouchableOpacity style={styles.authBtn} onPress={handleAddVirtualCard} disabled = {buttonLoading}>
+                            <TouchableOpacity style={styles.authBtn} onPress={handleAddVirtualCard} disabled={buttonLoading}>
                                 {buttonLoading ?
                                     <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                                     :
@@ -462,7 +514,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 }
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity style={styles.authBtn} onPress={() => props.navigation.navigate('HomeScreen')}>
+                            <TouchableOpacity style={styles.authBtn} onPress={handleGetClientCards}>
                                 <Text style={styles.btnText}>დახურვა</Text>
                             </TouchableOpacity>
                     }
