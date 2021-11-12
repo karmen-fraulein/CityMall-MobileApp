@@ -91,7 +91,6 @@ const Layout: React.FC<ILayoutProp> = (props) => {
         }
     }, []);
 
-    console.log('keyBoardShown', keyBoardShown)
     return (
         <View style={styles.layout}>
             {props.hideArrows && keyBoardShown ?

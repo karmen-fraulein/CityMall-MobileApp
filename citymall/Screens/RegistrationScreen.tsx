@@ -118,7 +118,6 @@ const RegistrationScreen: React.FC = (props: any) => {
     const [gender, setGender] = useState<any>({
         male: false,
         female: false,
-        other: false,
         error: false,
     });
     const [dateOfBirth, setDateOfBirth] = useState<string>('');
@@ -130,6 +129,7 @@ const RegistrationScreen: React.FC = (props: any) => {
     const [verifyEmail, setVerifyEmail] = useState<boolean>(false);
     const [emailVerificationCode, setEmailVerificationCode] = useState<string>('');
     const [verifyEmailError, setVerifyEmailError] = useState<boolean>(false);
+    const [isValidMailOtp, setIsValidMailOtp] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<any>({
         value: false,
         error: false,
@@ -171,6 +171,11 @@ const RegistrationScreen: React.FC = (props: any) => {
         };
     }, [verifyEmail]);
 
+    useEffect(() => {
+        if (emailVerificationCode.length < 6) {
+            setIsValidMailOtp(false);
+        }
+    }, [emailVerificationCode])
 
     const handleGenderChange = (type: string) => {
         Keyboard.dismiss();
@@ -178,21 +183,12 @@ const RegistrationScreen: React.FC = (props: any) => {
             setGender({
                 male: true,
                 female: false,
-                other: false,
-                error: false,
-            });
-        } else if (type === 'female') {
-            setGender({
-                male: false,
-                female: true,
-                other: false,
                 error: false,
             });
         } else {
             setGender({
                 male: false,
-                female: false,
-                other: true,
+                female: true,
                 error: false,
             });
         };
@@ -211,7 +207,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                 setLastnameError(false);
                 setIdNumberError(true);
                 return
-            } else if (!gender.male && !gender.female && !gender.other) {
+            } else if (!gender.male && !gender.female) {
                 setIdNumberError(false);
                 setGender((prev: any) => {
                     return {
@@ -239,7 +235,12 @@ const RegistrationScreen: React.FC = (props: any) => {
         };
         setStep(step + 1);
     };
-
+    const toggleSwitch = () => {
+        setEmailVerificationCode('');
+        setVerifyEmailError(false);
+        setIsValidMailOtp(false);
+        setVerifyEmail(!verifyEmail);
+    }
     const handleSendMailOtp = () => {
         setButtonLoading(true);
         let data = {
@@ -257,6 +258,7 @@ const RegistrationScreen: React.FC = (props: any) => {
 
     const handleCheckMailOtp = () => {
         setVerifyEmailLoading(true);
+        setVerifyEmailError(false);
         let data = {
             email: email,
             otp: emailVerificationCode
@@ -266,10 +268,14 @@ const RegistrationScreen: React.FC = (props: any) => {
             .then(res => {
                 if (res.status === 200)
                     setVerifyEmailLoading(false);
+                setVerifyEmailError(false);
+                setIsValidMailOtp(true);
             })
             .catch(e => {
                 setVerifyEmailLoading(false);
-                console.log(JSON.parse(JSON.stringify(e.response)).data.error);
+                setVerifyEmailError(true);
+                setIsValidMailOtp(false);
+                console.log(JSON.parse(JSON.stringify(e.response)).data);
             });
     };
 
@@ -320,25 +326,24 @@ const RegistrationScreen: React.FC = (props: any) => {
             });
     };
 
-
-
     const handleGetClientCards = () => {
         ApiServices.GetClientCards().then(res => {
-            console.log('gamoidzaxa tavidan')
             setDetails(res.data);
             props.navigation.navigate('HomeScreen')
-            })
+        })
             .catch(e => {
                 console.log(JSON.parse(JSON.stringify(e.response)).data);
             });
     };
 
+
+
     return (
-        <Layout hasBackArrow = {step < 2? true: false} hideArrows onPressBack = {() => {
-            if(step === 0) {
+        <Layout hasBackArrow={step < 2 ? true : false} hideArrows onPressBack={() => {
+            if (step === 0) {
                 GoBack();
             } else {
-                setStep(step-1);
+                setStep(step - 1);
             }
         }}>
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%' }]}>
@@ -392,10 +397,6 @@ const RegistrationScreen: React.FC = (props: any) => {
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => handleGenderChange('male')}>
                                 <AppChekBox checked={gender.male} onChange={() => handleGenderChange('male')} />
                                 <Text style={styles.labelText}>მამრობითი</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.inputWithLabel} onPress={() => handleGenderChange('other')}>
-                                <AppChekBox checked={gender.other} onChange={() => handleGenderChange('other')} />
-                                <Text style={styles.labelText}>სხვა</Text>
                             </TouchableOpacity>
                             {gender.error ?
                                 <Text style={styles.errorText}>გთხოვთ აირჩიოთ სქესი </Text>
@@ -465,12 +466,12 @@ const RegistrationScreen: React.FC = (props: any) => {
                                         trackColor={{ false: "#767577", true: "#28AD25" }}
                                         thumbColor={Colors.white}
                                         ios_backgroundColor="#3e3e3e"
-                                        onValueChange={() => setVerifyEmail(!verifyEmail)}
+                                        onValueChange={toggleSwitch}
                                         value={verifyEmail}
                                         disabled={email.length > 0 && !emailError ? false : true} />
                                     <View style={styles.mailVerificationTextWrap}>
                                         <Text style={styles.mailVerificationText}>ელ-ფოსტის ვერიფიკაცია</Text>
-                                        <Text style={styles.mailVerificationSubtext}>ელ-ფოსტის ვერიფიკაციის გავლის შემდეგ მიიღებთ 100 ქულას საჩუქრად</Text>
+                                        <Text style={styles.mailVerificationSubtext}>ელ. ფოსტის მითითებისა და ვერიფიკაციის შემთხვევაში საჩუქრად დაგერიცხებათ 100 სითი ქულა         </Text>
                                     </View>
                                 </View>
                                 {verifyEmail ?
@@ -478,14 +479,22 @@ const RegistrationScreen: React.FC = (props: any) => {
                                         <AppInput
                                             style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
                                             placeholder='ვერიფიკაციის კოდი'
+                                            keyboardType='numeric'
+                                            maxLength={6}
                                             placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                             value={emailVerificationCode}
                                             onChangeText={(val: string) => setEmailVerificationCode(val)} />
+                                        {verifyEmailError ?
+                                            <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text>
+                                            : null}
                                         <TouchableOpacity onPress={handleCheckMailOtp} style={{ position: 'absolute', right: 5, top: 15 }}>
                                             {verifyEmailLoading ?
                                                 <ActivityIndicator animating={verifyEmailLoading} color={Colors.white} />
                                                 :
-                                                <Text style={{ color: '#FFFFFF' }}>შეამოწმე</Text>
+                                                !isValidMailOtp ?
+                                                    <Text style={{ color: '#FFFFFF' }}>შეამოწმე</Text>
+                                                    :
+                                                    <Image source={require('../assets/images/green-checkmark.png')} style={{ width: 20, height: 14 }} />
                                             }
                                         </TouchableOpacity>
                                     </View>

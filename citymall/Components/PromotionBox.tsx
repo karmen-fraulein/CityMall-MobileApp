@@ -5,20 +5,21 @@ import { navigate } from '../Services/NavigationServices';
 
 const PromotionBox = (props: any) => {
     return (
+        <TouchableOpacity onPress = {() =>navigate('ShopDetailsScreen')}>
         <View style={styles.promotionBox}>
             <View style={styles.container}>
                 <Text style={{ fontSize: 5 }}> ფასდაკლება</Text>
             </View>
             <Image style={styles.promotionImg} source={require('../assets/images/promotion_img.png')} />
-            <TouchableOpacity onPress = {() =>navigate('ShopDetailsScreen')}>
+           
                 <Text style={styles.promotionTitle}>{props.data.title }</Text>
                 <Text style={styles.promotionBodyText} numberOfLines={1}>{props.data.subtitle }</Text>
                 <View style={styles.promotionBottom}>
                     <Text style={styles.promotionBottomText}>ვრცლად</Text>
                     <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
                 </View>
-            </TouchableOpacity>
         </View>
+        </TouchableOpacity>
     );
 };
 
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
         width: 159,
         height: 180,
         borderRadius: 10,
-        margin: 15
+        margin: 10,
     },
     container: {
         alignItems: 'center',

@@ -116,7 +116,6 @@ const HomeScreen = (props: any) => {
 
     const handleGetClientCards = () => {
         ApiServices.GetClientCards().then(res => {
-            console.log('gamoidzaxa tavidan')
             setDetails(res.data);
             setInitLoading(false);
         })
@@ -190,7 +189,8 @@ const HomeScreen = (props: any) => {
         authBtnText: {
             color: Colors.white,
             fontSize: 12,
-            fontWeight: '900'
+            fontWeight: '900',
+            marginVertical: 10
         }
     });
 

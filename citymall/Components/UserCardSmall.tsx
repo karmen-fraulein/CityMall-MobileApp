@@ -24,25 +24,27 @@ const UserCardSmall: React.FC<ICardSm> = (props) => {
             height: '100%',
             borderRadius: 10,
             borderColor: Colors.white,
-            borderWidth: 1,
             justifyContent: 'center', 
             alignItems: 'center',
             alignSelf: 'center',
             position: 'relative',
-            paddingHorizontal: 20
         },
         warningText: {
             color: Colors.yellow,
             fontSize: 10, 
             textAlign: 'center',
-            fontFamily: 'Pangram-Bold'
+            fontFamily: 'Pangram-Bold',
+            position: 'absolute',
+            width: '80%',
+            elevation:10
 
         }
     })
     return (
         !cardnumber ?
-            <TouchableOpacity style={ styles.warningImg} onPress={navigateToReg}>
-                <Text style={styles.warningText}>ლოიალობის პროგრამაში გასაწევრიანებლად გაიარეთ სრულყოფილი რეგისტრაცია</Text>
+            <TouchableOpacity style={ [styles.warningImg, ]} onPress={navigateToReg}>
+                <Text style={styles.warningText}>ლოიალობის პროგრამაში მონაწილეობის მისაღებად გთხოვთ, გაიაროთ დაასრულოთ რეგისტრაციის პროცესი</Text>
+                <Image style={[styles.giftCardImg, {opacity: 0.2}]} source={require('../assets/images/loyalty-card.png')} />
             </TouchableOpacity>
             :
             <TouchableOpacity style={{ position: 'relative', justifyContent: 'center', alignItems: 'center', height: '100%' }} onPress={navigateToBarCode}>
