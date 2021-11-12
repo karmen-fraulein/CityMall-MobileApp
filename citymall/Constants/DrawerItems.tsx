@@ -4,10 +4,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -16,10 +16,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -28,10 +28,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -40,10 +40,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -52,10 +52,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -64,10 +64,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -76,10 +76,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -88,10 +88,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -100,10 +100,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -115,10 +115,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },
@@ -127,10 +127,10 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'საბურთალო'
+                location: 'სითმოლი საბურთალო'
             },
             {
-                location: 'გლდანი'
+                location: 'სითმოლი გლდანი'
             }
         ]
     },

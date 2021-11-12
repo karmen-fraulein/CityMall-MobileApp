@@ -11,10 +11,8 @@ const Drawer = createDrawerNavigator();
 const AppNavigator: React.FC = (props) => {
     return (
         <Drawer.Navigator
-            drawerContent={props => (
-                <BurgerMenu
-                    {...props}
-                />
+            drawerContent={props  => (
+                <BurgerMenu  {...props} />
             )}
         >
             <Drawer.Screen name="HomeScreen2" children={() => (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { Colors } from '../Colors/Colors';
+import { navigate } from '../Services/NavigationServices';
 
 const PromotionBox = (props: any) => {
     return (
@@ -9,7 +10,7 @@ const PromotionBox = (props: any) => {
                 <Text style={{ fontSize: 5 }}> ფასდაკლება</Text>
             </View>
             <Image style={styles.promotionImg} source={require('../assets/images/promotion_img.png')} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress = {() =>navigate('ShopDetailsScreen')}>
                 <Text style={styles.promotionTitle}>{props.data.title }</Text>
                 <Text style={styles.promotionBodyText} numberOfLines={1}>{props.data.subtitle }</Text>
                 <View style={styles.promotionBottom}>

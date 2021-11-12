@@ -8,6 +8,8 @@ import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
 import { AppContext } from '../AppContext/AppContext';
 import AppSelect from '../Components/AppSelect/AppSelect';
+import WorkingScreen from '../Screens/WorkingScreen';
+import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,9 +23,10 @@ const AppStack = () => {
     
     return (
         !isAuthenticated?
-        //<RegistrationScreen/>
-        //<AppSelect onSelect = {handleSelectedValue}/>
+        
+       //<WorkingScreen/>
         <AuthScreen/>
+        //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>
             <Stack.Navigator initialRouteName='HomeScreen'>
@@ -51,6 +54,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='UserCardWithBarcode'
                     component={UserCardWithBarcode}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='ShopDetailsScreen'
+                    component={ShopDetailsScreen}
                     options={{
                         headerShown: false,
                     }}

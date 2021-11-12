@@ -12,6 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { setItem, getItem } from '../Services/StorageService';
 import axios from 'axios';
 import AuthService from '../Services/AuthService';
+import { GoBack } from '../Services/NavigationServices';
 
 const RegistrationScreen: React.FC = (props: any) => {
 
@@ -300,7 +301,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                 refreshObj.append('grant_type', 'refresh_token');
                 refreshObj.append('client_id', 'ClientApp');
                 refreshObj.append('client_secret', 'secret');
-                refreshObj.append('refresh_token', refreshToken);
+                refreshObj.append('refresh_token', refreshToken!);
 
                 await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', refreshObj, config)
                     .then(async response => {
@@ -333,7 +334,13 @@ const RegistrationScreen: React.FC = (props: any) => {
     };
 
     return (
-        <Layout hasBackArrow hideArrows>
+        <Layout hasBackArrow = {step < 2? true: false} hideArrows onPressBack = {() => {
+            if(step === 0) {
+                GoBack();
+            } else {
+                setStep(step-1);
+            }
+        }}>
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%' }]}>
                 {step !== 2 ?
                     <View style={[Grid.row_12_5, {}]}>

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Animated, Image, Keyboard, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
-import GoBack from '../../Services/NavigationServices'
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import Grid from '../../Styles/grid';
@@ -8,7 +7,8 @@ import Grid from '../../Styles/grid';
 interface ILayoutProp {
     pageName?: string,
     hasBackArrow?: boolean,
-    hideArrows?: boolean
+    hideArrows?: boolean,
+    onPressBack?: () => void,
 }
 
 const Layout: React.FC<ILayoutProp> = (props) => {
@@ -100,7 +100,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                     <View style={{ marginTop: 10, flexDirection: 'row' }}>
                         {props.hasBackArrow ?
                             <>
-                                <TouchableOpacity style={{ marginLeft: 25 }} onPress={() => GoBack}>
+                                <TouchableOpacity style={{ marginLeft: 25 }} onPress={props.onPressBack}>
                                     <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
                                 </TouchableOpacity>
                                 <TouchableOpacity >

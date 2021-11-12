@@ -17,7 +17,7 @@ import { setItem, getItem } from '../Services/StorageService';
 
 
 
- 
+
 
 
 
@@ -91,7 +91,7 @@ const AuthScreen: React.FC = (props) => {
     };
 
     const toggleAgreedTerms = () => {
-        if(!otpError && otp !== '') {
+        if (!otpError && otp !== '') {
             Keyboard.dismiss();
         };
         setAgreedTerms(!agreedTerms);
@@ -101,7 +101,7 @@ const AuthScreen: React.FC = (props) => {
     const signIn = async (type: string) => {
         let data;
         setButtonLoading(true);
-        if(type === 'new' || type === 'resend') {
+        if (type === 'new' || type === 'resend') {
             setOtp('');
             data = {
                 username: userPhoneNumber,
@@ -117,21 +117,23 @@ const AuthScreen: React.FC = (props) => {
                 otp: otp
             };
         };
-       
+
         AuthService.SignIn(data).then(res => {
             AuthService.setToken(res.data.access_token, res.data.refresh_token);
             setButtonLoading(false);
             setPhoneNumber(userPhoneNumber);
             setIsAuth(true);
-            
+
         }).catch(e => {
             console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
             let error = JSON.parse(JSON.stringify(e.response)).data.error;
             setButtonLoading(false);
             if (error === 'require_otp') {
                 setStep(1);
+                setButtonLoading(false);
             } else if (error === 'inalid_otp') {
                 setOtpError(true);
+                setButtonLoading(false);
                 return;
             };
         });
@@ -148,19 +150,17 @@ const AuthScreen: React.FC = (props) => {
                     <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
                 </View>
                 <View style={[Grid.col_6, { justifyContent: 'space-around' }]}>
-                    <View style={{flexDirection: 'row'}}>
-                        {/* <AppSelect onSelect = {handleSelectedValue}/> */}
-                    <AppInput
-                        style={{ color: isDarkTheme ? Colors.white : Colors.black }}
-                        keyboardType='numeric'
-                        value={userPhoneNumber}
-                        onChangeText={(val: string) => setUserPhoneNumber(val)} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <AppInput
+                            style={{ color: isDarkTheme ? Colors.white : Colors.black }}
+                            keyboardType='numeric'
+                            value={userPhoneNumber}
+                            onChangeText={(val: string) => setUserPhoneNumber(val)} />
                     </View>
-                    
                     <View style={[Grid.row_8, { marginTop: 60, justifyContent: 'space-around' }]}>
                         {step === 1 ?
                             <>
-                                <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError}  />
+                                <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError} />
                                 <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                                     <AppChekBox
                                         checked={agreedTerms}
@@ -172,14 +172,12 @@ const AuthScreen: React.FC = (props) => {
                     </View>
                 </View>
                 <View style={[Grid.col_3, { justifyContent: 'flex-end' }]}>
-                    <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0? 'new' : 'signIn')} disabled={buttonLoading}>
+                    <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0 ? 'new' : 'signIn')} disabled={buttonLoading}>
                         {buttonLoading ?
                             <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                             :
                             <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
                         }
-
-
                     </TouchableOpacity>
                 </View>
             </View>
