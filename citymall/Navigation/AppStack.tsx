@@ -7,7 +7,7 @@ import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
 import { AppContext } from '../AppContext/AppContext';
-import AppSelect from '../Components/AppSelect/AppSelect';
+import AppSelect from '../Components/CostumComponents/AppSelect';
 import WorkingScreen from '../Screens/WorkingScreen';
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 
@@ -24,8 +24,8 @@ const AppStack = () => {
     return (
         !isAuthenticated?
         
-       //<WorkingScreen/>
-        <AuthScreen/>
+       <WorkingScreen/>
+        //<AuthScreen/>
         //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>

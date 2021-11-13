@@ -11,7 +11,7 @@ import AppChekBox from '../Components/CostumComponents/AppChekBox';
 import Layout from '../Components/Layouts/Layout';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
-import AppSelect from '../Components/AppSelect/AppSelect';
+import AppSelect from '../Components/CostumComponents/AppSelect';
 import { setItem, getItem } from '../Services/StorageService';
 
 

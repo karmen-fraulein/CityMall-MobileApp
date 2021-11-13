@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useDimension } from '../../Hooks/UseDimension';
-import countryCodes from './CountryCodes';
-import AppSelectItem from './AppSelectItem';
+import countryCodes from '../DialCodePIcker/CountryCodes';
 import { Colors } from '../../Colors/Colors';
 import { AppContext } from '../../AppContext/AppContext';
-import AppSelectedItem from './AppSelectedItem';
 
 
 const AppSelect = (props: any) => {
@@ -29,20 +27,8 @@ const AppSelect = (props: any) => {
     });
 
     return (
-
-
-        !selecting ?
-            <TouchableOpacity style={styles.appSelectWrap} onPress={() => setSelecting(!selecting)}>
-                <AppSelectedItem />
+            <TouchableOpacity style={styles.appSelectWrap}>
             </TouchableOpacity>
-
-            :
-            <ScrollView style={{ backgroundColor: 'red' }} contentContainerStyle={{ flexGrow: 1 }}>
-                {props.data?.map((el: any, index: number) => (
-                    <AppSelectItem item={el} key={el.code} pressed = {() => setSelecting(false)}/>
-                ))}
-
-            </ScrollView>
     )
        
 };
