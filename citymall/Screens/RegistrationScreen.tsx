@@ -13,6 +13,7 @@ import { setItem, getItem } from '../Services/StorageService';
 import axios from 'axios';
 import AuthService from '../Services/AuthService';
 import { GoBack } from '../Services/NavigationServices';
+import DistrictPiker, { IDistrict } from '../Components/CostumComponents/DistrictPiker';
 
 const RegistrationScreen: React.FC = (props: any) => {
 
@@ -105,7 +106,7 @@ const RegistrationScreen: React.FC = (props: any) => {
 
 
 
-    const [step, setStep] = useState<number>(0);
+    const [step, setStep] = useState<number>(1);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
@@ -123,6 +124,8 @@ const RegistrationScreen: React.FC = (props: any) => {
     const [dateOfBirth, setDateOfBirth] = useState<string>('');
     const [birthDateError, setBirthDateError] = useState<boolean>(false);
     const [district, setDistrict] = useState<string>('');
+    const [districts, setDistricts] = useState<IDistrict>();
+    const [selectedDistrict, setSelectedDistrict] = useState<IDistrict>();
     const [districtError, setDistrictError] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
     const [emailError, setEmailError] = useState<boolean>(false);
@@ -135,6 +138,9 @@ const RegistrationScreen: React.FC = (props: any) => {
         error: false,
     });
 
+    useEffect(() => {
+        GetDistricts();
+    }, []);
 
     useEffect(() => {
 
@@ -175,7 +181,22 @@ const RegistrationScreen: React.FC = (props: any) => {
         if (emailVerificationCode.length < 6) {
             setIsValidMailOtp(false);
         }
-    }, [emailVerificationCode])
+    }, [emailVerificationCode]);
+
+    const GetDistricts = () => {
+        ApiServices.GetDistricts()
+        .then(res => {
+            setDistricts(res.data)
+         })
+         .catch(e => {
+            console.log(JSON.parse(JSON.stringify(e.response)).data);
+         })
+    };
+
+    const handleDistrictSelect = (item: IDistrict) => {
+        console.log(item);
+        setSelectedDistrict(item);
+    };
 
     const handleGenderChange = (type: string) => {
         Keyboard.dismiss();
@@ -220,7 +241,7 @@ const RegistrationScreen: React.FC = (props: any) => {
             if (dateOfBirth === '') {
                 setBirthDateError(true);
                 return;
-            } else if (district === '') {
+            } else if (district == '') {
                 setBirthDateError(false);
                 setDistrictError(true);
                 return;
@@ -235,12 +256,14 @@ const RegistrationScreen: React.FC = (props: any) => {
         };
         setStep(step + 1);
     };
+
     const toggleSwitch = () => {
         setEmailVerificationCode('');
         setVerifyEmailError(false);
         setIsValidMailOtp(false);
         setVerifyEmail(!verifyEmail);
     }
+    ;
     const handleSendMailOtp = () => {
         setButtonLoading(true);
         let data = {
@@ -289,7 +312,7 @@ const RegistrationScreen: React.FC = (props: any) => {
             lastName: lastname,
             phone: userPhoneNumber,
             email: email,
-            address: district,
+            address: selectedDistrict!.id,
             sex: gender.male ? 1 : gender.female ? 0 : 2,
             mailOtp: emailVerificationCode
         };
@@ -346,7 +369,9 @@ const RegistrationScreen: React.FC = (props: any) => {
                 setStep(step - 1);
             }
         }}>
-            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%' }]}>
+            
+            
+            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%', position: 'relative' }]}>
                 {step !== 2 ?
                     <View style={[Grid.row_12_5, {}]}>
 
@@ -404,7 +429,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                         </View>
                     </View> : null}
                 {step === 1 ?
-                    <View style={[Grid.col_9, {}]}>
+                    <View style={[Grid.col_9, {flex: 1}]}>
                         <DatePicker
                             style={{ width: '100%' }}
                             placeholder='დაბადების თარიღი'
@@ -444,6 +469,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                             placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                             value={district}
                             onChangeText={(val: string) => setDistrict(val)} />
+                            {/* <DistrictPiker districts = {districts} onSelect = {handleDistrictSelect}/> */}
                         {districtError ?
                             <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
                             : null}

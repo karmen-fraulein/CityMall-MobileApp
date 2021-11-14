@@ -1,28 +1,51 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Animated, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FlatList, TextInput } from 'react-native-gesture-handler';
+import { Animated, FlatList, SafeAreaView, ScrollView, ScrollViewComponent, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
+import { useDimension } from '../../Hooks/UseDimension';
 import countryCodes from './CountryCodes';
 
-// interface ICountryCodes {
-//     name: string,
-//     dial_code: string,
-//     code: string,
-// }
+export interface ICountryCodes {
+    name: string,
+    dial_code: string,
+    code: string,
+}
 
-const SelectDialCode = (props) => {
+interface IITem {
+    item: ICountryCodes,
+    onPress?: () => void,
+}
+
+interface ICountryCodeSelect {
+    onSelect: (item: ICountryCodes) => void
+}
+
+const SelectDialCode: React.FC<ICountryCodeSelect> = (props) => {
 
     const { isDarkTheme } = useContext(AppContext);
+    const { width, height } = useDimension();
 
-    const [selectedId, setSelectedId] = useState(null);
+    const [countryCode, setCountryCode] = useState<ICountryCodes[]>([]);
+    const [searchValue, setSearchValue] = useState<string>('');
+    const [selected, setSelected] = useState<ICountryCodes>();
+    const [isSelecting, setIsSelecting] = useState(false);
+
+    useEffect(() => {
+        setSelected(countryCodes[0]);
+        props.onSelect(countryCodes[0])
+    }, []);
+
+    useEffect(() => {
+        if(countryCode?.length <= 0) {
+            setCountryCode(countryCodes)
+        }
+    }, [countryCode])
+
 
 
     const styles = StyleSheet.create({
-       
-
         background: {
-            backgroundColor: Colors.black,
+            backgroundColor: isDarkTheme? Colors.black : Colors.white,
             position: 'absolute',
             left: 0,
             right: 0,
@@ -35,7 +58,7 @@ const SelectDialCode = (props) => {
         },
         item: {
             flexDirection: 'row',
-            width: '100%',
+            width: width,
             padding: 9,
             borderBottomWidth: 1,
             borderBottomColor: Colors.white,
@@ -52,45 +75,60 @@ const SelectDialCode = (props) => {
             flex: 1,
             marginTop: StatusBar.currentHeight || 0,
         },
-    })
+    });
 
-  
+    const handleSearch = () => {
+        let filteredCodes = countryCodes.filter(el => el.dial_code.match(searchValue) || el.name.toLowerCase().match(searchValue.toLowerCase()));
+        if(searchValue === '') {
+            setCountryCode(countryCodes)
+        } else {
+            setCountryCode(filteredCodes)
+        }
+    }
 
-    const Item = ({ item, onPress }) => (
+    const selectItem = (data: ICountryCodes) => {
+        setSelected(data);
+        props.onSelect(data)
+        setIsSelecting(false);
+    };
+
+
+    const Item: React.FC<IITem> = ({ item, onPress }) => (
         <TouchableOpacity onPress={onPress} style={styles.item}>
             <Text style={styles.title}>{item.dial_code}</Text>
-            <Text style={[styles.title,{marginLeft: 5}]}>{item.name}</Text>
+            <Text style={[styles.title, { marginLeft: 5 }]}>{item.name}</Text>
         </TouchableOpacity>
     );
 
-    const renderItem = ({ item }) => {
-        // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-        // const color = item.id === selectedId ? 'white' : 'black';
- 
+    const RenderItem: React.FC<IITem> = ({ item }) => {
         return (
             <Item
                 item={item}
-                onPress={() => setSelectedId(item.code)}
-                // backgroundColor={Colors.black}
-                // textColor={Colors.white}
+                onPress={() => selectItem(item)}
             />
         );
     };
 
     return (
-        !props.onSelecting?
-        <View style={styles.background}>
-            {/* <TextInput style={styles.item}/> */}
-            <SafeAreaView style={styles.container}>
-                <FlatList
-                    data={countryCodes}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.code}
-                    extraData={selectedId}
-                />
-            </SafeAreaView>
-        </View>
-        :null
+        isSelecting ?
+            <View style={styles.background}>
+                <TextInput style={styles.item} value={searchValue} onChangeText = {(value: string) => setSearchValue(value)} onChange = {handleSearch}/>
+                <SafeAreaView style={styles.container}>
+                    <ScrollView contentContainerStyle = {{flexGrow: 1, backgroundColor: 'red'}}>
+                        {countryCode.map(item => (
+                            <RenderItem key = {item.code} item = {item}/>
+                        ))}
+                    </ScrollView>
+                </SafeAreaView>
+            </View>
+            :
+            <View style={styles.item}>
+                <TouchableOpacity
+                    onPress={() => setIsSelecting(true)}>
+                    <Text style={{ color: Colors.white }}>{selected?.dial_code || 'press'}</Text>
+                </TouchableOpacity>
+            </View>
+
     );
 };
 
