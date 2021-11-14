@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import {
-    View, Text, StyleSheet, Keyboard, TouchableOpacity, Pressable, ActivityIndicatorBase, ActivityIndicator, Button
+    View, Text, StyleSheet, Keyboard, TouchableOpacity, Pressable, ActivityIndicatorBase, ActivityIndicator, Button, VirtualizedList
 } from 'react-native';
 import axios from 'axios';
 import { Colors } from '../Colors/Colors';
@@ -11,9 +11,9 @@ import AppChekBox from '../Components/CostumComponents/AppChekBox';
 import Layout from '../Components/Layouts/Layout';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
-import AppSelect from '../Components/CostumComponents/AppSelect';
+import AppSelect from '../Components/CostumComponents/DistrictPiker';
 import { setItem, getItem } from '../Services/StorageService';
-
+import SelectDialCode, {ICountryCodes} from '../Components/DialCodePIcker/SelectDialCode';
 
 
 
@@ -78,6 +78,7 @@ const AuthScreen: React.FC = (props) => {
 
     const [step, setStep] = useState<number>(0);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+    const [selectedDialCode, setSelectedDialCode] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('995');
     const [otp, setOtp] = useState<string>('');
     const [otpError, setOtpError] = useState<boolean>(false);
@@ -139,7 +140,7 @@ const AuthScreen: React.FC = (props) => {
         });
     };
 
-    const handleSelectedValue = (data: any) => {
+    const handleSelectedValue = (data: ICountryCodes) => {
         console.log(data)
     }
 
@@ -151,8 +152,9 @@ const AuthScreen: React.FC = (props) => {
                 </View>
                 <View style={[Grid.col_6, { justifyContent: 'space-around' }]}>
                     <View style={{ flexDirection: 'row' }}>
+                        {/* <SelectDialCode onSelect = {handleSelectedValue}/> */}
                         <AppInput
-                            style={{ color: isDarkTheme ? Colors.white : Colors.black }}
+                            style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
                             keyboardType='numeric'
                             value={userPhoneNumber}
                             onChangeText={(val: string) => setUserPhoneNumber(val)} />

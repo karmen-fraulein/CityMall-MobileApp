@@ -33,9 +33,14 @@ interface IAddVirtualCardRequest {
     lastName: string,
     phone: string,
     email: string,
-    address: string,
+    address: string | number,
     sex: number,
     mailOtp: string
+}
+
+export interface IDisctrictsRespone {
+    id: number,
+    name: string
 }
 
 class ApiServices {
@@ -57,6 +62,10 @@ class ApiServices {
 
     AddVirtualCard = async (data: IAddVirtualCardRequest) => {
         return await axios.post(`${envs.API_URL}/api/Clients/AddVirtCard`, data);
+    };
+
+    GetDistricts = async() => {
+        return await axios.get<IDisctrictsRespone>(`${envs.API_URL}/api/Organisation/GetDistricts`)
     }
 };
 
