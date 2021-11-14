@@ -8,19 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* citymallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* citymallTests.m */; };
+		014D89AB893A49158DF50829 /* Pangram-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F64DA41CCD9466286CB5371 /* Pangram-Regular.otf */; };
+		11E3B99B3A5D48578F3B123B /* Pangram-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA46743CB214BABA845AD0A /* Pangram-Bold.otf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		6172F2D35A4C3AA820D92908 /* libPods-citymall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-citymall.a */; };
-		7EF68E3733C33B6898317E18 /* libPods-citymall-citymallTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-citymall-citymallTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		616CC11722974DFD93BF9C96 /* gift-card.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A65F7993D846758F952ECE /* gift-card.png */; };
 		616F0AABC8A34B9191911830 /* location-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 013B172027094545B4A2B5DB /* location-icon.png */; };
-		E1D279446B174154A39CD393 /* notification-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FF7A092720864AE78D2C80C4 /* notification-icon.png */; };
-		A5E12D03CF034E7CA16074F6 /* promotion_img.png in Resources */ = {isa = PBXBuildFile; fileRef = AEBA4F5F6764424BAD9B855A /* promotion_img.png */; };
-		11E3B99B3A5D48578F3B123B /* Pangram-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA46743CB214BABA845AD0A /* Pangram-Bold.otf */; };
+		6172F2D35A4C3AA820D92908 /* libPods-citymall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-citymall.a */; };
 		6D650BB86BCE4A698033E55E /* Pangram-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FDDA18FC5CE64B09A3BCD3D2 /* Pangram-Medium.otf */; };
-		014D89AB893A49158DF50829 /* Pangram-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6F64DA41CCD9466286CB5371 /* Pangram-Regular.otf */; };
+		7EF68E3733C33B6898317E18 /* libPods-citymall-citymallTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-citymall-citymallTests.a */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A5E12D03CF034E7CA16074F6 /* promotion_img.png in Resources */ = {isa = PBXBuildFile; fileRef = AEBA4F5F6764424BAD9B855A /* promotion_img.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +36,8 @@
 		00E356EE1AD99517003FC87E /* citymallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = citymallTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* citymallTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = citymallTests.m; sourceTree = "<group>"; };
+		013B172027094545B4A2B5DB /* location-icon.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "location-icon.png"; path = "../assets/images/location-icon.png"; sourceTree = "<group>"; };
+		0AA46743CB214BABA845AD0A /* Pangram-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pangram-Bold.otf"; path = "../assets/fonts/Pangram-Bold.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* citymall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = citymall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = citymall/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = citymall/AppDelegate.m; sourceTree = "<group>"; };
@@ -46,18 +47,16 @@
 		1D0AE47A65C8663E3B452821 /* Pods-citymall-citymallTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-citymall-citymallTests.release.xcconfig"; path = "Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests.release.xcconfig"; sourceTree = "<group>"; };
 		6423831EA8574132BED9D8CC /* libPods-citymall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-citymall.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-citymall-citymallTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-citymall-citymallTests.debug.xcconfig"; path = "Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6F64DA41CCD9466286CB5371 /* Pangram-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pangram-Regular.otf"; path = "../assets/fonts/Pangram-Regular.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = citymall/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ABFE59519B596E51CEFDCCC0 /* libPods-citymall-citymallTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-citymall-citymallTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEBA4F5F6764424BAD9B855A /* promotion_img.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = promotion_img.png; path = ../assets/images/promotion_img.png; sourceTree = "<group>"; };
 		C0A881CF5CF3F2B244570E2A /* Pods-citymall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-citymall.debug.xcconfig"; path = "Target Support Files/Pods-citymall/Pods-citymall.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-citymall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-citymall.release.xcconfig"; path = "Target Support Files/Pods-citymall/Pods-citymall.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F5A65F7993D846758F952ECE /* gift-card.png */ = {isa = PBXFileReference; name = "gift-card.png"; path = "../assets/images/gift-card.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		013B172027094545B4A2B5DB /* location-icon.png */ = {isa = PBXFileReference; name = "location-icon.png"; path = "../assets/images/location-icon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FF7A092720864AE78D2C80C4 /* notification-icon.png */ = {isa = PBXFileReference; name = "notification-icon.png"; path = "../assets/images/notification-icon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AEBA4F5F6764424BAD9B855A /* promotion_img.png */ = {isa = PBXFileReference; name = "promotion_img.png"; path = "../assets/images/promotion_img.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0AA46743CB214BABA845AD0A /* Pangram-Bold.otf */ = {isa = PBXFileReference; name = "Pangram-Bold.otf"; path = "../assets/fonts/Pangram-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FDDA18FC5CE64B09A3BCD3D2 /* Pangram-Medium.otf */ = {isa = PBXFileReference; name = "Pangram-Medium.otf"; path = "../assets/fonts/Pangram-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		6F64DA41CCD9466286CB5371 /* Pangram-Regular.otf */ = {isa = PBXFileReference; name = "Pangram-Regular.otf"; path = "../assets/fonts/Pangram-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F5A65F7993D846758F952ECE /* gift-card.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "gift-card.png"; path = "../assets/images/gift-card.png"; sourceTree = "<group>"; };
+		FDDA18FC5CE64B09A3BCD3D2 /* Pangram-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pangram-Medium.otf"; path = "../assets/fonts/Pangram-Medium.otf"; sourceTree = "<group>"; };
+		
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +151,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B59DEA1647E8491687245A77 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F5A65F7993D846758F952ECE /* gift-card.png */,
+				013B172027094545B4A2B5DB /* location-icon.png */,
+				AEBA4F5F6764424BAD9B855A /* promotion_img.png */,
+				0AA46743CB214BABA845AD0A /* Pangram-Bold.otf */,
+				FDDA18FC5CE64B09A3BCD3D2 /* Pangram-Medium.otf */,
+				6F64DA41CCD9466286CB5371 /* Pangram-Regular.otf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		E233CBF5F47BEE60B243DCF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,21 +177,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		B59DEA1647E8491687245A77 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				F5A65F7993D846758F952ECE /* gift-card.png */,
-				013B172027094545B4A2B5DB /* location-icon.png */,
-				FF7A092720864AE78D2C80C4 /* notification-icon.png */,
-				AEBA4F5F6764424BAD9B855A /* promotion_img.png */,
-				0AA46743CB214BABA845AD0A /* Pangram-Bold.otf */,
-				FDDA18FC5CE64B09A3BCD3D2 /* Pangram-Medium.otf */,
-				6F64DA41CCD9466286CB5371 /* Pangram-Regular.otf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -190,7 +188,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				077E01280D4B4AD18B2E1770 /* [CP] Embed Pods Frameworks */,
 				4E62BDF20514810D028A5FBF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -213,7 +210,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				C8AC78B0264D0F9F6F6D630E /* [CP] Embed Pods Frameworks */,
 				ADC9DDC32298B72B3CF5DC8E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -277,7 +273,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				616CC11722974DFD93BF9C96 /* gift-card.png in Resources */,
 				616F0AABC8A34B9191911830 /* location-icon.png in Resources */,
-				E1D279446B174154A39CD393 /* notification-icon.png in Resources */,
 				A5E12D03CF034E7CA16074F6 /* promotion_img.png in Resources */,
 				11E3B99B3A5D48578F3B123B /* Pangram-Bold.otf in Resources */,
 				6D650BB86BCE4A698033E55E /* Pangram-Medium.otf in Resources */,
@@ -301,23 +296,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		077E01280D4B4AD18B2E1770 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		3E482C27206C4DEF2FE45063 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -395,23 +373,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C8AC78B0264D0F9F6F6D630E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
