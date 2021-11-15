@@ -83,6 +83,7 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
                 maxLength={4}
                 keyboardType='numeric'
                 autoFocus = {true}
+                textContentType = 'oneTimeCode'
             />
             <TouchableOpacity style={styles.otpResend} onPress={resend}>
                 <Text style={styles.otpResendText}>თავიდან</Text>

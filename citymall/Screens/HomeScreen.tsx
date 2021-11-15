@@ -9,6 +9,7 @@ import Grid from "../Styles/grid";
 import AppLayout from "../Components/AppLayout";
 import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const dummyData = [
     {

@@ -106,7 +106,7 @@ const RegistrationScreen: React.FC = (props: any) => {
 
 
 
-    const [step, setStep] = useState<number>(1);
+    const [step, setStep] = useState<number>(0);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>('');

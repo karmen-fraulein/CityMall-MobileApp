@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Animated, Image, Keyboard, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import { Animated, Image, Keyboard, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import Grid from '../../Styles/grid';
@@ -92,7 +94,8 @@ const Layout: React.FC<ILayoutProp> = (props) => {
     }, []);
 
     return (
-        <View style={styles.layout}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}  style={styles.layout}>
+            <SafeAreaView style={{flex: 1}}>
             {props.hideArrows && keyBoardShown ?
                 null :
                 <View style={[Grid.col_2, { flexDirection: 'row' }]}>
@@ -121,7 +124,9 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                 <Animated.View style={[Grid.col_2, { justifyContent: 'flex-end' }]}>
                     <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
                 </Animated.View >}
-        </View>
+                </SafeAreaView>
+                
+        </KeyboardAvoidingView>
     );
 };
 

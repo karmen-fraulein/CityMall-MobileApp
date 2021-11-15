@@ -53,9 +53,10 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Pangram-Bold.otf</string>
-		<string>Pangram-Medium.otf</string>
-		<string>Pangram-Regular.otf</string>
+		<string>Pangram-Bold.ttf</string>
+		<string>Pangram-Light.ttf</string>
+		<string>Pangram-Medium.ttf</string>
+		<string>Pangram-Thin.ttf</string>
 	</array>
 </dict>
 </plist>

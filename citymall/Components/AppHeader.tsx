@@ -6,6 +6,7 @@ import { Colors } from '../Colors/Colors'
 import { useDimension } from "../Hooks/UseDimension";
 import Grid from "../Styles/grid";
 import BackDrop from "./BackDrop";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 
@@ -104,7 +105,7 @@ const AppHeader = (props: any) => {
  
     return (
         <>
-            <View style={styles.apphHeader}>
+            <SafeAreaView style={styles.apphHeader}>
                 <View style={styles.appHeaderRight}>
                     <TouchableOpacity style={styles.burgerIcon} onPress = {() => toggleDrawer()}>
                         <View style={styles.burgerIconLine} />
@@ -128,7 +129,7 @@ const AppHeader = (props: any) => {
                     </TouchableOpacity>
                    
                 </View>
-            </View>
+            </SafeAreaView>
         </>
     )
 

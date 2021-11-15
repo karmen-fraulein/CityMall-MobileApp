@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import {
-    View, Text, StyleSheet, Keyboard, TouchableOpacity, Pressable, ActivityIndicatorBase, ActivityIndicator, Button, VirtualizedList
+    View, Text, StyleSheet, Keyboard, TouchableOpacity, Pressable, ActivityIndicatorBase, ActivityIndicator, Button, VirtualizedList, KeyboardAvoidingView, Platform
 } from 'react-native';
 import axios from 'axios';
 import { Colors } from '../Colors/Colors';
@@ -13,7 +13,9 @@ import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
 import AppSelect from '../Components/CostumComponents/DistrictPiker';
 import { setItem, getItem } from '../Services/StorageService';
-import SelectDialCode, {ICountryCodes} from '../Components/DialCodePIcker/SelectDialCode';
+import SelectDialCode, { ICountryCodes } from '../Components/DialCodePIcker/SelectDialCode';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 
@@ -84,6 +86,7 @@ const AuthScreen: React.FC = (props) => {
     const [otpError, setOtpError] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
     const [agreedTermsError, setAgreedTermsError] = useState<boolean>(false);
+    const [alreadyAgreedTerms, setAlreadyAgreedTerms] = useState<boolean>(false);
 
 
 
@@ -91,100 +94,118 @@ const AuthScreen: React.FC = (props) => {
         setOtp(value);
     };
 
-    const toggleAgreedTerms = () => {
-        if (!otpError && otp !== '') {
-            Keyboard.dismiss();
-        };
-        setAgreedTerms(!agreedTerms);
-        setAgreedTermsError(false);
-    };
-
-    const signIn = async (type: string) => {
-        let data;
-        setButtonLoading(true);
-        if (type === 'new' || type === 'resend') {
-            setOtp('');
-            data = {
-                username: userPhoneNumber,
-                otp: ''
-            };
-        } else {
-            if (step === 1 && !agreedTerms) {
-                setAgreedTermsError(true);
-                return;
-            };
-            data = {
-                username: userPhoneNumber,
-                otp: otp
-            };
-        };
-
-        AuthService.SignIn(data).then(res => {
-            AuthService.setToken(res.data.access_token, res.data.refresh_token);
-            setButtonLoading(false);
-            setPhoneNumber(userPhoneNumber);
-            setIsAuth(true);
-
-        }).catch(e => {
-            console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
-            let error = JSON.parse(JSON.stringify(e.response)).data.error;
-            setButtonLoading(false);
-            if (error === 'require_otp') {
-                setStep(1);
-                setButtonLoading(false);
-            } else if (error === 'inalid_otp') {
-                setOtpError(true);
-                setButtonLoading(false);
-                return;
+    useEffect(() => {
+        getItem('hasAgreedTerms').then(value => {
+            if(!value) {
+                setAlreadyAgreedTerms(false);
+            } else {
+                setAlreadyAgreedTerms(true);
             };
         });
+    },[])
+        const toggleAgreedTerms = () => {
+            if (!alreadyAgreedTerms) {
+                setItem('hasAgreedTerms', '1');
+            }
+            if (!otpError && otp !== '') {
+                Keyboard.dismiss();
+            };
+            setAgreedTerms(!agreedTerms);
+            setAgreedTermsError(false);
+        };
+
+        const signIn = async (type: string) => {
+            let data;
+            setButtonLoading(true);
+            if (type === 'new' || type === 'resend') {
+                setOtp('');
+                data = {
+                    username: userPhoneNumber,
+                    otp: ''
+                };
+            } else {
+                if (step === 1 && (!agreedTerms && !alreadyAgreedTerms)) {
+                    setAgreedTermsError(true);
+                    return;
+                };
+                data = {
+                    username: userPhoneNumber,
+                    otp: otp
+                };
+            };
+
+            AuthService.SignIn(data).then(res => {
+                AuthService.setToken(res.data.access_token, res.data.refresh_token);
+                setButtonLoading(false);
+                setPhoneNumber(userPhoneNumber);
+                setIsAuth(true);
+
+            }).catch(e => {
+                console.log('catch e =====>', JSON.parse(JSON.stringify(e.response)).data.error);
+                let error = JSON.parse(JSON.stringify(e.response)).data.error;
+                setButtonLoading(false);
+                if (error === 'require_otp') {
+                    setStep(1);
+                    setButtonLoading(false);
+                } else if (error === 'inalid_otp') {
+                    setOtpError(true);
+                    setButtonLoading(false);
+                    return;
+                };
+            });
+        };
+
+        const handleSelectedValue = (data: ICountryCodes) => {
+            console.log(data)
+        }
+
+        return (
+            <Layout>
+
+                <KeyboardAvoidingView behavior='height' style={[Grid.col_12, { paddingHorizontal: '10%' }]}>
+                    <View style={[Grid.col_3, { justifyContent: 'center' }]}>
+                        <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
+                    </View>
+                    <View style={[Grid.col_6, { justifyContent: 'space-around' }]}>
+                        <View style={{ flexDirection: 'row' }}>
+                            {/* <SelectDialCode onSelect = {handleSelectedValue}/> */}
+                            <AppInput
+                                style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
+                                keyboardType='numeric'
+                                value={userPhoneNumber}
+                                onChangeText={(val: string) => setUserPhoneNumber(val)} />
+                        </View>
+                        <View style={[Grid.row_8, { marginTop: 60, justifyContent: 'space-around' }]}>
+                            {step === 1 ?
+                                <>
+                                    <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError} />
+                                    {
+                                        alreadyAgreedTerms? 
+                                        null
+                                        :
+                                        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                        <AppChekBox
+                                            checked={agreedTerms}
+                                            onChange={toggleAgreedTerms}
+                                            hasError={agreedTermsError} />
+                                        <Text style={styles.agreeTermsText}>ვეთანხმები წესებს და პირობებს</Text>
+                                    </View>}
+                                </> : null}
+                        </View>
+                    </View>
+                    <View style={[Grid.col_3, { justifyContent: 'flex-end' }]}>
+                        <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0 ? 'new' : 'signIn')} disabled={buttonLoading}>
+                            {buttonLoading ?
+                                <ActivityIndicator animating={buttonLoading} color='#dadde1' />
+                                :
+                                <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
+                            }
+                        </TouchableOpacity>
+                    </View>
+                </KeyboardAvoidingView>
+                {/* </KeyboardAvoidingView> */}
+            </Layout>
+        );
     };
 
-    const handleSelectedValue = (data: ICountryCodes) => {
-        console.log(data)
-    }
-
-    return (
-        <Layout>
-            <View style={[Grid.col_12, { paddingHorizontal: '10%' }]}>
-                <View style={[Grid.col_3, { justifyContent: 'center' }]}>
-                    <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
-                </View>
-                <View style={[Grid.col_6, { justifyContent: 'space-around' }]}>
-                    <View style={{ flexDirection: 'row' }}>
-                        {/* <SelectDialCode onSelect = {handleSelectedValue}/> */}
-                        <AppInput
-                            style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
-                            keyboardType='numeric'
-                            value={userPhoneNumber}
-                            onChangeText={(val: string) => setUserPhoneNumber(val)} />
-                    </View>
-                    <View style={[Grid.row_8, { marginTop: 60, justifyContent: 'space-around' }]}>
-                        {step === 1 ?
-                            <>
-                                <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError} />
-                                <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                                    <AppChekBox
-                                        checked={agreedTerms}
-                                        onChange={toggleAgreedTerms}
-                                        hasError={agreedTermsError} />
-                                    <Text style={styles.agreeTermsText}>ვეთანხმები წესებს და პირობებს</Text>
-                                </View>
-                            </> : null}
-                    </View>
-                </View>
-                <View style={[Grid.col_3, { justifyContent: 'flex-end' }]}>
-                    <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0 ? 'new' : 'signIn')} disabled={buttonLoading}>
-                        {buttonLoading ?
-                            <ActivityIndicator animating={buttonLoading} color='#dadde1' />
-                            :
-                            <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
-                        }
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </Layout>
-    );
-};
-
-export default AuthScreen;
+    export default AuthScreen;
