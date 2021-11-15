@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, View } from 'react-native';
+import { Image, Platform, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, View } from 'react-native';
 import { toggleDrawer } from './../Services/NavigationServices';
 import { AppContext } from "../AppContext/AppContext";
 import { Colors } from '../Colors/Colors'
@@ -25,6 +25,7 @@ const AppHeader = (props: any) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            paddingTop: Platform.OS === 'ios'? 10 : 0
             
         },
 
@@ -104,7 +105,6 @@ const AppHeader = (props: any) => {
 
  
     return (
-        <>
             <SafeAreaView style={styles.apphHeader}>
                 <View style={styles.appHeaderRight}>
                     <TouchableOpacity style={styles.burgerIcon} onPress = {() => toggleDrawer()}>
@@ -130,7 +130,6 @@ const AppHeader = (props: any) => {
                    
                 </View>
             </SafeAreaView>
-        </>
     )
 
 }

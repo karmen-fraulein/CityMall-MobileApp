@@ -94,8 +94,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
     }, []);
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}  style={styles.layout}>
-            <SafeAreaView style={{flex: 1}}>
+            <SafeAreaView style={styles.layout}>
             {props.hideArrows && keyBoardShown ?
                 null :
                 <View style={[Grid.col_2, { flexDirection: 'row' }]}>
@@ -115,9 +114,12 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                     <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
                 </View>
             }
-            <ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps='always'>
+             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}  style={styles.layout}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps='handled'>
                 {props.children}
             </ScrollView>
+                    
+        </KeyboardAvoidingView>
             {keyBoardShown ?
                 null
                 :
@@ -125,8 +127,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                     <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
                 </Animated.View >}
                 </SafeAreaView>
-                
-        </KeyboardAvoidingView>
+        
     );
 };
 

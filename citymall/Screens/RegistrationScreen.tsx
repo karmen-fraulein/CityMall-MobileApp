@@ -14,10 +14,14 @@ import axios from 'axios';
 import AuthService from '../Services/AuthService';
 import { GoBack } from '../Services/NavigationServices';
 import DistrictPiker, { IDistrict } from '../Components/CostumComponents/DistrictPiker';
+import { useDimension } from '../Hooks/UseDimension';
 
 const RegistrationScreen: React.FC = (props: any) => {
 
     const { isDarkTheme, userPhoneNumber, setDetails } = useContext(AppContext);
+    const {height} = useDimension();
+
+    console.log('height', height);
 
     const styles = StyleSheet.create({
         regTitle: {
@@ -57,7 +61,7 @@ const RegistrationScreen: React.FC = (props: any) => {
             fontFamily: 'Pangram-Bold',
             fontSize: 14,
             fontWeight: '700',
-            lineHeight: 17,
+            lineHeight: 15,
             marginLeft: 7
         },
         inputWithLabel: {
@@ -66,16 +70,18 @@ const RegistrationScreen: React.FC = (props: any) => {
 
         },
         genderCheck: {
-            marginTop: '10%',
+            marginTop: '6%',
             borderBottomColor: isDarkTheme ? Colors.white : Colors.black,
-            borderBottomWidth: 1
+            borderBottomWidth: 1,
+            paddingBottom: 12
         },
         mailVerification: {
             width: '100%',
             marginVertical: 20
         },
         mailVerificationTextWrap: {
-            paddingRight: '10%'
+            width: '80%',
+            marginLeft: 5
         },
         mailVerificationText: {
             color: isDarkTheme ? Colors.white : Colors.black,
@@ -262,8 +268,8 @@ const RegistrationScreen: React.FC = (props: any) => {
         setVerifyEmailError(false);
         setIsValidMailOtp(false);
         setVerifyEmail(!verifyEmail);
-    }
-    ;
+    };
+
     const handleSendMailOtp = () => {
         setButtonLoading(true);
         let data = {
@@ -312,8 +318,8 @@ const RegistrationScreen: React.FC = (props: any) => {
             lastName: lastname,
             phone: userPhoneNumber,
             email: email,
-            address: selectedDistrict!.id,
-            sex: gender.male ? 1 : gender.female ? 0 : 2,
+            address: selectedDistrict?.id || district,
+            sex: gender.male ? 1 : 0,
             mailOtp: emailVerificationCode
         };
 
@@ -369,16 +375,14 @@ const RegistrationScreen: React.FC = (props: any) => {
                 setStep(step - 1);
             }
         }}>
-            
-            
-            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%', position: 'relative' }]}>
+            <ScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={[Grid.col_12, { paddingHorizontal: '10%', position: 'relative' }]}>
                 {step !== 2 ?
                     <View style={[Grid.row_12_5, {}]}>
 
                         <Text style={styles.regTitle}>რეგისტრაცია</Text>
                     </View> : null}
                 {step === 0 ?
-                    <View style={[Grid.col_9, {}]}>
+                    <ScrollView style={[Grid.col_9, {}]}>
                         <AppInput
                             style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                             placeholder='სახელი'
@@ -427,7 +431,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 <Text style={styles.errorText}>გთხოვთ აირჩიოთ სქესი </Text>
                                 : null}
                         </View>
-                    </View> : null}
+                    </ScrollView> : null}
                 {step === 1 ?
                     <View style={[Grid.col_9, {flex: 1}]}>
                         <DatePicker
@@ -442,7 +446,8 @@ const RegistrationScreen: React.FC = (props: any) => {
                                     alignItems: 'flex-start',
                                     borderWidth: 0,
                                     borderBottomWidth: 1,
-                                    borderBottomColor: Colors.white
+                                    paddingBottom: 12,
+                                    borderBottomColor: isDarkTheme ? Colors.white : Colors.black,
                                 },
                                 placeholderText: {
                                     color: isDarkTheme ? Colors.white : Colors.black,
@@ -513,12 +518,12 @@ const RegistrationScreen: React.FC = (props: any) => {
                                         {verifyEmailError ?
                                             <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text>
                                             : null}
-                                        <TouchableOpacity onPress={handleCheckMailOtp} style={{ position: 'absolute', right: 5, top: 15 }}>
+                                        <TouchableOpacity onPress={handleCheckMailOtp} style={{ position: 'absolute', right: 5, top: 25 }}>
                                             {verifyEmailLoading ?
                                                 <ActivityIndicator animating={verifyEmailLoading} color={Colors.white} />
                                                 :
                                                 !isValidMailOtp ?
-                                                    <Text style={{ color: '#FFFFFF' }}>შეამოწმე</Text>
+                                                    <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>შეამოწმე</Text>
                                                     :
                                                     <Image source={require('../assets/images/green-checkmark.png')} style={{ width: 20, height: 14 }} />
                                             }

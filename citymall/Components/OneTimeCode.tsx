@@ -21,7 +21,7 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
         },
         otpTitle: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Medium',
+            fontFamily: 'HMPangram-Medium',
             fontSize: 13,
             fontWeight: '500',
             lineHeight: 17,
@@ -33,7 +33,7 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
         },
         otpIputPlaceholder : {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 13,
         },
         otpResend: {
@@ -43,7 +43,7 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
         },
         otpResendText: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Medium',
+            fontFamily: 'HMPangram-Medium',
             fontSize: 13,
             fontWeight: '500',
             lineHeight: 17,
@@ -53,7 +53,7 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
             bottom: -20,
             color: Colors.red,
             fontSize: 11,
-            fontFamily: 'Pangram-Regular'
+            fontFamily: 'HMPangram-Regular'
         }
     });
 
