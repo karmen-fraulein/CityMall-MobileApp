@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
@@ -29,7 +29,7 @@ const DistrictPiker = (props: any) => {
     const { isDarkTheme } = useContext(AppContext);
 
     useEffect(() => {
-        if(selectedItem) {
+        if (selectedItem) {
             props.onSelect(selectedItem);
         };
     }, [selectedItem])
@@ -46,14 +46,41 @@ const DistrictPiker = (props: any) => {
             paddingHorizontal: 30,
             backgroundColor: 'red',
             elevation: 10,
-          
+
+        },
+
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
         },
 
         selectBox: {
 
         },
+        modalView: {
+            margin: 20,
+            backgroundColor: Colors.black,
+            borderRadius: 10,
+            borderColor: Colors.bgColor,
+            borderWidth: 1,
+            paddingVertical: 10,
+            shadowColor: Colors.black,
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
+            width: '90%',
+            maxWidth: 380
+        },
 
         selectedItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             paddingTop: 16,
             paddingBottom: 10,
             paddingHorizontal: 10,
@@ -83,22 +110,34 @@ const DistrictPiker = (props: any) => {
                     :
                     <Text style={styles.itemText}>{props.placeholder}</Text>
                 }
+                <Image source = {require('./../../assets/images/arrow-down-sm.png')} style={{width: 7, height: 7, marginLeft: 10}} />
             </TouchableOpacity>
             :
-      
-            <View style={styles.background}>
-                <View >
-                    <ScrollView style={{ height: height - 180, width: '100%', paddingHorizontal: 30, borderRadius: 10 }}  contentContainerStyle = {{flexGrow: 1}} pointerEvents = 'box-none'>
-                        {props.districts.map((item: IDistrict) => (
-                            <TouchableOpacity
-                                style={styles.selectedItem}
-                                key={item.id}
-                                onPress={() => handleSelect(item)}>
-                                <Text style={styles.itemText}>{item.name}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
+
+            <View style={styles.centeredView}>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    onRequestClose={() => {
+                        setIsSelecting(!isSelecting)
+                    }}
+                    visible={isSelecting}>
+                        
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <ScrollView style={{ maxHeight: height - 200 }} contentContainerStyle={{ flexGrow: 1 }} pointerEvents='box-none'>
+                                {props.districts.map((item: IDistrict) => (
+                                    <TouchableOpacity
+                                        style={styles.selectedItem}
+                                        key={item.id}
+                                        onPress={() => handleSelect(item)}>
+                                        <Text style={styles.itemText}>{item.name}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </ScrollView>
+                        </View>
+                    </View>
+                </Modal>
             </View>
     );
 };

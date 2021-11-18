@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Colors } from '../Colors/Colors';
 import countryCodes from '../Components/DialCodePIcker/CountryCodes';
 import AppModal from '../Components/CostumComponents/AppModal';
-import SelectDialCode from '../Components/DialCodePIcker/SelectDialCode';
+import SelectDialCode from '../Components/DialCodePIcker/DialCodePIcker';
 import DateSelect from '../Components/DatePicker/DateSelect';
 import DatePicker from '../Components/DatePicker/DatePicker';
 import ApiServices, {IDisctrictsRespone} from '../Services/ApiServices';

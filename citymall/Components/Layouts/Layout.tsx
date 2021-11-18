@@ -114,19 +114,19 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                     <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
                 </View>
             }
-             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}  style={styles.layout}>
+             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}  style={styles.layout}>
             <ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps='handled'>
                 {props.children}
             </ScrollView>
                     
         </KeyboardAvoidingView>
-            {/* {keyBoardShown ?
+            {keyBoardShown && Platform.OS === 'android'?
                 null
-                : */}
+                :
                 <Animated.View style={[Grid.col_2, { justifyContent: 'flex-end' }]}>
                     <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
                 </Animated.View >
-                {/* } */}
+                }
                 </SafeAreaView>
         
     );

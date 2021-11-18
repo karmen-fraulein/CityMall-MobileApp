@@ -12,14 +12,17 @@ const AppInput = (props: any) => {
             borderColor: isDarkTheme? Colors.white : Colors.black, 
             borderBottomWidth: 1, 
             width: '100%', 
-            height: 50, 
+            
             justifyContent: 'flex-end', 
-            marginBottom: 10 
+            marginLeft: 5,
+            paddingTop: 16,
+             paddingBottom: 10,
+             paddingHorizontal: 10, 
         }
     })
     return (
         <View style={styles.inputWrap}>
-            <TextInput {...props} style = {[{...props.style},{padding: 12}]} selectionColor  = 'white'/>
+            <TextInput {...props} style = {[{...props.style},{padding: 12, height: 50}]} selectionColor  = 'white'/>
         </View>
     );
 };

@@ -4,7 +4,7 @@ import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import AppChekBox from '../Components/CostumComponents/AppChekBox';
 import AppInput from '../Components/CostumComponents/AppInput';
-import DatePicker from 'react-native-datepicker';
+import DatePicker from '../Components/DatePicker/DatePicker';
 import Layout from '../Components/Layouts/Layout';
 import Grid from '../Styles/grid';
 import ApiServices from '../Services/ApiServices';
@@ -112,7 +112,7 @@ const RegistrationScreen: React.FC = (props: any) => {
 
 
 
-    const [step, setStep] = useState<number>(0);
+    const [step, setStep] = useState<number>(1);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
@@ -434,7 +434,8 @@ const RegistrationScreen: React.FC = (props: any) => {
                     </ScrollView> : null}
                 {step === 1 ?
                     <View style={[Grid.col_9, {flex: 1}]}>
-                        <DatePicker
+                        <DatePicker callBack = {(value: string) => setDateOfBirth(value)}/>
+                        {/* <DatePicker
                             style={{ width: '100%' }}
                             placeholder='დაბადების თარიღი'
                             date={dateOfBirth}
@@ -467,14 +468,15 @@ const RegistrationScreen: React.FC = (props: any) => {
 
                                 }
                             }}
-                        />
-                        <AppInput
+                        /> */}
+
+                        {/* <AppInput
                             style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                             placeholder='საცხოვრებელი რაიონი'
                             placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                             value={district}
-                            onChangeText={(val: string) => setDistrict(val)} />
-                            {/* <DistrictPiker districts = {districts} onSelect = {handleDistrictSelect}/> */}
+                            onChangeText={(val: string) => setDistrict(val)} /> */}
+                            <DistrictPiker districts = {districts} onSelect = {handleDistrictSelect} placeholder = 'აირჩიეთ რაიონი'/>
                         {districtError ?
                             <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
                             : null}

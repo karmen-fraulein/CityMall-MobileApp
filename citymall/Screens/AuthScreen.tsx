@@ -13,7 +13,7 @@ import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
 import AppSelect from '../Components/CostumComponents/DistrictPiker';
 import { setItem, getItem } from '../Services/StorageService';
-import SelectDialCode, { ICountryCodes } from '../Components/DialCodePIcker/SelectDialCode';
+import DialCodePicker, {  } from '../Components/DialCodePIcker/DialCodePIcker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
@@ -82,7 +82,7 @@ const AuthScreen: React.FC = (props) => {
     const [step, setStep] = useState<number>(0);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [selectedDialCode, setSelectedDialCode] = useState<string>('')
-    const [userPhoneNumber, setUserPhoneNumber] = useState<string>('995');
+    const [userPhoneNumber, setUserPhoneNumber] = useState<string>('');
     const [otp, setOtp] = useState<string>('');
     const [otpError, setOtpError] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
@@ -121,7 +121,7 @@ const AuthScreen: React.FC = (props) => {
             if (type === 'new' || type === 'resend') {
                 setOtp('');
                 data = {
-                    username: userPhoneNumber,
+                    username: selectedDialCode.slice(1) +  userPhoneNumber,
                     otp: ''
                 };
             } else {
@@ -156,9 +156,10 @@ const AuthScreen: React.FC = (props) => {
             });
         };
 
-        const handleSelectedValue = (data: ICountryCodes) => {
-            console.log(data)
+        const handleSelectedValue = (data: string) => {
+            setSelectedDialCode(data);
         }
+
 
         return (
             <Layout>
@@ -168,9 +169,9 @@ const AuthScreen: React.FC = (props) => {
                     </View>
                     <View style={{flex: 6}}>
                         <View style={{ flexDirection: 'row' }}>
-                            {/* <SelectDialCode onSelect = {handleSelectedValue}/> */}
+                            <DialCodePicker onSelect = {handleSelectedValue}/>
                             <AppInput
-                                style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
+                                style={{ color: isDarkTheme ? Colors.white : Colors.black,  }}
                                 keyboardType='numeric'
                                 value={userPhoneNumber}
                                 onChangeText={(val: string) => setUserPhoneNumber(val)} />
