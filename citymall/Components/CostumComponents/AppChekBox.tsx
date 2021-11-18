@@ -54,7 +54,7 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
             top: 26,
             color: Colors.red,
             fontSize: 11,
-            fontFamily: 'Pangram-Regular'
+            fontFamily: 'HMPangram-Regular'
         }
 
     })

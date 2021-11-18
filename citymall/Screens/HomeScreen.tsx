@@ -173,7 +173,7 @@ const HomeScreen = (props: any) => {
         },
         promotionsTitle: {
             color: Colors.white,
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 14,
             lineHeight: 17,
             fontWeight: '900',

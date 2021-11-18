@@ -27,7 +27,7 @@ const RegistrationScreen: React.FC = (props: any) => {
         regTitle: {
             textAlign: 'center',
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 18,
             fontWeight: '700',
             lineHeight: 22,
@@ -58,7 +58,7 @@ const RegistrationScreen: React.FC = (props: any) => {
         },
         labelText: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 14,
             fontWeight: '700',
             lineHeight: 15,
@@ -85,19 +85,19 @@ const RegistrationScreen: React.FC = (props: any) => {
         },
         mailVerificationText: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Regular',
+            fontFamily: 'HMPangram-Regular',
             fontSize: 14,
             lineHeight: 14
         },
         mailVerificationSubtext: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Regular',
+            fontFamily: 'HMPangram-Regular',
             fontSize: 10,
             lineHeight: 14
         },
         registerSuccess: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 18,
             fontWeight: '700',
             lineHeight: 22,
@@ -106,7 +106,7 @@ const RegistrationScreen: React.FC = (props: any) => {
         errorText: {
             color: Colors.red,
             fontSize: 11,
-            fontFamily: 'Pangram-Regular'
+            fontFamily: 'HMPangram-Regular'
         }
     });
 
@@ -451,7 +451,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 },
                                 placeholderText: {
                                     color: isDarkTheme ? Colors.white : Colors.black,
-                                    fontFamily: 'Pangram-Bold',
+                                    fontFamily: 'HMPangram-Bold',
                                     fontSize: 14,
                                     fontWeight: '700',
                                     lineHeight: 17,
@@ -459,7 +459,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 },
                                 dateText: {
                                     color: isDarkTheme ? Colors.white : Colors.black,
-                                    fontFamily: 'Pangram-Bold',
+                                    fontFamily: 'HMPangram-Bold',
                                     fontSize: 14,
                                     fontWeight: '700',
                                     lineHeight: 17,

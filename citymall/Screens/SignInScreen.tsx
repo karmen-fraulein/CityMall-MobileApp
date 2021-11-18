@@ -21,7 +21,7 @@ const SignInScreen = () => {
             color: Colors.white,
             textAlign: 'center',
             fontVariant: ['proportional-nums'],
-            fontFamily: 'Pangram-Regular'
+            fontFamily: 'HMPangram-Regular'
         }
 
     })

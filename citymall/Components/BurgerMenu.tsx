@@ -24,7 +24,7 @@ const BurgerMenu: React.FC = (props) => {
         },
         usernameText: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Medium',
+            fontFamily: 'HMPangram-Medium',
             fontSize: 12,
             lineHeight: 15,
             fontWeight: '500'

@@ -33,7 +33,7 @@ const UserCardSmall: React.FC<ICardSm> = (props) => {
             color: Colors.yellow,
             fontSize: 10, 
             textAlign: 'center',
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             position: 'absolute',
             width: '80%',
             elevation:10

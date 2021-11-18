@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
     promotionTitle: {
         height: 24,
-        fontFamily: 'Pangram-Regular',
+        fontFamily: 'HMPangram-Regular',
         textTransform: 'uppercase',
         fontWeight: '500',
         fontSize: 10,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
 
     promotionBodyText: {
-        fontFamily: 'Pangram-Regular',
+        fontFamily: 'HMPangram-Regular',
         textTransform: 'uppercase',
         fontWeight: '500',
         fontSize: 9,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
 
     promotionBottomText: {
         color: Colors.white,
-        fontFamily: 'Pangram-Bold',
+        fontFamily: 'HMPangram-Bold',
         fontSize: 7,
         lineHeight: 9,
         marginRight: 2,

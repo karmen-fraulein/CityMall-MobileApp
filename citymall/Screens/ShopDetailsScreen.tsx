@@ -62,7 +62,7 @@ const ShopDetailsScreen = () => {
             height: height / 2,
         },
         pageTitle: {
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 14,
             lineHeight: 17,
             textAlign: 'center',
@@ -83,13 +83,13 @@ const ShopDetailsScreen = () => {
             justifyContent: 'space-between',
         },
         shopName: {
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 16,
             lineHeight: 19,
             color: isDarkTheme ? Colors.white : Colors.black,
         },
         shopDesc: {
-            fontFamily: 'Pangram-Medium',
+            fontFamily: 'HMPangram-Medium',
             fontSize: 12,
             lineHeight: 14,
             color: isDarkTheme ? Colors.white : Colors.black,
@@ -98,7 +98,7 @@ const ShopDetailsScreen = () => {
             marginTop: 19
         },
         infoTitle: {
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 12,
             lineHeight: 20,
             color: isDarkTheme ? Colors.white : Colors.black,
@@ -156,16 +156,16 @@ const ShopDetailsScreen = () => {
                     <View style={{ height: 1, width: '75%', backgroundColor: isDarkTheme ? Colors.white : Colors.black, marginTop: 25 }} />
                     <View style={styles.shopContactInfo}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={[styles.infoTitle, { fontFamily: 'Pangram-Bold' }]}>ტელეფონი: </Text>
-                            <Text style={[styles.infoTitle, { fontFamily: 'Pangram-Medium' }]}>+995 595 491 033</Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Bold' }]}>ტელეფონი: </Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Medium' }]}>+995 595 491 033</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={[styles.infoTitle, { fontFamily: 'Pangram-Bold' }]}>სამუშაო საათები: </Text>
-                            <Text style={[styles.infoTitle, { fontFamily: 'Pangram-Medium' }]}>10:00 - 22:00</Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Bold' }]}>სამუშაო საათები: </Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Medium' }]}>10:00 - 22:00</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={[styles.infoTitle, { fontFamily: 'Pangram-Bold' }]}>მისამართი: </Text>
-                            <Text style={[styles.infoTitle, { fontFamily: 'Pangram-Medium' }]}>ვაჟა-ფშაველას N70</Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Bold' }]}>მისამართი: </Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Medium' }]}>ვაჟა-ფშაველას N70</Text>
                         </View>
                     </View>
                 </View>

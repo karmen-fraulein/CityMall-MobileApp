@@ -39,7 +39,7 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
 
         listName: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Bold',
+            fontFamily: 'HMPangram-Bold',
             fontSize: 14,
             lineHeight: 17,
             marginLeft: 5,
@@ -47,7 +47,7 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
 
         subMenuListText: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'Pangram-Medium',
+            fontFamily: 'HMPangram-Medium',
             fontSize: 14,
             lineHeight: 17,
             fontWeight: '500',

@@ -46,7 +46,7 @@ const AuthScreen: React.FC = (props) => {
             marginLeft: 10,
             fontSize: 14,
             fontWeight: '500',
-            fontFamily: 'HMPangram-Regular'
+            fontFamily: 'Pangram-Regular'
         },
 
         authBtn: {
@@ -65,6 +65,7 @@ const AuthScreen: React.FC = (props) => {
             },
             shadowOpacity: 0.25,
             shadowRadius: 4,
+            marginBottom: 10
         },
 
         btnText: {
@@ -161,12 +162,11 @@ const AuthScreen: React.FC = (props) => {
 
         return (
             <Layout>
-
-                <View  style={[Grid.col_12, { paddingHorizontal: '10%' }]}>
-                    <View style={[Grid.col_3, { justifyContent: 'center' }]}>
+                <View  style={{flex:1, paddingHorizontal: '10%', justifyContent: 'space-between' }}>
+                    <View style={{flex: 4, justifyContent: 'center' }}>
                         <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
                     </View>
-                    <View style={[Grid.col_4, { backgroundColor: 'blue' }]}>
+                    <View style={{flex: 6}}>
                         <View style={{ flexDirection: 'row' }}>
                             {/* <SelectDialCode onSelect = {handleSelectedValue}/> */}
                             <AppInput
@@ -176,34 +176,32 @@ const AuthScreen: React.FC = (props) => {
                                 onChangeText={(val: string) => setUserPhoneNumber(val)} />
                         </View>
                         {step === 1 && 
-                        <View style={[Grid.row_8, { marginTop: 60, justifyContent: 'space-around', backgroundColor: 'red' }]}>
+                        <View style={{ marginTop: 30 }}>
                             
                                     <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError} />
                                     {
                                         alreadyAgreedTerms? 
                                         null
                                         :
-                                        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                        <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                                         <AppChekBox
                                             checked={agreedTerms}
                                             onChange={toggleAgreedTerms}
                                             hasError={agreedTermsError} />
                                         <Text style={styles.agreeTermsText}>ვეთანხმები წესებს და პირობებს</Text>
-                                    </View>}
+                                    </View>
+                                    }
                         
                         </View>}
                     </View>
-                    <View style={[Grid.col_3, { justifyContent: 'flex-end' }]}>
-                        <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0 ? 'new' : 'signIn')} disabled={buttonLoading}>
+                    <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0 ? 'new' : 'signIn')} disabled={buttonLoading}>
                             {buttonLoading ?
                                 <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                                 :
                                 <Text style={styles.btnText}>{step === 0 ? 'კოდის მიღება' : 'ავტორიზაცია'}</Text>
                             }
                         </TouchableOpacity>
-                    </View>
                 </View>
-                {/* </KeyboardAvoidingView> */}
             </Layout>
         );
     };

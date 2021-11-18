@@ -105,7 +105,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                                     <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
                                 </TouchableOpacity>
                                 <TouchableOpacity >
-                                    <Text style={{ color: Colors.white, fontFamily: 'Pangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
+                                    <Text style={{ color: Colors.white, fontFamily: 'HMPangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
                                 </TouchableOpacity>
                                 <Image style={{ width: 135, height: 17 }} source={require('../../assets/images/city-mall-title.png')} />
                             </>
@@ -120,12 +120,13 @@ const Layout: React.FC<ILayoutProp> = (props) => {
             </ScrollView>
                     
         </KeyboardAvoidingView>
-            {keyBoardShown ?
+            {/* {keyBoardShown ?
                 null
-                :
+                : */}
                 <Animated.View style={[Grid.col_2, { justifyContent: 'flex-end' }]}>
                     <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
-                </Animated.View >}
+                </Animated.View >
+                {/* } */}
                 </SafeAreaView>
         
     );

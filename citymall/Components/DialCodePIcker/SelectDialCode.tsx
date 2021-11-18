@@ -65,7 +65,7 @@ const SelectDialCode: React.FC<ICountryCodeSelect> = (props) => {
             height: 45
         },
         title: {
-            fontFamily: 'Pangram-Medium',
+            fontFamily: 'HMPangram-Medium',
             fontSize: 14,
             lineHeight: 17,
             color: Colors.white
