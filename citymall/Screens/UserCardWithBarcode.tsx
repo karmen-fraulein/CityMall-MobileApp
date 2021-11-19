@@ -10,34 +10,54 @@ interface ICardWithBarcode {
 }
 
 const UserCardWithBarcode: React.FC = (props:any ) => {
+    const {cardDetails, isDarkTheme} = useContext(AppContext);
+
     const styles =StyleSheet.create({
+        cetneredView: {
+            flex: 1,
+            alignItems: 'center', 
+            justifyContent: 'center',  
+            position: 'relative', 
+            backgroundColor: isDarkTheme? Colors.black : Colors.white
+        },
+        card: {
+            width: 262,
+            height: 534,
+            borderRadius: 10,
+            
+        },
         barCode: {
-            height: 65,
-            width: 500,
+            height: 90,
+            width: 450,
             transform: [{rotate: '90deg'}],
             position: 'absolute',
-            top: 325,
-            left: -187,
+            top: 240,
+            left: -157,
           },
           cardnumber: {
             height: 65,
             width: 565,
             transform: [{rotate: '90deg'}],
             position: 'absolute',
-            top: 500,
-            left: -157,
+            fontFamily: 'HMpangram-Medium',
+            top: '75%',
+            left: -137,
             fontSize: 20
           }
           
     })
-    const {cardDetails} = useContext(AppContext)
-    const {cardnumber, barocdeUrl} = props;
+    
     return (
-            <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', padding: 30, position: 'relative', backgroundColor: Colors.black}} onPress = {()=> props.navigation.navigate('HomeScreen')}>
-                <Image source = {require('../assets/images/card-with-barcode.png')} style= {{maxWidth: 344, width: '100%', maxHeight: 705, height: '100%'}} />
+        <View style={styles.cetneredView}>
+            <TouchableOpacity style={styles.card} onPress = {()=> props.navigation.navigate('HomeScreen')}>
+                <Image source = {require('../assets/images/card-with-barcode.png')} style= {styles.card} />
                 <Image source = {{  uri: 'data:image/png;base64,'+cardDetails.barcode}} style={styles.barCode}/>
-                <Text style={styles.cardnumber}>{cardDetails.cardNumber}</Text>
+                <Text style={styles.cardnumber}>{cardDetails.cardNumber.replace(
+                    /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
+                    '$1  $2  $3  $4',
+                  )}</Text>
             </TouchableOpacity>  
+            </View>
     );
 };
 

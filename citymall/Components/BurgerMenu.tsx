@@ -9,22 +9,23 @@ import AuthService from '../Services/AuthService';
 
 const BurgerMenu: React.FC = (props) => {
 
-    const { setIsAuth, isDarkTheme } = useContext(AppContext)
+    const { setIsAuth, isDarkTheme, clientDetails } = useContext(AppContext)
 
     const styles = StyleSheet.create({
         burgerMenuCont: {
             flex: 1,
             backgroundColor: isDarkTheme ? Colors.black : Colors.white,
-            paddingLeft: '8%'
+           
+            
         },
         burgerMenuHeader: {
             height: Grid.col_2.height,
             justifyContent: 'space-around',
-            paddingRight: '8%'
+            paddingHorizontal: '8%'
         },
         usernameText: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMPangram-Medium',
+            fontFamily: 'HMpangram-Medium',
             fontSize: 12,
             lineHeight: 15,
             fontWeight: '500'
@@ -35,6 +36,7 @@ const BurgerMenu: React.FC = (props) => {
             justifyContent: 'center',
             paddingRight: '8%'
 
+
         },
 
         logoutBtn: {
@@ -44,6 +46,14 @@ const BurgerMenu: React.FC = (props) => {
             backgroundColor: Colors.darkGrey,
             justifyContent: 'center',
             alignItems: 'center'
+        },
+
+        logoutBtnText: {
+            fontFamily: 'HMpangram-Bold',
+            textTransform: 'uppercase',
+            fontSize: 14,
+            lineHeight: 17,
+            color: isDarkTheme? Colors.white : Colors.black
         }
     });
 
@@ -51,10 +61,10 @@ const BurgerMenu: React.FC = (props) => {
         <SafeAreaView style={styles.burgerMenuCont}>
             <View style={styles.burgerMenuHeader}>
                 <Image source={require('../assets/images/city-mall-title.png')} style={{ width: 135, height: 17 }} />
-                <Text style={styles.usernameText}>გვანცა გაბუნია</Text>
+                <Text style={styles.usernameText}>{clientDetails?.[0]?.firstName} {clientDetails?.[0]?.lastName}</Text>
                 <Image source={require('../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
-            <ScrollView contentContainerStyle={{ marginVertical: '10%' }}>
+            <ScrollView contentContainerStyle={{ marginVertical: '10%', paddingLeft: '8%' }}>
                 {DrawerItems.map((item: any, index: number) => (
                     item.name === '_blank' ?
                         <View style={styles.burgerMenuSeparator} key='_blank'>
@@ -64,12 +74,12 @@ const BurgerMenu: React.FC = (props) => {
                         <BurgerMenuItem item={item} key={index} />
                 ))}
             </ScrollView>
-            <View style={[Grid.col_1, { justifyContent: 'flex-start' }]}>
+            <View style={[Grid.col_1, { justifyContent: 'flex-start', marginLeft: '8%'  }]}>
                 <TouchableOpacity style={styles.logoutBtn} onPress={() => {
                     AuthService.SignOut();
                     setIsAuth(false);
                 }}>
-                    <Text>გამოსვლა</Text>
+                    <Text style={styles.logoutBtnText}>გამოსვლა</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

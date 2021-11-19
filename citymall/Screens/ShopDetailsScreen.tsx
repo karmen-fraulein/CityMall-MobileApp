@@ -62,12 +62,12 @@ const ShopDetailsScreen = () => {
             height: height / 2,
         },
         pageTitle: {
-            fontFamily: 'HMPangram-Bold',
-            fontSize: 14,
+            fontFamily: 'HMpangram-Bold',
+            fontSize: 16,
             lineHeight: 17,
             textAlign: 'center',
             position: 'absolute',
-            top: 17,
+            top: 47,
             width: '80%',
             left: 30,
             color: isDarkTheme ? Colors.white : Colors.black,
@@ -83,13 +83,13 @@ const ShopDetailsScreen = () => {
             justifyContent: 'space-between',
         },
         shopName: {
-            fontFamily: 'HMPangram-Bold',
+            fontFamily: 'HMpangram-Bold',
             fontSize: 16,
             lineHeight: 19,
             color: isDarkTheme ? Colors.white : Colors.black,
         },
         shopDesc: {
-            fontFamily: 'HMPangram-Medium',
+            fontFamily: 'HMpangram-Medium',
             fontSize: 12,
             lineHeight: 14,
             color: isDarkTheme ? Colors.white : Colors.black,
@@ -98,7 +98,7 @@ const ShopDetailsScreen = () => {
             marginTop: 19
         },
         infoTitle: {
-            fontFamily: 'HMPangram-Bold',
+            fontFamily: 'HMpangram-Bold',
             fontSize: 12,
             lineHeight: 20,
             color: isDarkTheme ? Colors.white : Colors.black,
@@ -111,8 +111,6 @@ const ShopDetailsScreen = () => {
             height: '100%',
             maxHeight: 322,
             marginTop: '8%'
-           
-            
         }
 
     });
@@ -126,11 +124,11 @@ const ShopDetailsScreen = () => {
 
     return (
         <View style={{ flex: 1, position: 'relative' }}>
-            <ScrollView style = {{backgroundColor: 'red'}} contentContainerStyle={{ flexGrow: 1, backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
+            <ScrollView style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white,}} contentContainerStyle={{ flexGrow: 1, backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
                 <View style={styles.baner}>
                     <Image source={require('../assets/images/shop-details-bg.png')} style={{ width: width, height: (height / 2) }} />
                     <Text style={styles.pageTitle}>საბურთალოს ფილიალი</Text>
-                    <TouchableOpacity onPress ={() => GoBack()} style={{ position: 'absolute', top: 12, left: 15, width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}>
+                    <TouchableOpacity onPress ={() => GoBack()} style={{ position: 'absolute', top: 42, left: 15, width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}>
                         <Image source={require('../assets/images/back-arrow.png')} style={{ width: 12, height: 12 }} />
                     </TouchableOpacity>
                 </View>
@@ -156,16 +154,16 @@ const ShopDetailsScreen = () => {
                     <View style={{ height: 1, width: '75%', backgroundColor: isDarkTheme ? Colors.white : Colors.black, marginTop: 25 }} />
                     <View style={styles.shopContactInfo}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Bold' }]}>ტელეფონი: </Text>
-                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Medium' }]}>+995 595 491 033</Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMpangram-Bold' }]}>ტელეფონი: </Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMpangram-Medium' }]}>+995 595 491 033</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Bold' }]}>სამუშაო საათები: </Text>
-                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Medium' }]}>10:00 - 22:00</Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMpangram-Bold' }]}>სამუშაო საათები: </Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMpangram-Medium' }]}>10:00 - 22:00</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Bold' }]}>მისამართი: </Text>
-                            <Text style={[styles.infoTitle, { fontFamily: 'HMPangram-Medium' }]}>ვაჟა-ფშაველას N70</Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMpangram-Bold' }]}>მისამართი: </Text>
+                            <Text style={[styles.infoTitle, { fontFamily: 'HMpangram-Medium' }]}>ვაჟა-ფშაველას N70</Text>
                         </View>
                     </View>
                 </View>

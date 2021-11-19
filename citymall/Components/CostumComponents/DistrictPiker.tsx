@@ -85,7 +85,8 @@ const DistrictPiker = (props: any) => {
             paddingBottom: 10,
             paddingHorizontal: 10,
             borderBottomColor: isDarkTheme ? Colors.white : Colors.black,
-            borderBottomWidth: 1
+            borderBottomWidth: 1,
+            height: 65
         },
 
         itemText: {

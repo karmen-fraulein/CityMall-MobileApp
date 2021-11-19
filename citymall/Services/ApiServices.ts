@@ -33,7 +33,7 @@ interface IAddVirtualCardRequest {
     lastName: string,
     phone: string,
     email: string,
-    address: string | number,
+    address: string | undefined,
     sex: number,
     mailOtp: string
 }

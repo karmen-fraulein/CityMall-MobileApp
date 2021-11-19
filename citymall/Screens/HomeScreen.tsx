@@ -125,7 +125,7 @@ const HomeScreen = (props: any) => {
                 setInitLoading(false);
             });
     };
-
+    console.log(clientDetails)
     const handleGetBarcode = (card: string) => {
         ApiServices.GenerateBarcode(card)
             .then(res => {
@@ -170,15 +170,16 @@ const HomeScreen = (props: any) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            paddingHorizontal: '7%',
         },
         promotionsTitle: {
             color: Colors.white,
-            fontFamily: 'HMPangram-Bold',
+            fontFamily: 'HMpangram-Bold',
             fontSize: 14,
             lineHeight: 17,
             fontWeight: '900',
             textTransform: 'uppercase',
-            textAlign: 'center'
+            textAlign: 'center',
         },
         authBtn: {
             flexDirection: 'row',
@@ -187,12 +188,7 @@ const HomeScreen = (props: any) => {
 
         },
 
-        authBtnText: {
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: '900',
-            marginVertical: 10
-        }
+     
     });
 
     useEffect(() => {
@@ -211,37 +207,31 @@ const HomeScreen = (props: any) => {
 
     return (
         <AppLayout >
-            <View style={[Grid.col_12, { backgroundColor: Colors.black, }]}>
-                <View style={[Grid.col_5, { justifyContent: 'center' }]}>
+            <View style={{ flex: 1, backgroundColor: Colors.black }}>
+                <View style={[Grid.col_4, { justifyContent: 'center' }]}>
                     {!initLoading ?
                         <UserCardSmall
-                            cardnumber={clientDetails?.[0]?.card}
+                            cardnumber={clientDetails?.[0]?.card.replace(
+                                /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
+                                '$1  $2  $3  $4',
+                              )}
                             navigateToBarCode={() => props.navigation.navigate('UserCardWithBarcode')}
                             navigateToReg={() => props.navigation.navigate('RegistrationScreen')} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
-
-                    <View style={[Grid.col_2, { justifyContent: 'space-around' }]}>
-                        {clientDetails?.[0]?.card ?
-                            null
-                            :
-                            <TouchableOpacity style={sytles.authBtn} onPress={() => props.navigation.navigate('RegistrationScreen')}>
-                                <Text style={sytles.authBtnText}>რეგისტრაცია</Text>
-                                <Image style={{ marginLeft: 7, width: 7, height: 7 }} source={require('../assets/images/arrow-sm.png')} />
-                            </TouchableOpacity>}
-                        <Image source={require('../assets/images/gradient-line.png')} />
-                    </View>
+                    
+                   
                 </View>
-                <View style={[Grid.col_7, { padding: '7%' }]}>
-
+                <Image style={{width: '100%'}} source={require('../assets/images/gradient-line.png')} />
+                <View style={[Grid.col_8, {  }]}>
                     <View style={[Grid.col_12]}>
                         <View style={[Grid.col_1, sytles.promotionContainer]}>
                             <Text style={sytles.promotionsTitle}>შეთავაზებები</Text>
                             <PaginationDots length={offers?.length} step={offersStep} />
                         </View>
-                        <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
-                            <ScrollView contentContainerStyle={{ flexDirection: 'row' }} horizontal={true} onScroll={handleOffersScroll}>
+                        <ScrollView contentContainerStyle={{flexDirection: "row" }} showsVerticalScrollIndicator = {false}>
+                            <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
                                 {offers?.map((el, i) => (
                                     <View key={i}>
                                         {el}

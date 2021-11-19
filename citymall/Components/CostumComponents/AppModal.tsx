@@ -60,7 +60,7 @@ const AppModal = () => {
         },
 
         modalTitle: {
-            fontFamily: 'HMPangram-Bold',
+            fontFamily: 'HMpangram-Bold',
             fontSize: 18,
             lineHeight: 22,
             color:  isDarkTheme? Colors.white : Colors.black,
@@ -68,7 +68,7 @@ const AppModal = () => {
         },
 
         modalMessage: {
-            fontFamily: 'HMPangram-Regular',
+            fontFamily: 'HMpangram-Medium',
             fontSize: 14,
             lineHeight: 16,
             textAlign: 'center',
@@ -89,7 +89,7 @@ const AppModal = () => {
         },
         
         modalBtnTitle: {
-            fontFamily: 'HMPangram-Bold',
+            fontFamily: 'HMpangram-Bold',
             fontSize: 14,
             lineHeight: 16,
             textAlign: 'center',
@@ -111,7 +111,8 @@ const AppModal = () => {
             bottom: 0,
             alignItems: 'center',
             justifyContent: 'center',
-            elevation: 10
+            elevation: 10,
+            flex: 1
         },
 
     });

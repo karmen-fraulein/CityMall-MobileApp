@@ -21,29 +21,30 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
         },
         otpTitle: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMPangram-Medium',
+            fontFamily: 'HMpangram-Medium',
             fontSize: 13,
             fontWeight: '500',
             lineHeight: 17,
-            marginBottom: 10
         },
         otpInput: {
-            paddingVertical: 12,
+            paddingHorizontal: 12,
+            paddingTop: 12,
+            paddingBottom: 16,
             color: isDarkTheme ? Colors.white : Colors.black
         },
         otpIputPlaceholder : {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMPangram-Bold',
+            fontFamily: 'HMpangram-Bold',
             fontSize: 13,
         },
         otpResend: {
             position: 'absolute',
-            top: 44,
+            top: 28,
             right: 5
         },
         otpResendText: {
             color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMPangram-Medium',
+            fontFamily: 'HMpangram-Medium',
             fontSize: 13,
             fontWeight: '500',
             lineHeight: 17,
@@ -53,7 +54,7 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
             bottom: -20,
             color: Colors.red,
             fontSize: 11,
-            fontFamily: 'HMPangram-Regular'
+            fontFamily: 'HMpangram-Medium'
         }
     });
 
@@ -82,7 +83,6 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
                 onChangeText={(val: string) => handleOneTimePasscode(val)}
                 maxLength={4}
                 keyboardType='numeric'
-                autoFocus = {true}
                 textContentType = 'oneTimeCode'
             />
             <TouchableOpacity style={styles.otpResend} onPress={resend}>
