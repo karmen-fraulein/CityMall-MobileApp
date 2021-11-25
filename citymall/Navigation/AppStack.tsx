@@ -1,4 +1,5 @@
 import React, {useContext, useEffect} from 'react';
+import { AppContext } from '../AppContext/AppContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from '../Services/NavigationServices';
@@ -6,9 +7,9 @@ import HomeScreen from '../Screens/HomeScreen';
 import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
-import { AppContext } from '../AppContext/AppContext';
 import WorkingScreen from '../Screens/WorkingScreen';
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
+import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,8 +24,8 @@ const AppStack = () => {
     return (
         !isAuthenticated?
         
-       //<RegistrationScreen/>
-        <AuthScreen/>
+       <OrderGiftCardScreen/>
+        //<AuthScreen/>
         //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>

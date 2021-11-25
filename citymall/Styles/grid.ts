@@ -19,7 +19,7 @@ const Grid = StyleSheet.create({
         height: '16.6666666667%'
     },
     col_3: {
-       //borderWidth: 1,
+       borderWidth: 1,
         borderColor: 'red',
         height: '25%'
     },

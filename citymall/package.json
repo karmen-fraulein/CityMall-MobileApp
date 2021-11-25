@@ -18,7 +18,7 @@
     "axios": "^0.24.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
-    "react-native-codegen": "^0.0.11",
+    "react-native-codegen": "0.0.11",
     "react-native-datepicker": "^1.7.2",
     "react-native-dotenv": "^3.3.0",
     "react-native-gesture-handler": "^1.10.3",
@@ -47,8 +47,10 @@
     "@types/react": "^17"
   },
   "rnpm": {
-    "assets": ["./assets/fonts"]
- },
+    "assets": [
+      "./assets/fonts"
+    ]
+  },
   "jest": {
     "preset": "react-native",
     "moduleFileExtensions": [

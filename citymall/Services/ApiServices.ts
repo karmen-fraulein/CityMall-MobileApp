@@ -38,6 +38,15 @@ interface IAddVirtualCardRequest {
     mailOtp: string
 }
 
+export interface IGiftCardOrderRequest {
+    name: string,
+    phone: string,
+    orderDetails: string,
+    deliveryType: number,
+    deliveryServiceCenter: number,
+    courierDetails: string
+}
+
 export interface IDisctrictsRespone {
     id: number,
     name: string
@@ -64,9 +73,15 @@ class ApiServices {
         return await axios.post(`${envs.API_URL}/api/Clients/AddVirtCard`, data);
     };
 
-    GetDistricts = async() => {
+    GetDistricts = async () => {
         return await axios.get<IDisctrictsRespone>(`${envs.API_URL}/api/Organisation/GetDistricts`)
+    };
+
+    OrderGiftCard = async (data: IGiftCardOrderRequest) => {
+        return await axios.post(`${envs.API_URL}/api/Cards/order`, data)
     }
+
+
 };
 
 export default new ApiServices();

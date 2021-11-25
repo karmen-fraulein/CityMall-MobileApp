@@ -16,12 +16,11 @@ interface ILayoutProp {
 
 const Layout: React.FC<ILayoutProp> = (props) => {
     const { isDarkTheme } = useContext(AppContext);
-    const {width} = useDimension();
+    const {width, height} = useDimension();
     const DownArrowAnim = useRef(new Animated.Value(0));
     const UpArrowAnim = useRef(new Animated.Value(0));
 
     const [keyBoardShown, setKeyBoardShown] = useState<boolean>(false)
-
 
     const styles = StyleSheet.create({
         layout: {
