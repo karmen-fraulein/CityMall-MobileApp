@@ -21,8 +21,27 @@ export function GoBack() {
 export function toggleDrawer () {
   if (navigationRef.isReady()) {
     
+    navigationRef.dispatch(DrawerActions.toggleDrawer())
+  } 
+};
+
+export function openDrawer () {
+  if (navigationRef.isReady()) {
+    
     navigationRef.dispatch(DrawerActions.openDrawer())
   } 
-}
+};
+
+export function closeDrawer () {
+  if (navigationRef.isReady()) {
+    
+    navigationRef.dispatch(DrawerActions.closeDrawer())
+  } 
+};
+
+        
+
+
+
 
 // add other navigation functions that you need and export them

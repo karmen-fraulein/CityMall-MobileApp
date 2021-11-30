@@ -3,6 +3,7 @@ import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } 
 import { ScrollView } from "react-native-gesture-handler";
 import { AppContext } from "../AppContext/AppContext";
 import { Colors } from "../Colors/Colors";
+import { navigate } from "../Services/NavigationServices";
 import Grid from "../Styles/grid";
 
 interface IBmItem {
@@ -65,7 +66,7 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
             {
                 isColapsed ?
                     <View style={{ paddingStart: '8%' }}>
-                        <TouchableOpacity style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate(props.item._children[0].route)}>
                             <Text style={styles.subMenuListText}>{props.item._children[0].location}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ flexDirection: 'row' }}>
@@ -75,7 +76,7 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
                     : null
             }
         </ScrollView>
-    )
+    );
 };
 
 export default BurgerMenuItem;

@@ -76,10 +76,11 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'სითმოლი საბურთალო'
+                location: 'სასაჩუქრე ბარათის შეკვეთა',
+                route: 'OrderGiftCardScreen'
             },
             {
-                location: 'სითმოლი გლდანი'
+                location: 'ნაშთის შემოწმება'
             }
         ]
     },

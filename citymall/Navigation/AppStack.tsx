@@ -24,8 +24,8 @@ const AppStack = () => {
     return (
         !isAuthenticated?
         
-       <OrderGiftCardScreen/>
-        //<AuthScreen/>
+       //<OrderGiftCardScreen/>
+        <AuthScreen/>
         //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>
@@ -61,6 +61,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='ShopDetailsScreen'
                     component={ShopDetailsScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='OrderGiftCardScreen'
+                    component={OrderGiftCardScreen}
                     options={{
                         headerShown: false,
                     }}

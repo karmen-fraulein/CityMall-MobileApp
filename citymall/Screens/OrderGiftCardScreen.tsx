@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
+import AppButton from '../Components/CostumComponents/AppButton';
 import AppChekBox from '../Components/CostumComponents/AppChekBox';
+
 import AppInput from '../Components/CostumComponents/AppInput';
 import Layout from '../Components/Layouts/Layout';
 import { useDimension } from '../Hooks/UseDimension';
 import ApiServices, { IServiceCenter, IServiceCenterResponse } from '../Services/ApiServices';
+import { navigate } from '../Services/NavigationServices';
 import Grid from '../Styles/grid';
 
 interface IDeliveryOption {
@@ -14,32 +18,37 @@ interface IDeliveryOption {
     curierDelivery: boolean
 };
 
-const deliveryOption = [
-    {
-        id: 1,
-        name: 'სითი მოლიდან '
-    }
-]
-
 
 const OrderGiftCardScreen = () => {
     const { isDarkTheme } = useContext(AppContext)
     const { width, height } = useDimension();
     const [step, setStep] = useState<number>(0);
+    const [btnLoading, setBtnLoading] = useState<boolean>(false);
     const [customer, setCustomer] = useState<string>('');
-    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [customerError, setCustomerError] = useState<string>('');
+    const [phoneNumber, setPhoneNumber] = useState<string>('995');
+    const [phoneNumberError, setPhoneNumberError] = useState<string>('');
     const [orderDetails, setOrderDetails] = useState<string>('');
+    const [orderDetailsError, setOrderDetailsError] = useState<string>('');
     const [address, setAddress] = useState<string>('');
+    const [addressError, setAddressError] = useState<string>('');
     const [deliveryOption, setDeliveryOption] = useState<IDeliveryOption>({ fromCityMall: false, curierDelivery: false });
     const [serviceCenters, setServiceCenters] = useState([]);
     const [checkedServiceCenter, setChekedServiceCenter] = useState<IServiceCenter>({ id: 0, name: '', checked: false });
     const [resSuccess, setRespSuccess] = useState<boolean>(false);
 
-    // console.log('width -->', width, 'height -->', height)
 
     useEffect(() => {
         hanldeGetServiceCenters();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (phoneNumber.length === 12 || phoneNumber.length === 3) {
+            setPhoneNumberError('');
+        } else {
+            setPhoneNumberError('მობილურის ნომერი არასწორია')
+        }
+    }, [phoneNumber]);
 
     const styles = StyleSheet.create({
         infoText: {
@@ -59,6 +68,7 @@ const OrderGiftCardScreen = () => {
         },
         detailsText: {
             width: '100%',
+            height: 80,
             borderWidth: 1,
             borderColor: isDarkTheme ? Colors.white : Colors.black,
             borderRadius: 5,
@@ -83,8 +93,57 @@ const OrderGiftCardScreen = () => {
             lineHeight: 18,
             textTransform: 'uppercase',
             marginLeft: 5
+        },
+        responseText: {
+            color: isDarkTheme ? Colors.white : Colors.black,
+            fontFamily: 'HMpangram-Bold',
+            fontWeight: '700',
+            fontSize: 18,
+            lineHeight: 21,
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            width: 300,
+            alignSelf: 'center'
+        },
+        responseImg: {
+            width: 64,
+            height: 64,
+            alignSelf: 'center',
+            marginBottom: 36
+        },
+        btnStyle: {
+            width: '100%',
+            maxWidth: 325,
+
+            height: 66,
+            backgroundColor: Colors.darkGrey,
+            borderRadius: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center'
+        },
+        btnTitleStyle: {
+            color: Colors.white,
+            fontFamily: 'HMpangram-Bold',
+            textAlign: 'center',
+            fontSize: 14,
+            lineHeight: 17,
+            textTransform: 'uppercase'
+        },
+        errorText: {
+
+            color: Colors.red,
+            fontSize: 11,
+            fontFamily: 'HMpangram-Medium'
         }
     });
+
+    const loaderStyle = {
+        size: 'small',
+        color: Colors.white
+    }
+
+
 
     const conditionalpadding = () => {
         if (width > 412) {
@@ -96,12 +155,57 @@ const OrderGiftCardScreen = () => {
         }
     };
 
+    const handlePhoneNumber = (value: string) => {
+        if (value.length < 3) {
+            return;
+        } else {
+            setPhoneNumber(value);
+        }
+    }
+
+    const handleValidateInputs = (name: string, value: string) => {
+        switch (name) {
+            case 'customer':
+                if (value === '') {
+                    setCustomerError('გთხოვთ შეავსოთ ველი');
+                } else {
+                    if (customerError) {
+                        setCustomerError('');
+                    }
+                }
+                break;
+            case 'orderDetails':
+                if (value === '') {
+                    setOrderDetailsError('გთხოვთ შეავსოთ ველი');
+                } else {
+                    if (orderDetailsError) {
+                        setOrderDetailsError('');
+                    }
+                }
+                break;
+            case 'address':
+                if (value === '') {
+                    setAddressError('გთხოვთ შეავსოთ ველი');
+                } else {
+                    if (addressError) {
+                        setAddressError('');
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
     const toggleDeliveryOption = (option: string) => {
         if (option === 'fromMall') {
             setDeliveryOption({ fromCityMall: true, curierDelivery: false });
         } else {
             setDeliveryOption({ fromCityMall: false, curierDelivery: true });
-        }
+        };
+        Keyboard.dismiss();
     };
 
     const togglePickupLocation = (index: number) => {
@@ -129,12 +233,22 @@ const OrderGiftCardScreen = () => {
             setServiceCenters(tempServiceCenters);
         })
             .catch(e => {
-                console.log(1)
                 console.log(JSON.parse(JSON.stringify(e)));
             });
     }
 
     const handleGiftCardOrder = () => {
+        if(phoneNumberError || customerError || orderDetailsError) {
+            return;
+        };
+        if(deliveryOption.fromCityMall && checkedServiceCenter.id === 0) {
+            return;
+        } else {
+            if(addressError) {
+                return;
+            };
+        };
+        setBtnLoading(true);
         let data;
         data = {
             name: customer,
@@ -154,20 +268,21 @@ const OrderGiftCardScreen = () => {
             }
         }
         ApiServices.OrderGiftCard(data).then(res => {
-            if(res.status === 200) {
+            if (res.status === 200) {
                 setRespSuccess(true);
+                setBtnLoading(false);
                 setStep(2);
-                
+
             }
         })
-         .catch(e => {
-            setRespSuccess(false);
-             setStep(2);
+            .catch(e => {
+                setRespSuccess(false);
+                setBtnLoading(false);
+                setStep(2);
                 console.log(JSON.parse(JSON.stringify(e)));
             });
     };
 
-    console.log(checkedServiceCenter)
 
     const GiftCards = () => (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -182,7 +297,7 @@ const OrderGiftCardScreen = () => {
     if (step === 0) {
         GiftCardOrderStep = (
             <View style={{ flex: 1, paddingHorizontal: conditionalpadding(), justifyContent: 'flex-end' }}>
-                <View style={{ height: Grid.col_10.height, justifyContent: 'space-between' }}>
+                <View style={{ height: Grid.col_11.height, justifyContent: 'space-between' }}>
                     <View>
                         <GiftCards />
                         <View style={{ marginTop: 44 }}>
@@ -192,11 +307,14 @@ const OrderGiftCardScreen = () => {
                         </View>
                     </View>
                     <View style={{ alignItems: 'flex-end' }}>
-                        <Pressable onPress={() => setStep(1)} style={{ width: 325, height: 66, backgroundColor: Colors.darkGrey, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: Colors.white }}>
-                                შემდეგი
-                            </Text>
-                        </Pressable>
+                        <AppButton
+                            btnStyle={styles.btnStyle}
+                            titleStyle={styles.btnTitleStyle}
+                            loaderStyle={loaderStyle}
+                            loading={btnLoading}
+                            title='შემდეგი'
+                            onPress={() => setStep(1)}
+                        />
                     </View>
                 </View>
             </View>
@@ -204,7 +322,7 @@ const OrderGiftCardScreen = () => {
     } else if (step === 1) {
         GiftCardOrderStep = (
             <View
-                style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: conditionalpadding() }}>
+                style={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: conditionalpadding(), paddingBottom: 10 }}>
                 <Text style={styles.orderCardTitle}>
                     შეუკვეთე ბარათ(ებ)ი
                 </Text>
@@ -212,11 +330,17 @@ const OrderGiftCardScreen = () => {
                 <AppInput
                     placeholder='სახელი გვარი'
                     value={customer}
-                    onChangeText={(newValue: string) => setCustomer(newValue)} />
+                    onChangeText={(newValue: string) => setCustomer(newValue)}
+                    onBlur={() => handleValidateInputs('customer', customer)} />
+                {customerError.length > 0 && <Text style={styles.errorText}>{customerError}</Text>}
                 <AppInput
                     placeholder='მობილურის ნომერი'
                     value={phoneNumber}
-                    onChangeText={(newValue: string) => setPhoneNumber(newValue)} />
+                    onChangeText={(newValue: string) => handlePhoneNumber(newValue)}
+                    keyboardType='numeric'
+                    maxLength={12} />
+                {phoneNumberError.length > 0 && <Text style={styles.errorText}>{phoneNumberError}</Text>}
+
                 <Text style={[styles.orderCardTitle, { marginTop: 30 }]}>
                     შეკვეთის დეტალები
                 </Text>
@@ -226,8 +350,10 @@ const OrderGiftCardScreen = () => {
                     placeholderTextColor={Colors.darkGrey}
                     value={orderDetails}
                     onChangeText={(newValue: string) => setOrderDetails(newValue)}
+                    onBlur={() => handleValidateInputs('orderDetails', orderDetails)}
                     multiline={true}
                     numberOfLines={4} />
+                {orderDetailsError.length > 0 && <Text style={styles.errorText}>{orderDetailsError}</Text>}
                 <TouchableOpacity
                     style={styles.checkBoxWithLabel}
                     onPress={() => toggleDeliveryOption('fromMall')}>
@@ -267,22 +393,44 @@ const OrderGiftCardScreen = () => {
                             value={address}
                             onChangeText={(newValue: string) => setAddress(newValue)}
                             multiline={true}
-                            numberOfLines={4} />
-                    </View>}
-                <Pressable onPress={handleGiftCardOrder} style={{ width: 325, height: 66, backgroundColor: Colors.darkGrey, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: Colors.white }}>
-                        შეუკვეთე
-                    </Text>
-                </Pressable>
+                            numberOfLines={4}
+                            onBlur={() => handleValidateInputs('address', address)} />
+                        {addressError.length > 0 && <Text style={styles.errorText}>{addressError}</Text>}
+                    </View>
+                }
+
+                <AppButton
+                    btnStyle={styles.btnStyle}
+                    titleStyle={styles.btnTitleStyle}
+                    loaderStyle={loaderStyle}
+                    loading={btnLoading}
+                    title='შემდეგი'
+                    onPress={handleGiftCardOrder}
+                />
             </View>
         );
     } else {
-        <View>
-            <View>
-                <Image source = {require('../assets/images/success-mark.png')} style= {{width: 64, height: 64}} />
-                <Text >შეკვეთა წარმატებით დასრულდა</Text>
+        GiftCardOrderStep = (
+            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                <View style={{ justifyContent: 'space-between', height: Grid.col_9.height }}>
+                    {!resSuccess ?
+                        <View>
+                            <Image source={require('../assets/images/error-mark.png')} style={styles.responseImg} />
+                            <Text style={styles.responseText}>დაფიქსირდა შეცდომა</Text>
+                        </View>
+                        :
+                        <View>
+                            <Image source={require('../assets/images/success-mark.png')} style={styles.responseImg} />
+                            <Text style={styles.responseText}>შეკვეთა წარმატებით დასრულდა</Text>
+                        </View>}
+                    <Pressable onPress={() => navigate('HomeScreen')} style={{ width: 325, height: 66, backgroundColor: Colors.darkGrey, borderRadius: 50, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
+                        <Text style={{ color: Colors.white }}>
+                            დახურვა
+                        </Text>
+                    </Pressable>
+                </View>
             </View>
-        </View>
+        );
     };
 
 

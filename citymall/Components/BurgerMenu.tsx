@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Grid from '../Styles/grid';
 import { Colors } from '../Colors/Colors';
@@ -6,10 +6,18 @@ import BurgerMenuItem from './BurgerMenuItem';
 import DrawerItems from '../Constants/DrawerItems';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
+import { closeDrawer } from '../Services/NavigationServices';
 
 const BurgerMenu: React.FC = (props) => {
 
-    const { setIsAuth, isDarkTheme, clientDetails } = useContext(AppContext)
+    const { setIsAuth, isDarkTheme, clientDetails } = useContext(AppContext);
+
+    useEffect(() => {
+        
+        return () => {
+            closeDrawer();
+        }
+    }, [])
 
     const styles = StyleSheet.create({
         burgerMenuCont: {
