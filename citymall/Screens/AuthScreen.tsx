@@ -8,7 +8,7 @@ import Layout from '../Components/Layouts/Layout';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
 import { setItem, getItem } from '../Services/StorageService';
-import DialCodePicker from '../Components/DialCodePIcker/DialCodePIcker';
+import DialCodePicker from '../Components/CostumComponents/DialCodePicker';
 
 
 const AuthScreen: React.FC = (props) => {
@@ -101,7 +101,7 @@ const AuthScreen: React.FC = (props) => {
     useEffect(() => {
         if(selectedDialCode === '+995' && (userPhoneNumber.length === 9 || userPhoneNumber == '')) {
             setPhoneNumberError('');
-        } else {
+        } else if (selectedDialCode === '+995' && (userPhoneNumber.length !== 9 || userPhoneNumber !== '')) {
             setPhoneNumberError('მობილური ნომერი არასწორია');
         }
     }, [selectedDialCode, userPhoneNumber])
@@ -171,7 +171,11 @@ const AuthScreen: React.FC = (props) => {
                 </View>
                 <View style={{ flex: 6 }}>
                     <View style={{ flexDirection: 'row' }}>
-                        <DialCodePicker onSelect={handleSelectedValue} />
+                        <View>
+                        <DialCodePicker onSelect={handleSelectedValue}/>
+                        </View>
+                        {/* <DialCodePicker onSelect={handleSelectedValue} /> */}
+                        <View style={{width: '80%',  justifyContent: 'flex-end'}}>
                         <AppInput
                             style={{ color: isDarkTheme ? Colors.white : Colors.black}}
                             keyboardType='numeric'
@@ -179,6 +183,7 @@ const AuthScreen: React.FC = (props) => {
                             maxLength = {selectedDialCode == '+995'? 9  : undefined}
                             onChangeText={(val: string) => setUserPhoneNumber(val)} />
                             {phoneNumberError? <Text style={styles.errorText}>{phoneNumberError}</Text> : null}
+                            </View>
                     </View>
                     {step === 1 &&
                         <View style={{ marginTop: 30 }}>

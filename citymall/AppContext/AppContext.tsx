@@ -19,7 +19,7 @@ export interface IApp {
 const AppState: IApp = {
     isAuthenticated: false,
     setIsAuth: (value: boolean) => { },
-    isDarkTheme: true,
+    isDarkTheme: false,
     setAppTheme: (value: boolean) => { },
     clientDetails: {},
     setDetails: (data: any) => { },

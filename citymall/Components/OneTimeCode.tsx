@@ -16,7 +16,7 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
         otpContainer: {
             position: 'relative',
             width: '100%',
-            borderColor: Colors.white,
+            borderColor: isDarkTheme ? Colors.white : Colors.black,
             borderBottomWidth: 1,
         },
         otpTitle: {

@@ -1,9 +1,85 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
 
 const PromotionBox = (props: any) => {
+    const {isDarkTheme} = useContext(AppContext);
+
+    const styles = StyleSheet.create({
+        promotionBox: {
+            width: 159,
+            height: 180,
+            borderRadius: 10,
+            margin: 10,
+        },
+        container: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 46,
+            height: 12,
+            borderRadius: 10,
+            position: 'absolute',
+            top: 9,
+            left: 9,
+            zIndex: 1,
+    
+        },
+    
+        promotionImg: {
+            position: 'relative',
+            width: 159,
+            height: 113,
+            borderTopRightRadius: 10,
+            borderTopLeftRadius: 10
+        },
+    
+        promotionTitle: {
+            height: 24,
+            fontFamily: 'HMpangram-Medium',
+            textTransform: 'uppercase',
+            fontWeight: '500',
+            fontSize: 10,
+            lineHeight: 12,
+            color: isDarkTheme? Colors.white : Colors.black,
+            margin: 6
+        },
+    
+        promotionBodyText: {
+            fontFamily: 'HMpangram-Medium',
+            textTransform: 'uppercase',
+            fontWeight: '500',
+            fontSize: 9,
+            lineHeight: 11,
+            color: isDarkTheme? Colors.white : Colors.black,
+            marginLeft: 6,
+            marginBottom: 9,
+            
+        },
+    
+        promotionBottom: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+    
+        promotionBottomText: {
+            color: isDarkTheme? Colors.white : Colors.black,
+            fontFamily: 'HMpangram-Bold',
+            fontSize: 7,
+            lineHeight: 9,
+            marginRight: 2,
+            marginLeft: 6,
+    
+        },
+    
+        promotionBottomImg: {
+            width: 4,
+            height: 4
+        }
+    
+    
+    })
     return (
         <TouchableOpacity onPress = {() =>navigate('ShopDetailsScreen')}>
         <View style={styles.promotionBox}>
@@ -23,78 +99,6 @@ const PromotionBox = (props: any) => {
     );
 };
 
-const styles = StyleSheet.create({
-    promotionBox: {
-        width: 159,
-        height: 180,
-        borderRadius: 10,
-        margin: 10,
-    },
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 46,
-        height: 12,
-        borderRadius: 10,
-        position: 'absolute',
-        top: 9,
-        left: 9,
-        zIndex: 1,
 
-    },
-
-    promotionImg: {
-        position: 'relative',
-        width: 159,
-        height: 113,
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10
-    },
-
-    promotionTitle: {
-        height: 24,
-        fontFamily: 'HMpangram-Medium',
-        textTransform: 'uppercase',
-        fontWeight: '500',
-        fontSize: 10,
-        lineHeight: 12,
-        color: Colors.white,
-        margin: 6
-    },
-
-    promotionBodyText: {
-        fontFamily: 'HMpangram-Medium',
-        textTransform: 'uppercase',
-        fontWeight: '500',
-        fontSize: 9,
-        lineHeight: 11,
-        color: Colors.white,
-        marginLeft: 6,
-        marginBottom: 9,
-        
-    },
-
-    promotionBottom: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-
-    promotionBottomText: {
-        color: Colors.white,
-        fontFamily: 'HMpangram-Bold',
-        fontSize: 7,
-        lineHeight: 9,
-        marginRight: 2,
-        marginLeft: 6,
-
-    },
-
-    promotionBottomImg: {
-        width: 4,
-        height: 4
-    }
-
-
-})
 
 export default PromotionBox;

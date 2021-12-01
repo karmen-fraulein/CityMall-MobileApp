@@ -102,7 +102,7 @@ const dummyData = [
 
 
 const HomeScreen = (props: any) => {
-    const { setDetails, clientDetails, fillCardDetails } = useContext(AppContext)
+    const { setDetails, clientDetails, fillCardDetails, isDarkTheme } = useContext(AppContext)
     const { width, height } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offers, setOffers] = useState<any[]>();
@@ -173,7 +173,7 @@ const HomeScreen = (props: any) => {
             paddingHorizontal: '7%',
         },
         promotionsTitle: {
-            color: Colors.white,
+            color: isDarkTheme? Colors.white : Colors.black,
             fontFamily: 'HMpangram-Bold',
             fontSize: 14,
             lineHeight: 17,
@@ -207,7 +207,7 @@ const HomeScreen = (props: any) => {
 
     return (
         <AppLayout >
-            <View style={{ flex: 1, backgroundColor: Colors.black }}>
+            <View style={{ flex: 1,  backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
                 <View style={[Grid.col_4, { justifyContent: 'center' }]}>
                     {!initLoading ?
                         <UserCardSmall

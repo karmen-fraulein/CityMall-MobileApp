@@ -6,7 +6,6 @@ import BurgerMenuItem from './BurgerMenuItem';
 import DrawerItems from '../Constants/DrawerItems';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
-import { closeDrawer } from '../Services/NavigationServices';
 
 const BurgerMenu: React.FC = (props) => {
 
@@ -14,9 +13,7 @@ const BurgerMenu: React.FC = (props) => {
 
     useEffect(() => {
         
-        return () => {
-            closeDrawer();
-        }
+        
     }, [])
 
     const styles = StyleSheet.create({
@@ -61,7 +58,7 @@ const BurgerMenu: React.FC = (props) => {
             textTransform: 'uppercase',
             fontSize: 14,
             lineHeight: 17,
-            color: isDarkTheme? Colors.white : Colors.black
+            color: Colors.white 
         }
     });
 

@@ -22,10 +22,10 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
         roundCheck: {
             position: 'relative',
             marginVertical: 5,
-            width: 24,
-            height: 24,
-            borderRadius: 12,
-            borderWidth: 2,
+            width: 16,
+            height: 16,
+            borderRadius: 8,
+            borderWidth: 1,
             alignItems:'center',
             justifyContent: 'center',
             borderColor: Colors.white,
@@ -42,11 +42,14 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
 
         checkmark: {
             borderBottomColor: Colors.black,
-            borderBottomWidth:3,
+            borderBottomWidth:2,
             borderRightColor: Colors.black,
-            borderRightWidth: 3,
-            width: 6,
-            height: 10
+            borderRightWidth: 2,
+            width: 7,
+            height: 10,
+            position: 'relative',
+            top: -1,
+            left: -1
         },
 
         errorText: {
@@ -56,11 +59,7 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
             fontSize: 11,
             fontFamily: 'HMpangram-Medium'
         }
-
-    })
-
-
-
+    });
 
     return (
         <>

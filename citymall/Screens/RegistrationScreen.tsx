@@ -12,15 +12,17 @@ import { setItem, getItem } from '../Services/StorageService';
 import axios from 'axios';
 import AuthService from '../Services/AuthService';
 import { GoBack } from '../Services/NavigationServices';
-import DistrictPiker, { IDistrict } from '../Components/CostumComponents/DistrictPiker';
+// import DistrictPiker, { IDistrict } from '../Components/CostumComponents/DistrictPiker';
+
 import { useDimension } from '../Hooks/UseDimension';
 import DatePicker from 'react-native-datepicker';
+import DistrictPicker from '../Components/DistrictPicker';
 
 
 const RegistrationScreen: React.FC = (props: any) => {
 
     const { isDarkTheme, userPhoneNumber, setDetails } = useContext(AppContext);
-    const {height} = useDimension();
+    const { height } = useDimension();
 
     console.log('height', height);
 
@@ -73,7 +75,7 @@ const RegistrationScreen: React.FC = (props: any) => {
             flexDirection: 'row',
             alignItems: 'center',
             marginTop: 10
-            
+
 
         },
         genderCheck: {
@@ -119,13 +121,13 @@ const RegistrationScreen: React.FC = (props: any) => {
 
 
 
-    const [step, setStep] = useState<number>(0);
+    const [step, setStep] = useState<number>(1);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
-    const [nameError, setNameError] = useState<boolean>(false);
+    const [nameError, setNameError] = useState<string>('');
     const [lastname, setLastname] = useState<string>('');
-    const [lastnameError, setLastnameError] = useState<boolean>(false);
+    const [lastnameError, setLastnameError] = useState<string>('');
     const [idNumber, setIdNumber] = useState<string>('');
     const [idNumberError, setIdNumberError] = useState<boolean>(false);
     const [isForeignResident, setIsForeignResident] = useState<boolean>(false);
@@ -137,11 +139,11 @@ const RegistrationScreen: React.FC = (props: any) => {
     const [dateOfBirth, setDateOfBirth] = useState<string>('');
     const [birthDateError, setBirthDateError] = useState<boolean>(false);
     const [district, setDistrict] = useState<string>('');
-    const [districts, setDistricts] = useState<IDistrict>();
-    const [selectedDistrict, setSelectedDistrict] = useState<IDistrict>();
-    const [districtError, setDistrictError] = useState<boolean>(false);
+    const [districts, setDistricts] = useState<any>([]);
+    const [selectedDistrict, setSelectedDistrict] = useState<string>();
+    const [districtError, setDistrictError] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [emailError, setEmailError] = useState<boolean>(false);
+    const [emailError, setEmailError] = useState<string>('');
     const [verifyEmail, setVerifyEmail] = useState<boolean>(false);
     const [emailVerificationCode, setEmailVerificationCode] = useState<string>('');
     const [verifyEmailError, setVerifyEmailError] = useState<boolean>(false);
@@ -157,18 +159,14 @@ const RegistrationScreen: React.FC = (props: any) => {
     }, []);
 
     useEffect(() => {
-
-    }, [isForeignResident, idNumber]);
-
-    useEffect(() => {
         if (email.length === 0) {
-            setEmailError(false);
+            setEmailError('');
         } else {
             let regex = /\S+@\S+\.\S+/;
             if (regex.test(email)) {
-                setEmailError(false);
+                setEmailError('');
             } else {
-                setEmailError(true);
+                setEmailError('არასწორი მეილის ფორმატი');
             };
         };
     }, [email]);
@@ -199,18 +197,17 @@ const RegistrationScreen: React.FC = (props: any) => {
 
     const GetDistricts = () => {
         ApiServices.GetDistricts()
-        .then(res => {
-            setDistricts(res.data)
-         })
-         .catch(e => {
-            console.log(JSON.parse(JSON.stringify(e.response)).data);
-         })
+            .then(res => {
+                setDistricts(res.data)
+            })
+            .catch(e => {
+                console.log(JSON.parse(JSON.stringify(e.response)).data);
+            })
     };
 
-    const handleDistrictSelect = (item: IDistrict) => {
-        console.log(item);
+    const handleDistrictSelect = (item: string) => {
         setSelectedDistrict(item);
-        setDistrictError(false);
+        setDistrictError('');
     };
 
     const handleGenderChange = (type: string) => {
@@ -234,14 +231,14 @@ const RegistrationScreen: React.FC = (props: any) => {
         console.log('step,', step)
         if (step === 0) {
             if (name === '') {
-                setNameError(true);
+                setNameError('გთხოვთ შეავსოთ ველი');
                 return;
             } else if (lastname === '') {
-                setNameError(false);
-                setLastnameError(true);
+                setNameError('');
+                setLastnameError('გთხოვთ შეავსოთ ველი');
                 return;
             } else if (idNumber === '') {
-                setLastnameError(false);
+                setLastnameError('');
                 setIdNumberError(true);
                 return
             } else if (!gender.male && !gender.female) {
@@ -255,7 +252,7 @@ const RegistrationScreen: React.FC = (props: any) => {
             };
         } else if (step === 1) {
             console.log('dateOfBirth ====> ', dateOfBirth)
-            
+
         };
         setStep(step + 1);
     };
@@ -310,11 +307,11 @@ const RegistrationScreen: React.FC = (props: any) => {
             console.log('dateOfBirth ===>', dateOfBirth)
             setBirthDateError(true);
             return;
-        } else if (!selectedDistrict?.id || (selectedDistrict?.id === 0 && district === '')) {
-            setDistrictError(true);
+        } else if (selectedDistrict === '' || (selectedDistrict === 'სხვა' && district === '')) {
+            setDistrictError('გთხოვთ შეავსოთ ველი');
             return;
         } else if (!agreedTerms) {
-            setDistrictError(false);
+            setDistrictError('');
             setAgreedTerms((prev: any) => {
                 return {
                     ...prev, error: true
@@ -331,7 +328,7 @@ const RegistrationScreen: React.FC = (props: any) => {
             lastName: lastname,
             phone: userPhoneNumber,
             email: email,
-            address: selectedDistrict?.id ===0? district : selectedDistrict?.name,
+            address: selectedDistrict === 'სხვა' ? district : selectedDistrict,
             sex: gender.male ? 1 : 0,
             mailOtp: emailVerificationCode
         };
@@ -390,37 +387,27 @@ const RegistrationScreen: React.FC = (props: any) => {
                 setStep(step - 1);
             }
         }}>
-            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1}}>
+            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 {step !== 2 ?
                     <View style={[Grid.row_12_5, {}]}>
                         <Text style={styles.regTitle}>რეგისტრაცია</Text>
                     </View> : null}
                 {step === 0 ?
-                    <ScrollView style={{flex: 1}}>
+                    <ScrollView style={{ flex: 1 }}>
                         <AppInput
-                            style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                             placeholder='სახელი'
-                            placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                             value={name}
-                            onChangeText={(val: string) => setName(val)} />
-                        {nameError ?
-                            <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
-                            : null}
+                            onChangeText={(val: string) => setName(val)}
+                            errorMessage={nameError} />
                         <AppInput
-                            style={{ color: isDarkTheme ? Colors.white : Colors.black }}
                             placeholder='გვარი'
-                            placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                             value={lastname}
-                            onChangeText={(val: string) => setLastname(val)} />
-                        {lastnameError ?
-                            <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
-                            : null}
+                            onChangeText={(val: string) => setLastname(val)}
+                            errorMessage={lastnameError} />
                         <View>
                             <AppInput
-                                style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
                                 placeholder='პირადი ნომერი'
                                 maxLength={isForeignResident ? undefined : 11}
-                                placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                 keyboardType={isForeignResident ? 'default' : 'number-pad'}
                                 value={idNumber}
                                 onChangeText={(val: string) => setIdNumber(val)} />
@@ -433,7 +420,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.genderCheck}>
-                            <Text style={{color: Colors.white, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12}}>სქესი</Text>
+                            <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>სქესი</Text>
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => handleGenderChange('female')}>
                                 <AppChekBox checked={gender.female} onChange={() => handleGenderChange('female')} />
                                 <Text style={styles.labelText}>მდედრობითი</Text>
@@ -448,13 +435,13 @@ const RegistrationScreen: React.FC = (props: any) => {
                         </View>
                     </ScrollView> : null}
                 {step === 1 ?
-                    <View style={{flex: 1}}>
-                        
+                    <View style={{ flex: 1 }}>
+
                         <DatePicker
                             style={{ width: '100%' }}
                             placeholder='დაბადების თარიღი'
                             date={dateOfBirth}
-                            onDateChange={(date) => {setDateOfBirth(date); setBirthDateError(false)}}
+                            onDateChange={(date) => { setDateOfBirth(date); setBirthDateError(false) }}
                             format='DD-MM-YYYY'
                             showIcon={false}
                             confirmBtnText="Confirm"
@@ -489,29 +476,24 @@ const RegistrationScreen: React.FC = (props: any) => {
                         {birthDateError ?
                             <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
                             : null}
-                            <DistrictPiker districts = {districts} onSelect = {handleDistrictSelect} placeholder = 'აირჩიეთ რაიონი'/>
-                           {selectedDistrict?.id === 0 && <AppInput
-                            style={{ color: isDarkTheme ? Colors.white : Colors.black }}
-                            placeholder='საცხოვრებელი რაიონი'
-                            placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
-                            value={district}
-                            onChangeText={(val: string) => setDistrict(val)} />}
-                        {districtError ?
-                            <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
-                            : null}
+                        <View>
+                            <DistrictPicker data={districts} onSelect={handleDistrictSelect} placeholder='აირჩიეთ რაიონი' />
+                            {selectedDistrict === 'სხვა' && <AppInput
+                                placeholder='საცხოვრებელი რაიონი'
+                                value={district}
+                                onChangeText={(val: string) => setDistrict(val)}
+                                errorMessage={districtError} />}
+                        </View>
+
+
                         <View style={{}}>
                             <AppInput
-                                style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
                                 placeholder='ელ-ფოსტა'
-                                placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                 keyboardType='email-address'
                                 value={email}
                                 onChangeText={(val: string) => setEmail(val)}
+                                errorMessage={emailError}
                             />
-                            {emailError ?
-                                <Text style={styles.errorText}>არასწორი მეილის ფორმატი</Text>
-                                : null}
-
                             <View style={styles.mailVerification}>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                                     <Switch
@@ -529,11 +511,9 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 {verifyEmail ?
                                     <View style={{ position: 'relative' }}>
                                         <AppInput
-                                            style={{ color: isDarkTheme ? Colors.white : Colors.black, }}
                                             placeholder='ვერიფიკაციის კოდი'
                                             keyboardType='number-pad'
                                             maxLength={6}
-                                            placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                             value={emailVerificationCode}
                                             onChangeText={(val: string) => setEmailVerificationCode(val)} />
                                         {verifyEmailError ?
@@ -562,18 +542,17 @@ const RegistrationScreen: React.FC = (props: any) => {
                                     : null}
                             </View>
                         </View>
-                        {generalError !== ''?
-                        <Text style={styles.errorText}>
-                            {generalError}
-                        </Text> : null}
-                       {/* { <Text style={styles.errorText}>{generalError}</Text>} */}
+                        {generalError !== '' ?
+                            <Text style={styles.errorText}>
+                                {generalError}
+                            </Text> : null}
                     </View> : null}
                 {step === 2 ?
                     <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                         <Image source={require('../assets/images/success-mark.png')} style={{ width: 64, height: 64, marginBottom: 20 }} />
                         <Text style={styles.registerSuccess}>რეგისტაცია წარმატებით დასრულდა</Text>
                     </View> : null}
-                <View style={[Grid.row_12_5, {marginBottom: 20}]}>
+                <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
                     {step === 0 ?
                         <TouchableOpacity style={styles.authBtn} onPress={handleStep}>
                             <Text style={styles.btnText}>შემდეგი</Text>
