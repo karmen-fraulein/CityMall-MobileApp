@@ -8,8 +8,10 @@ import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
 import WorkingScreen from '../Screens/WorkingScreen';
+
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
+import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +27,7 @@ const AppStack = () => {
         !isAuthenticated?
         
        //<OrderGiftCardScreen/>
-        <AuthScreen/>
+        <CheckGiftCardBalanceScreen/>
         //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { AppContext } from "../AppContext/AppContext";
@@ -20,6 +20,14 @@ interface IBmItemProps {
 const BurgerMenuItem: React.FC<IBmItem> = (props) => {
     const { isDarkTheme } = useContext(AppContext)
     const [isColapsed, setIsColapsed] = useState<boolean>(false);
+
+    useEffect(() => {
+        console.log('burgermenu item initialized')
+        return () => {
+            console.log('burgermenu item closed');
+            setIsColapsed(false);
+        };
+    }, []);
     const styles = StyleSheet.create({
         mainContStyle: {
             flexDirection: 'row',

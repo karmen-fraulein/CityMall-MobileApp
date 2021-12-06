@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 
 interface IAppChekBox {
@@ -9,6 +10,7 @@ interface IAppChekBox {
 }
 
 const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
+    const {isDarkTheme} = useContext(AppContext)
     const { checked, onChange, hasError } = props;
 
     const [isChecked, setIsChecked] = useState<boolean>(checked);
@@ -28,22 +30,22 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
             borderWidth: 1,
             alignItems:'center',
             justifyContent: 'center',
-            borderColor: Colors.white,
+            borderColor: isDarkTheme? Colors.white : Colors.black,
             transform: [
                 { rotate: "45deg" },
             ]
         },
         activeColor: {
-            backgroundColor: Colors.white
+            backgroundColor: isDarkTheme? Colors.white : Colors.black
         },
         inactiveColor: {
-            backgroundColor: Colors.black
+            backgroundColor: isDarkTheme? Colors.black : Colors.white
         },
 
         checkmark: {
-            borderBottomColor: Colors.black,
+            borderBottomColor: isDarkTheme? Colors.black : Colors.white,
             borderBottomWidth:2,
-            borderRightColor: Colors.black,
+            borderRightColor: isDarkTheme? Colors.black : Colors.white,
             borderRightWidth: 2,
             width: 7,
             height: 10,
