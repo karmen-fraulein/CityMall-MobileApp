@@ -3,7 +3,6 @@ import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, Touchable
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
-import AppInput from '../Components/CustomComponents/AppInput';
 import Layout from '../Components/Layouts/Layout';
 import Grid from '../Styles/grid';
 import ApiServices from '../Services/ApiServices';
@@ -17,6 +16,7 @@ import { GoBack } from '../Services/NavigationServices';
 import { useDimension } from '../Hooks/UseDimension';
 import DatePicker from 'react-native-datepicker';
 import DistrictPicker from '../Components/DistrictPicker';
+import AppInput from '../Components/CustomComponents/AppInput';
 
 
 const RegistrationScreen: React.FC = (props: any) => {

@@ -24,7 +24,8 @@ interface IAppInput {
     multiline?: boolean,
     numberOfLines?: number,
     autoFocus?: boolean,
-    errorMessage?: string
+    errorMessage?: string,
+    keyboardTpe?: string
 
 }
 
