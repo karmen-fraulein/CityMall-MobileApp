@@ -6,7 +6,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const AppPicker = (props: any) => {
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
-    console.log('selectedValue --->', selectedValue);
 
   
     const haldeClosePicker = () => {
@@ -19,7 +18,7 @@ const AppPicker = (props: any) => {
     return (
 
         isSelecting ?
-            <TouchableOpacity activeOpacity={1} style={{backgroundColor: 'blueviuolet', width: '100%', height: '100%', justifyContent: 'center'}} onPress={() => { console.log('pressed'); setIsSelecting(!isSelecting) }}>
+            <TouchableOpacity activeOpacity={1} style={{backgroundColor: 'blueviuolet', width: '100%', height: '100%', justifyContent: 'center'}} onPress={() => {setIsSelecting(!isSelecting) }}>
                 
                 <View style={styles.card}>
                     <TouchableOpacity onPress={haldeClosePicker} style={{width: '100%'}}>

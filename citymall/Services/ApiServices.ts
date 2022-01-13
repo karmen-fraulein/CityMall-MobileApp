@@ -88,7 +88,6 @@ class ApiServices {
     };
 
     GetServiceCenters = async () => {
-        console.log(`${envs.API_URL}/api/Organisation/GetServiceCenters`)
         return await axios.get(`${envs.API_URL}/api/Organisation/GetServiceCenters`);
     };
 

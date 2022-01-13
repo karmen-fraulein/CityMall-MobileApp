@@ -130,8 +130,9 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                     </View>
                                 <Text style={styles.cityMall}>სითი მოლი</Text>
                         </View>
-                        
-                    <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
+                        {props.hideArrows ? 
+                        null : 
+                    <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} /> }
                 </View>
             }
              <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}  style={{flex: 10}}>
@@ -140,7 +141,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
             </ScrollView>
                     
         </KeyboardAvoidingView>
-            {keyBoardShown && Platform.OS === 'android'?
+            {(keyBoardShown && Platform.OS === 'android') || props.hideArrows?
                 null
                 :
                 <Animated.View style={{flex: 2, justifyContent: 'flex-end' }}>

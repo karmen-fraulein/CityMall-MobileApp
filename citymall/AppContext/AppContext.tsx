@@ -12,7 +12,6 @@ export interface IApp {
     userPhoneNumber: string,
     setPhoneNumber: (value: string) => void,
     cardDetails: any,
-    
     fillCardDetails: (data: any) => void,
 };
 

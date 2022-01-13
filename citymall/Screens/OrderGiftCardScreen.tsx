@@ -22,6 +22,9 @@ interface IDeliveryOption {
 const OrderGiftCardScreen = () => {
     const { isDarkTheme } = useContext(AppContext)
     const { width, height } = useDimension();
+
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [errorMessages, setErrorMesages] = useState<string[] | []>([]);
     const [step, setStep] = useState<number>(0);
     const [btnLoading, setBtnLoading] = useState<boolean>(false);
     const [customer, setCustomer] = useState<string>('');
@@ -42,13 +45,19 @@ const OrderGiftCardScreen = () => {
         hanldeGetServiceCenters();
     }, []);
 
+    // useEffect(() => {
+    //     if (phoneNumber.length === 12 || phoneNumber.length === 3) {
+    //         setPhoneNumberError('');
+    //     } else {
+    //         setPhoneNumberError('მობილურის ნომერი არასწორია')
+    //     }
+    // }, [phoneNumber]);
+
     useEffect(() => {
-        if (phoneNumber.length === 12 || phoneNumber.length === 3) {
-            setPhoneNumberError('');
-        } else {
-            setPhoneNumberError('მობილურის ნომერი არასწორია')
-        }
-    }, [phoneNumber]);
+        if (errorMessages.length === 0) {
+            setHasError(false);
+        };
+    }, [errorMessages]);
 
     const styles = StyleSheet.create({
         infoText: {
@@ -154,6 +163,22 @@ const OrderGiftCardScreen = () => {
             return '4%';
         }
     };
+
+    const validataInputs = (actionType: string, inputName: string) => {
+        if (actionType === 'add') {
+            let errorArray = [...errorMessages];
+            let index = errorArray.findIndex((e: string) => e === inputName);
+            if (index >= 0) {
+                return;
+            } else {
+                errorArray.push(inputName);
+                setErrorMesages(errorArray);
+            };
+        } else {
+            let errorArray = errorMessages.filter(e => e !== inputName);
+            setErrorMesages(errorArray);
+        }
+    }
 
     const handlePhoneNumber = (value: string) => {
         if (value.length < 3) {
@@ -329,28 +354,41 @@ const OrderGiftCardScreen = () => {
                 <GiftCards />
                 <AppInput
                     placeholder='სახელი გვარი'
+                    name = 'customer'
+                    hasError={hasError}
+                    isRequired = {true}
+                    validationRule='required'
                     value={customer}
                     onChangeText={(newValue: string) => setCustomer(newValue)}
-                    onBlur={() => handleValidateInputs('customer', customer)} />
+                    />
                 {customerError.length > 0 && <Text style={styles.errorText}>{customerError}</Text>}
                 <AppInput
                     placeholder='მობილურის ნომერი'
+                    name = 'phoneNumber'
+                    validationRule='phoneNumber'
+                    hasError={hasError}
+                    isRequired = {true}
                     value={phoneNumber}
                     onChangeText={(newValue: string) => handlePhoneNumber(newValue)}
                     keyboardType='numeric'
-                    maxLength={12} />
+                    maxLength={12} 
+                    />
                 {phoneNumberError.length > 0 && <Text style={styles.errorText}>{phoneNumberError}</Text>}
 
                 <Text style={[styles.orderCardTitle, { marginTop: 30 }]}>
                     შეკვეთის დეტალები
                 </Text>
-                <TextInput
+                <AppInput
                     style={styles.detailsText}
+                    name='orderDetails'
+                    isRequired = {true}
+                    validationRule='required'
+                    hasError={hasError}
+                    addValidation={validataInputs}
                     placeholder='მიუთითეთ ბარათ(ებ)ი დიზაინი, რაოდენობა და თანხა'
                     placeholderTextColor={Colors.darkGrey}
                     value={orderDetails}
                     onChangeText={(newValue: string) => setOrderDetails(newValue)}
-                    onBlur={() => handleValidateInputs('orderDetails', orderDetails)}
                     multiline={true}
                     numberOfLines={4} />
                 {orderDetailsError.length > 0 && <Text style={styles.errorText}>{orderDetailsError}</Text>}
@@ -386,15 +424,19 @@ const OrderGiftCardScreen = () => {
                 </TouchableOpacity>
                 {deliveryOption.curierDelivery &&
                     <View >
-                        <TextInput
+                        <AppInput
                             style={styles.detailsText}
+                            name='address'
+                            isRequired = {true}
+                            validationRule='required'
+                            hasError={hasError}
                             placeholder='გთხოვთ მიუთიოთ მისამართი'
                             placeholderTextColor={Colors.darkGrey}
                             value={address}
                             onChangeText={(newValue: string) => setAddress(newValue)}
                             multiline={true}
                             numberOfLines={4}
-                            onBlur={() => handleValidateInputs('address', address)} />
+                            />
                         {addressError.length > 0 && <Text style={styles.errorText}>{addressError}</Text>}
                     </View>
                 }

@@ -1,5 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
-import {View, Text, StyleSheet, Keyboard, TouchableOpacity, ActivityIndicator} from 'react-native';
+import React, {
+    useState,
+    useContext,
+    useEffect
+} from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Keyboard,
+    TouchableOpacity,
+    ActivityIndicator
+} from 'react-native';
 import { Colors } from '../Colors/Colors';
 import AppInput from '../Components/CostumComponents/AppInput';
 import OneTimeCode from '../Components/OneTimeCode';
@@ -11,77 +22,15 @@ import { setItem, getItem } from '../Services/StorageService';
 import DialCodePicker from '../Components/CostumComponents/DialCodePicker';
 
 
-const AuthScreen: React.FC = (props) => {
-
-    const styles = StyleSheet.create({
-        authContainer: {
-            paddingHorizontal: 30,
-            justifyContent: 'space-between'
-        },
-
-        authTitle: {
-            textAlign: 'center',
-            color: Colors.white,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 18,
-            fontWeight: '700',
-            lineHeight: 22,
-            alignItems: 'center',
-            textTransform: 'uppercase'
-        },
-
-        agreeTermsText: {
-            color: Colors.white,
-            marginLeft: 10,
-            fontSize: 14,
-            fontWeight: '500',
-            fontFamily: 'HMpangram-Bold',
-            textTransform: 'uppercase'
-        },
-
-        authBtn: {
-            alignSelf: 'center',
-            width: 325,
-            height: '100%',
-            maxHeight: 66,
-            backgroundColor: Colors.darkGrey,
-            borderRadius: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            shadowColor: Colors.black,
-            shadowOffset: {
-                width: 0,
-                height: 2
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 4,
-            marginBottom: 30
-        },
-
-        btnText: {
-            color: Colors.white,
-            fontSize: 14,
-            lineHeight: 17,
-            fontWeight: '800',
-            textTransform: 'uppercase',
-            fontFamily: 'HMpangram-bold'
-        },
-        errorText: {
-            position: 'absolute',
-            bottom: -20,
-            color: Colors.red,
-            fontSize: 11,
-            fontFamily: 'HMpangram-Medium'
-        }
-    });
-
-    const { setIsAuth, isDarkTheme, setPhoneNumber } = useContext(AppContext);
+const AuthScreen = () => {
+    const { setIsAuth, setPhoneNumber } = useContext(AppContext);
 
     const [step, setStep] = useState<number>(0);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [selectedDialCode, setSelectedDialCode] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('');
-    const [phoneNumberError, setPhoneNumberError] = useState<string>('');
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [errorMessages, setErrorMesages] = useState<string[] | []>([]);
     const [otp, setOtp] = useState<string>('');
     const [otpError, setOtpError] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
@@ -99,12 +48,26 @@ const AuthScreen: React.FC = (props) => {
     }, []);
 
     useEffect(() => {
-        if(selectedDialCode === '+995' && (userPhoneNumber.length === 9 || userPhoneNumber == '')) {
-            setPhoneNumberError('');
-        } else if (selectedDialCode === '+995' && (userPhoneNumber.length !== 9 || userPhoneNumber !== '')) {
-            setPhoneNumberError('მობილური ნომერი არასწორია');
+        if (errorMessages.length === 0) {
+            setHasError(false);
+        };
+    }, [errorMessages]);
+
+    const validataInputs = (actionType: string, inputName: string) => {
+        if (actionType === 'add') {
+            let errorArray = [...errorMessages];
+            let index = errorArray.findIndex((e: string) => e === inputName);
+            if (index >= 0) {
+                return;
+            } else {
+                errorArray.push(inputName);
+                setErrorMesages(errorArray);
+            };
+        } else {
+            let errorArray = errorMessages.filter(e => e !== inputName);
+            setErrorMesages(errorArray);
         }
-    }, [selectedDialCode, userPhoneNumber])
+    }
 
     const handleSelectedValue = (data: string) => {
         setSelectedDialCode(data);
@@ -126,8 +89,12 @@ const AuthScreen: React.FC = (props) => {
     };
 
     const signIn = async (type: string) => {
+        if (errorMessages.length > 0) {
+            setHasError(true);
+            return;
+        };
+
         let data;
-        setButtonLoading(true);
         if (type === 'new' || type === 'resend') {
             setOtp('');
             data = {
@@ -144,6 +111,7 @@ const AuthScreen: React.FC = (props) => {
                 otp: otp
             };
         };
+        setButtonLoading(true);
         AuthService.SignIn(data).then(res => {
             AuthService.setToken(res.data.access_token, res.data.refresh_token);
             setButtonLoading(false);
@@ -163,27 +131,32 @@ const AuthScreen: React.FC = (props) => {
         });
     };
 
+    console.log('errorMessages ====> ', errorMessages)
+
     return (
         <Layout>
-            <View style={{ flex: 1, paddingHorizontal: '10%'}}>
+            <View style={{ flex: 1, paddingHorizontal: '10%' }}>
                 <View style={{ flex: 4, justifyContent: 'center' }}>
                     <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
                 </View>
                 <View style={{ flex: 6 }}>
                     <View style={{ flexDirection: 'row' }}>
                         <View>
-                        <DialCodePicker onSelect={handleSelectedValue}/>
+                            <DialCodePicker onSelect={handleSelectedValue} />
                         </View>
-                        {/* <DialCodePicker onSelect={handleSelectedValue} /> */}
-                        <View style={{width: '80%',  justifyContent: 'flex-end'}}>
-                        <AppInput
-                            style={{ color: isDarkTheme ? Colors.white : Colors.black}}
-                            keyboardType='numeric'
-                            value={userPhoneNumber}
-                            maxLength = {selectedDialCode == '+995'? 9  : undefined}
-                            onChangeText={(val: string) => setUserPhoneNumber(val)} />
-                            {phoneNumberError? <Text style={styles.errorText}>{phoneNumberError}</Text> : null}
-                            </View>
+                        <View style={{ width: '80%', justifyContent: 'flex-end' }}>
+                            <AppInput
+                                name='phoneNumber'
+                                hasError={hasError}
+                                addValidation={validataInputs}
+                                errors={errorMessages}
+                                isRequired={true}
+                                validationRule='phoneNumber'
+                                keyboardType='numeric'
+                                value={userPhoneNumber}
+                                maxLength={selectedDialCode == '+995' ? 9 : undefined}
+                                onChangeText={(val: string) => setUserPhoneNumber(val)} />
+                        </View>
                     </View>
                     {step === 1 &&
                         <View style={{ marginTop: 30 }}>
@@ -214,4 +187,68 @@ const AuthScreen: React.FC = (props) => {
     );
 };
 
+const styles = StyleSheet.create({
+    authContainer: {
+        paddingHorizontal: 30,
+        justifyContent: 'space-between'
+    },
+
+    authTitle: {
+        textAlign: 'center',
+        color: Colors.white,
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 18,
+        fontWeight: '700',
+        lineHeight: 22,
+        alignItems: 'center',
+        textTransform: 'uppercase'
+    },
+
+    agreeTermsText: {
+        color: Colors.white,
+        marginLeft: 10,
+        fontSize: 14,
+        fontWeight: '500',
+        fontFamily: 'HMpangram-Bold',
+        textTransform: 'uppercase'
+    },
+
+    authBtn: {
+        alignSelf: 'center',
+        width: 325,
+        height: '100%',
+        maxHeight: 66,
+        backgroundColor: Colors.darkGrey,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        marginBottom: 30
+    },
+
+    btnText: {
+        color: Colors.white,
+        fontSize: 14,
+        lineHeight: 17,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        fontFamily: 'HMpangram-bold'
+    },
+    errorText: {
+        position: 'absolute',
+        bottom: -20,
+        color: Colors.red,
+        fontSize: 11,
+        fontFamily: 'HMpangram-Medium'
+    }
+});
+
 export default AuthScreen;
+
+

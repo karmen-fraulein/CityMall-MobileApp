@@ -22,9 +22,7 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
     const [isColapsed, setIsColapsed] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log('burgermenu item initialized')
         return () => {
-            console.log('burgermenu item closed');
             setIsColapsed(false);
         };
     }, []);

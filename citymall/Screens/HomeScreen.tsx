@@ -95,7 +95,7 @@ const dummyData = [
 ]
 
 // interface IOffers {
-//     title: string, npm 
+//     title: string,  
 //     subTitle: string, 
 //     imgUrl: string
 // } 
@@ -125,7 +125,6 @@ const HomeScreen = (props: any) => {
                 setInitLoading(false);
             });
     };
-    console.log(clientDetails)
     const handleGetBarcode = (card: string) => {
         ApiServices.GenerateBarcode(card)
             .then(res => {

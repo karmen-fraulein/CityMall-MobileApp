@@ -12,6 +12,8 @@ import WorkingScreen from '../Screens/WorkingScreen';
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
+import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -26,8 +28,8 @@ const AppStack = () => {
     return (
         !isAuthenticated?
         
-       //<OrderGiftCardScreen/>
-        <CheckGiftCardBalanceScreen/>
+       <ProfileScreen/>
+        // <AuthScreen/>
         //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>
@@ -70,6 +72,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='OrderGiftCardScreen'
                     component={OrderGiftCardScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='ProfileScreen'
+                    component={ProfileScreen}
                     options={{
                         headerShown: false,
                     }}
