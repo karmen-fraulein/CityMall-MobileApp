@@ -22,7 +22,9 @@ interface IAppInput {
     placeholderTextColor?: string,
     style?: any,
     multiline?: boolean,
-    numberOfLines?: number
+    numberOfLines?: number,
+    autoFocus?: boolean,
+    errorMessage?: string
 
 }
 
@@ -83,7 +85,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
 
     useEffect(() => {
         let index = errors?.findIndex((e: string) => e === name);
-        console.log(hasError, index, errors)
+        // console.log(hasError, index, errors)
         if (hasError && index! >= 0) {
             
             setErrorMesage('გთხოვთ შეავსოთ ველი');
@@ -116,8 +118,6 @@ const AppInput: React.FC<IAppInput> = (props) => {
         }
     }, [value, validationRule, maxLength])
 
-    console.log('maxLength', maxLength)
-
     return (
         <>
             <View style={styles.inputWrap}> 
@@ -127,8 +127,8 @@ const AppInput: React.FC<IAppInput> = (props) => {
                     selectionColor={isDarkTheme ? Colors.white : Colors.black}
                     placeholderTextColor={isDarkTheme ? Colors.white : Colors.black} />
             </View>
-            {errorMessage !== '' ?
-                <Text style={styles.errorText}>{errorMessage}</Text>
+            {errorMessage !== '' || props.errorMessage !== '' ?
+                <Text style={styles.errorText}>{errorMessage || props.errorMessage}</Text>
                 : null}
         </>
     );

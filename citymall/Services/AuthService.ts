@@ -30,6 +30,7 @@ export interface IAuthRequest {
   client_id?: string;
   client_secret?: string;
   grant_type?: string;
+  password : string
 }
 
 export interface IAuthResponse {
@@ -86,6 +87,9 @@ class AuthService {
     if(data.otp !=='') {
       loginObj.append('OTP', data.otp);
     };
+    if(data.password !== '') {
+      loginObj.append('password', data.password);
+    }
     loginObj.append('grant_type', 'password');
     loginObj.append('client_id', 'ClientApp');
     loginObj.append('client_secret', 'secret');
@@ -149,7 +153,7 @@ class AuthService {
         return response;
       },
       async (error: any) => {
-        console.log('<----- Error in Auth Interceptor ----->', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
+        // console.log('<----- Error in Auth Interceptor ----->', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};
 
         //Reject promise if usual error

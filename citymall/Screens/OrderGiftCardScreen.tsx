@@ -164,7 +164,7 @@ const OrderGiftCardScreen = () => {
         }
     };
 
-    const validataInputs = (actionType: string, inputName: string) => {
+    const validateInputs = (actionType: string, inputName: string) => {
         if (actionType === 'add') {
             let errorArray = [...errorMessages];
             let index = errorArray.findIndex((e: string) => e === inputName);
@@ -384,7 +384,7 @@ const OrderGiftCardScreen = () => {
                     isRequired = {true}
                     validationRule='required'
                     hasError={hasError}
-                    addValidation={validataInputs}
+                    addValidation={validateInputs}
                     placeholder='მიუთითეთ ბარათ(ებ)ი დიზაინი, რაოდენობა და თანხა'
                     placeholderTextColor={Colors.darkGrey}
                     value={orderDetails}

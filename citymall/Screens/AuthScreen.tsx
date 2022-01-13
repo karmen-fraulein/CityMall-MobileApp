@@ -25,12 +25,14 @@ import DialCodePicker from '../Components/CostumComponents/DialCodePicker';
 const AuthScreen = () => {
     const { setIsAuth, setPhoneNumber } = useContext(AppContext);
 
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
     const [step, setStep] = useState<number>(0);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [selectedDialCode, setSelectedDialCode] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('');
-    const [hasError, setHasError] = useState<boolean>(false);
-    const [errorMessages, setErrorMesages] = useState<string[] | []>([]);
+    const [password, setPassword] = useState<string>('');
+    const [passwordError, setPasswordError] = useState<string>('')
     const [otp, setOtp] = useState<string>('');
     const [otpError, setOtpError] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
@@ -53,7 +55,7 @@ const AuthScreen = () => {
         };
     }, [errorMessages]);
 
-    const validataInputs = (actionType: string, inputName: string) => {
+    const validateInputs = (actionType: string, inputName: string) => {
         if (actionType === 'add') {
             let errorArray = [...errorMessages];
             let index = errorArray.findIndex((e: string) => e === inputName);
@@ -61,11 +63,11 @@ const AuthScreen = () => {
                 return;
             } else {
                 errorArray.push(inputName);
-                setErrorMesages(errorArray);
+                setErrorMessages(errorArray);
             };
         } else {
             let errorArray = errorMessages.filter(e => e !== inputName);
-            setErrorMesages(errorArray);
+            setErrorMessages(errorArray);
         }
     }
 
@@ -93,22 +95,28 @@ const AuthScreen = () => {
             setHasError(true);
             return;
         };
+        if (passwordError) {
+            setPasswordError('');
+        }
 
         let data;
         if (type === 'new' || type === 'resend') {
             setOtp('');
             data = {
                 username: selectedDialCode.slice(1) + userPhoneNumber,
-                otp: ''
+                otp: '',
+                password: '',
             };
         } else {
-            if (step === 1 && (!agreedTerms && !alreadyAgreedTerms)) {
+
+            if (step === 2 && (!agreedTerms && !alreadyAgreedTerms)) {
                 setAgreedTermsError(true);
                 return;
             };
             data = {
                 username: selectedDialCode.slice(1) + userPhoneNumber,
-                otp: otp
+                otp: otp,
+                password: password
             };
         };
         setButtonLoading(true);
@@ -118,20 +126,31 @@ const AuthScreen = () => {
             setPhoneNumber(userPhoneNumber);
             setIsAuth(true);
         }).catch(e => {
-            let error = JSON.parse(JSON.stringify(e.response)).data.error;
             setButtonLoading(false);
-            if (error === 'require_otp') {
-                setStep(1);
-                setButtonLoading(false);
-            } else if (error === 'inalid_otp') {
-                setOtpError(true);
-                setButtonLoading(false);
-                return;
-            };
+            let error = JSON.parse(JSON.stringify(e.response)).data.error;
+            switch (error) {
+                case 'require_otp':
+                    setStep(2);
+                    setButtonLoading(false);
+                    break;
+                case 'require_password':
+                    setStep(1);
+                    setButtonLoading(false);
+                    break;
+                case 'invalid_password':
+                    setButtonLoading(false);
+                    setPasswordError('პაროლი არასწორია')
+                    break;
+                case 'inalid_otp':
+                    setOtpError(true);
+                    setButtonLoading(false);
+                    break;
+
+                default:
+                    break;
+            }
         });
     };
-
-    console.log('errorMessages ====> ', errorMessages)
 
     return (
         <Layout>
@@ -148,7 +167,7 @@ const AuthScreen = () => {
                             <AppInput
                                 name='phoneNumber'
                                 hasError={hasError}
-                                addValidation={validataInputs}
+                                addValidation={validateInputs}
                                 errors={errorMessages}
                                 isRequired={true}
                                 validationRule='phoneNumber'
@@ -158,7 +177,21 @@ const AuthScreen = () => {
                                 onChangeText={(val: string) => setUserPhoneNumber(val)} />
                         </View>
                     </View>
-                    {step === 1 &&
+                    {step == 1 &&
+                        <View >
+                            <AppInput
+                                name='password'
+                                hasError={hasError}
+                                addValidation={validateInputs}
+                                errors={errorMessages}
+                                errorMessage={passwordError}
+                                isRequired={true}
+                                validationRule='required'
+                                value={password}
+                                autoFocus={true}
+                                onChangeText={(val: string) => setPassword(val)} />
+                        </View>}
+                    {step === 2 &&
                         <View style={{ marginTop: 30 }}>
                             <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError} />
                             {
