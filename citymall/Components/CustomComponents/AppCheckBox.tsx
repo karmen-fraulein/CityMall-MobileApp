@@ -3,13 +3,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 
-interface IAppChekBox {
+interface IAppCheckBox {
     checked: boolean,
     onChange?: () => void,
     hasError?: boolean
 }
 
-const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
+const AppCheckBox: React.FC<IAppCheckBox> = (props: any) => {
     const {isDarkTheme} = useContext(AppContext)
     const { checked, onChange, hasError } = props;
 
@@ -73,4 +73,4 @@ const AppChekBox: React.FC<IAppChekBox> = (props: any) => {
     );
 };
 
-export default AppChekBox;
+export default AppCheckBox;

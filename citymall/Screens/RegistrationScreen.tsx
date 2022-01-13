@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
-import AppChekBox from '../Components/CostumComponents/AppChekBox';
-import AppInput from '../Components/CostumComponents/AppInput';
+import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
+import AppInput from '../Components/CustomComponents/AppInput';
 import Layout from '../Components/Layouts/Layout';
 import Grid from '../Styles/grid';
 import ApiServices from '../Services/ApiServices';
@@ -12,7 +12,7 @@ import { setItem, getItem } from '../Services/StorageService';
 import axios from 'axios';
 import AuthService from '../Services/AuthService';
 import { GoBack } from '../Services/NavigationServices';
-// import DistrictPiker, { IDistrict } from '../Components/CostumComponents/DistrictPiker';
+// import DistrictPiker, { IDistrict } from '../Components/CustomComponents/DistrictPiker';
 
 import { useDimension } from '../Hooks/UseDimension';
 import DatePicker from 'react-native-datepicker';
@@ -415,18 +415,18 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 <Text style={styles.errorText}>პირადობის ნომერი არასწორია</Text>
                                 : null}
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => setIsForeignResident(!isForeignResident)}>
-                                <AppChekBox checked={isForeignResident} onChange={() => setIsForeignResident(!isForeignResident)} />
+                                <AppCheckBox checked={isForeignResident} onChange={() => setIsForeignResident(!isForeignResident)} />
                                 <Text style={styles.labelText}>უცხო ქვეყნის მოქალაქე</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.genderCheck}>
                             <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>სქესი</Text>
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => handleGenderChange('female')}>
-                                <AppChekBox checked={gender.female} onChange={() => handleGenderChange('female')} />
+                                <AppCheckBox checked={gender.female} onChange={() => handleGenderChange('female')} />
                                 <Text style={styles.labelText}>მდედრობითი</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => handleGenderChange('male')}>
-                                <AppChekBox checked={gender.male} onChange={() => handleGenderChange('male')} />
+                                <AppCheckBox checked={gender.male} onChange={() => handleGenderChange('male')} />
                                 <Text style={styles.labelText}>მამრობითი</Text>
                             </TouchableOpacity>
                             {gender.error ?
@@ -535,7 +535,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                         </View>
                         <View >
                             <View style={styles.inputWithLabel}>
-                                <AppChekBox checked={agreedTerms.value} onChange={() => { setAgreedTerms({ value: !agreedTerms.value, error: false }); Keyboard.dismiss() }} />
+                                <AppCheckBox checked={agreedTerms.value} onChange={() => { setAgreedTerms({ value: !agreedTerms.value, error: false }); Keyboard.dismiss() }} />
                                 <Text style={styles.labelText}>ვეთანხმები წესებს და პირობებს</Text>
                                 {agreedTerms.error ?
                                     <Text style={styles.errorText}>გთხოვთ დაეთანხმოთ წესებსა და პირობებს</Text>

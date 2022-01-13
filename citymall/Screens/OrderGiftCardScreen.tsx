@@ -3,10 +3,9 @@ import { Keyboard, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpaci
 import { ScrollView } from 'react-native-gesture-handler';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
-import AppButton from '../Components/CostumComponents/AppButton';
-import AppChekBox from '../Components/CostumComponents/AppChekBox';
-
-import AppInput from '../Components/CostumComponents/AppInput';
+import AppButton from '../Components/CustomComponents/AppButton';
+import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
+import AppInput from '../Components/CustomComponents/AppInput';
 import Layout from '../Components/Layouts/Layout';
 import { useDimension } from '../Hooks/UseDimension';
 import ApiServices, { IServiceCenter, IServiceCenterResponse } from '../Services/ApiServices';
@@ -395,7 +394,7 @@ const OrderGiftCardScreen = () => {
                 <TouchableOpacity
                     style={styles.checkBoxWithLabel}
                     onPress={() => toggleDeliveryOption('fromMall')}>
-                    <AppChekBox
+                    <AppCheckBox
                         checked={deliveryOption.fromCityMall}
                         onChange={() => toggleDeliveryOption('fromMall')} />
                     <Text style={styles.labelText}>სითი მოლიდან გატანა</Text>
@@ -407,7 +406,7 @@ const OrderGiftCardScreen = () => {
                                 key={s.id}
                                 style={styles.checkBoxWithLabel}
                                 onPress={() => togglePickupLocation(i)}>
-                                <AppChekBox
+                                <AppCheckBox
                                     checked={s.checked}
                                     onChange={() => togglePickupLocation(i)} />
                                 <Text style={styles.labelText}>{s.name}</Text>
@@ -417,7 +416,7 @@ const OrderGiftCardScreen = () => {
                 <TouchableOpacity
                     style={styles.checkBoxWithLabel}
                     onPress={() => toggleDeliveryOption('curier')}>
-                    <AppChekBox
+                    <AppCheckBox
                         checked={deliveryOption.curierDelivery}
                         onChange={() => toggleDeliveryOption('curier')} />
                     <Text style={styles.labelText}>საკურიერო მომსახურება</Text>

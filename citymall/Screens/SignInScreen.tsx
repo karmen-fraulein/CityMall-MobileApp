@@ -5,8 +5,8 @@ import {
     NativeScrollEvent, TouchableOpacity, Pressable
 } from 'react-native';
 import { Colors } from '../Colors/Colors';
-import AppChekBox from '../Components/CostumComponents/AppChekBox';
-import AppInput from '../Components/CostumComponents/AppInput';
+import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
+import AppInput from '../Components/CustomComponents/AppInput';
 import Grid from '../Styles/grid';
 
 
@@ -56,7 +56,7 @@ const SignInScreen = () => {
                     />
                     <TouchableOpacity style={{ alignItems: 'center', flexDirection: 'row', marginTop: 30 }}
                         onPress={toggleChecked}>
-                        <AppChekBox checked={toggleCheckBox} onChange={toggleChecked} />
+                        <AppCheckBox checked={toggleCheckBox} onChange={toggleChecked} />
                         <Text style={{ color: 'white', marginLeft: 10 }}>
                             დამახსოვრება
                         </Text>

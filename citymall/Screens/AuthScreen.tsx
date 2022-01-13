@@ -12,14 +12,14 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { Colors } from '../Colors/Colors';
-import AppInput from '../Components/CostumComponents/AppInput';
 import OneTimeCode from '../Components/OneTimeCode';
-import AppChekBox from '../Components/CostumComponents/AppChekBox';
+import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
 import Layout from '../Components/Layouts/Layout';
 import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
 import { setItem, getItem } from '../Services/StorageService';
-import DialCodePicker from '../Components/CostumComponents/DialCodePicker';
+import AppInput from '../Components/CustomComponents/AppInput';
+import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
 
 
 const AuthScreen = () => {
@@ -97,8 +97,7 @@ const AuthScreen = () => {
         };
         if (passwordError) {
             setPasswordError('');
-        }
-
+        };
         let data;
         if (type === 'new' || type === 'resend') {
             setOtp('');
@@ -141,7 +140,7 @@ const AuthScreen = () => {
                     setButtonLoading(false);
                     setPasswordError('პაროლი არასწორია')
                     break;
-                case 'inalid_otp':
+                case 'invalid_otp':
                     setOtpError(true);
                     setButtonLoading(false);
                     break;
@@ -199,7 +198,7 @@ const AuthScreen = () => {
                                     null
                                     :
                                     <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
-                                        <AppChekBox
+                                        <AppCheckBox
                                             checked={agreedTerms}
                                             onChange={toggleAgreedTerms}
                                             hasError={agreedTermsError} />
