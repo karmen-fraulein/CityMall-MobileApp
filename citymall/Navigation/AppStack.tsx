@@ -28,8 +28,8 @@ const AppStack = () => {
     return (
         !isAuthenticated?
         
-    //    <ProfileScreen/>
-        <AuthScreen/>
+    <HomeScreen/>
+        //<AuthScreen/>
         //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>

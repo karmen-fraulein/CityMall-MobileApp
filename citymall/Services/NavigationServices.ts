@@ -19,8 +19,9 @@ export function GoBack() {
 };
 
 export function toggleDrawer () {
+  
   if (navigationRef.isReady()) {
-    
+    console.log('toggleDrawer Clicked')
     navigationRef.dispatch(DrawerActions.toggleDrawer())
   } 
 };

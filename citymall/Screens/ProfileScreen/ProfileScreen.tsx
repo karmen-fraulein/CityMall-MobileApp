@@ -1,13 +1,26 @@
-import React, { useContext, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, NativeSyntheticEvent, NativeScrollEvent, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { 
+    useContext, 
+    useState 
+} from 'react';
+import { 
+    StyleSheet, 
+    Text, 
+    View, 
+    TouchableOpacity, 
+    ScrollView, 
+    NativeSyntheticEvent, 
+    NativeScrollEvent, 
+    Image 
+} from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
+import AppLayout from '../../Components/AppLayout';
 import Layout from '../../Components/Layouts/Layout';
 import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
 import { useDimension } from '../../Hooks/UseDimension';
 import Grid from '../../Styles/grid';
+
 
 const offers: any = [
     {
@@ -50,46 +63,7 @@ const offers: any = [
         subTitle: 'საცურაო აუზი -30% ფასდაკლება',
         imgUrl: '../assets/images/promotion_img.png'
     },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
-    // {
-    //     title: 'ფასდაკლება THE NORTH FACE-ში',
-    //     subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-    //     imgUrl: '../assets/images/promotion_img.png'
-    // },
+    
 ]
 
 const ProfileScreen = () => {
@@ -98,79 +72,7 @@ const ProfileScreen = () => {
 
     const [offersStep, setOffersStep] = useState<number>(0);
 
-    const styles = StyleSheet.create({
-        balanceView: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            height: 50,
-            marginBottom: 35
-        },
-        balanceWrap: {
-
-        },
-        balanceWrapTitle: {
-            fontSize: 14,
-            fontFamily: 'HMpangram-Medium',
-            color: Colors.darkGrey
-        },
-        balanceWrapAmount: {
-            fontSize: 24,
-            fontFamily: 'HMpangram-Bold',
-            color: Colors.white
-        },
-
-        statusBarView: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            height: 88,
-            marginBottom: 30
-        },
-        promotions: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            width: 400,
-        },
-        promotionContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-        },
-        promotionsTitle: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 14,
-            lineHeight: 17,
-            fontWeight: '900',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-        },
-        redirectView: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: 'green',
-            width: '100%',
-            marginBottom: 20
-        },
-        redirectBtn: {
-            width: '100%',
-            maxWidth: 272,
-            height: 39,
-            borderRadius: 50,
-            backgroundColor: Colors.darkGrey,
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row'
-        },
-        redirectBtnText: {
-            fontSize: 10,
-            fontFamily: 'HMpangram-Medium',
-            marginRight: 5
-        },
-        transactionView: {
-            
-        }
-    })
+    
 
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -179,9 +81,7 @@ const ProfileScreen = () => {
     };
 
     return (
-        <Layout
-            hideArrows={true}
-            hasBackArrow={true}>
+        <AppLayout>
             <View style={{ flexGrow: 1 }}>
                 <View style={styles.balanceView}>
                     <View >
@@ -203,18 +103,18 @@ const ProfileScreen = () => {
                     </View>
                 </View>
                 <View style={styles.statusBarView}>
-                    <Text style={styles.promotionsTitle}>
+                    <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
                         სტატუსბარი
                     </Text>
                     <TouchableOpacity>
-                        <Text style={styles.promotionsTitle}>
+                        <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
                             ვრცლად
                         </Text>
                     </TouchableOpacity>
                 </View>
 
                     <View style={styles.promotionContainer}>
-                        <Text style={styles.promotionsTitle}>
+                        <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
                             პირადი შეთავაზებები
                         </Text>
                         <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
@@ -228,7 +128,7 @@ const ProfileScreen = () => {
                         </ScrollView>
                     </ScrollView>
                     <View style={styles.promotionContainer}>
-                        <Text style={styles.promotionsTitle}>
+                        <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
                             ქულების გახაჯვის ოფცია
                         </Text>
                         <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
@@ -257,9 +157,83 @@ const ProfileScreen = () => {
 
 
 
-        </Layout>
+        </AppLayout>
     );
 };
+
+const styles = StyleSheet.create({
+    balanceView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: 50,
+        marginBottom: 35
+    },
+    balanceWrap: {
+
+    },
+    balanceWrapTitle: {
+        fontSize: 14,
+        fontFamily: 'HMpangram-Medium',
+        color: Colors.darkGrey
+    },
+    balanceWrapAmount: {
+        fontSize: 24,
+        fontFamily: 'HMpangram-Bold',
+        color: Colors.white
+    },
+
+    statusBarView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: 88,
+        marginBottom: 30
+    },
+    promotions: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: 400,
+    },
+    promotionContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    promotionsTitle: {
+        
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 14,
+        lineHeight: 17,
+        fontWeight: '900',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+    },
+    redirectView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'green',
+        width: '100%',
+        marginBottom: 20
+    },
+    redirectBtn: {
+        width: '100%',
+        maxWidth: 272,
+        height: 39,
+        borderRadius: 50,
+        backgroundColor: Colors.darkGrey,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    redirectBtnText: {
+        fontSize: 10,
+        fontFamily: 'HMpangram-Medium',
+        marginRight: 5
+    },
+    transactionView: {
+        
+    }
+});
 
 
 

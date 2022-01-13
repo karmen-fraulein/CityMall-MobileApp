@@ -4,10 +4,12 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'სითმოლი საბურთალო'
+                location: 'სითმოლი საბურთალო',
+                route: 'HomeScreen2'
             },
             {
-                location: 'სითმოლი გლდანი'
+                location: 'სითმოლი გლდანი',
+                route: 'HomeScreen2'
             }
         ]
     },
@@ -16,7 +18,8 @@ export default [
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'სითმოლი საბურთალო'
+                location: 'სითმოლი საბურთალო',
+                
             },
             {
                 location: 'სითმოლი გლდანი'
@@ -63,6 +66,7 @@ export default [
         name: 'სერვისი',
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
+            
             {
                 location: 'სითმოლი საბურთალო'
             },

@@ -16,7 +16,7 @@ interface ILayoutProp {
 
 const Layout: React.FC<ILayoutProp> = (props) => {
     const { isDarkTheme } = useContext(AppContext);
-    const {width, height} = useDimension();
+    const { width, height } = useDimension();
     const DownArrowAnim = useRef(new Animated.Value(0));
     const UpArrowAnim = useRef(new Animated.Value(0));
 
@@ -45,15 +45,15 @@ const Layout: React.FC<ILayoutProp> = (props) => {
 
         headerAction: {
             height: 50,
-            marginTop: 10, 
-            flexDirection: 'row', 
+            marginTop: 10,
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
             width: '68%'
         },
 
         cityMall: {
-            color: isDarkTheme? Colors.white: Colors.black,
+            color: isDarkTheme ? Colors.white : Colors.black,
             fontFamily: 'HMpangram-Bold',
             fontSize: 24,
             textTransform: 'uppercase',
@@ -112,44 +112,44 @@ const Layout: React.FC<ILayoutProp> = (props) => {
     }, []);
 
     return (
-            <SafeAreaView style={styles.layout}>
+        <SafeAreaView style={styles.layout}>
             {props.hideArrows && keyBoardShown ?
                 null :
-                <View style={{flex: 2, flexDirection: 'row' }}>
-                    
+                <View style={{ flex: props.hideArrows ? 1 : 2, flexDirection: 'row' }}>
+
                     <View style={styles.headerAction}>
-                    <View style={{flexDirection: 'row'}}>
-                    {props.hasBackArrow ?
+                        <View style={{ flexDirection: 'row' }}>
+                            {props.hasBackArrow ?
                                 <TouchableOpacity style={{ marginLeft: 25 }} onPress={props.onPressBack}>
                                     <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
                                 </TouchableOpacity>
-                            : null}
+                                : null}
                             <TouchableOpacity >
-                                    <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
-                                </TouchableOpacity>
-                    </View>
-                                <Text style={styles.cityMall}>სითი მოლი</Text>
+                                <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
+                            </TouchableOpacity>
                         </View>
-                        {props.hideArrows ? 
-                        null : 
-                    <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} /> }
+                        <Text style={styles.cityMall}>სითი მოლი</Text>
+                    </View>
+                    {props.hideArrows ?
+                        null :
+                        <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />}
                 </View>
             }
-             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}  style={{flex: 10}}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps='handled'>
-                {props.children}
-            </ScrollView>
-                    
-        </KeyboardAvoidingView>
-            {(keyBoardShown && Platform.OS === 'android') || props.hideArrows?
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 10 }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
+                    {props.children}
+                </ScrollView>
+
+            </KeyboardAvoidingView>
+            {(keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
                 null
                 :
-                <Animated.View style={{flex: 2, justifyContent: 'flex-end' }}>
+                <Animated.View style={{ flex: 2, justifyContent: 'flex-end' }}>
                     <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
                 </Animated.View >
-                }
-                </SafeAreaView>
-        
+            }
+        </SafeAreaView>
+
     );
 };
 
