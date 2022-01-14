@@ -116,14 +116,15 @@ export default [
         name: '_blank',
     },
     {
-        name: 'ჩემი კაბინეტი',
+        name: 'პირადი კაბინეტი',
          icon: require('../assets/images/arrow-sm.png'),
         _children: [
             {
-                location: 'სითმოლი საბურთალო'
+                location: 'პარამეტრები'
             },
             {
-                location: 'სითმოლი გლდანი'
+                location: 'პირადი კაბინეტი',
+                route: 'ProfileScreen'
             }
         ]
     },

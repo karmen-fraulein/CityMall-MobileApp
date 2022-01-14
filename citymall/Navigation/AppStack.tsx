@@ -28,7 +28,7 @@ const AppStack = () => {
     return (
         !isAuthenticated?
         
-    <HomeScreen/>
+    <ProfileScreen/>
         //<AuthScreen/>
         //<ShopDetailsScreen/>
         :

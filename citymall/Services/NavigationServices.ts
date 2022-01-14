@@ -8,6 +8,7 @@ export const navigationRef = createNavigationContainerRef()
 
 export function navigate(route: string, params?: any) {
   if (navigationRef.isReady()) {
+    console.log(route)
     navigationRef.navigate(route, params);
   }
 }

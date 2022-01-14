@@ -1,20 +1,22 @@
-import React, { 
-    useContext, 
-    useState 
+import React, {
+    useContext,
+    useState
 } from 'react';
-import { 
-    StyleSheet, 
-    Text, 
-    View, 
-    TouchableOpacity, 
-    ScrollView, 
-    NativeSyntheticEvent, 
-    NativeScrollEvent, 
-    Image 
+import {
+    StyleSheet,
+    Switch,
+    Text,
+    View,
+    TouchableOpacity,
+    ScrollView,
+    NativeSyntheticEvent,
+    NativeScrollEvent,
+    Image
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import AppLayout from '../../Components/AppLayout';
+import AppSwitch from '../../Components/CustomComponents/AppSwitch';
 import Layout from '../../Components/Layouts/Layout';
 import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
@@ -63,7 +65,7 @@ const offers: any = [
         subTitle: 'საცურაო აუზი -30% ფასდაკლება',
         imgUrl: '../assets/images/promotion_img.png'
     },
-    
+
 ]
 
 const ProfileScreen = () => {
@@ -71,8 +73,13 @@ const ProfileScreen = () => {
     const { isDarkTheme } = useContext(AppContext);
 
     const [offersStep, setOffersStep] = useState<number>(0);
+    const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);
 
-    
+
+    const toggleSwitch = () => {
+        setIsMoneyTransaction(!isMoneyTransaction)
+    };
+
 
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -82,7 +89,7 @@ const ProfileScreen = () => {
 
     return (
         <AppLayout>
-            <View style={{ flexGrow: 1 }}>
+            <View style={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
                 <View style={styles.balanceView}>
                     <View >
                         <Text style={styles.balanceWrapTitle}>
@@ -103,44 +110,44 @@ const ProfileScreen = () => {
                     </View>
                 </View>
                 <View style={styles.statusBarView}>
-                    <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
+                    <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                         სტატუსბარი
                     </Text>
                     <TouchableOpacity>
-                        <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
+                        <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                             ვრცლად
                         </Text>
                     </TouchableOpacity>
                 </View>
 
-                    <View style={styles.promotionContainer}>
-                        <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
-                            პირადი შეთავაზებები
-                        </Text>
-                        <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
-                    </View>
-                    <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                        <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
-                            {offers?.map((el: any, i: number) => (
-                                <PromotionBox key={i} data={el} />
+                <View style={styles.promotionContainer}>
+                    <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                        პირადი შეთავაზებები
+                    </Text>
+                    <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
+                </View>
+                <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
+                    <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                        {offers?.map((el: any, i: number) => (
+                            <PromotionBox key={i} data={el} />
 
-                            ))}
-                        </ScrollView>
+                        ))}
                     </ScrollView>
-                    <View style={styles.promotionContainer}>
-                        <Text style={[styles.promotionsTitle, {color: isDarkTheme ? Colors.white : Colors.black,}]}>
-                            ქულების გახაჯვის ოფცია
-                        </Text>
-                        <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
-                    </View>
-                    <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                        <ScrollView contentContainerStyle={{ flexDirection: 'row' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
-                            {offers?.map((el: any, i: number) => (
-                                <PromotionBox key={i} data={el} />
+                </ScrollView>
+                <View style={styles.promotionContainer}>
+                    <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                        ქულების გახაჯვის ოფცია
+                    </Text>
+                    <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
+                </View>
+                <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
+                    <ScrollView contentContainerStyle={{ flexDirection: 'row' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                        {offers?.map((el: any, i: number) => (
+                            <PromotionBox key={i} data={el} />
 
-                            ))}
-                        </ScrollView>
+                        ))}
                     </ScrollView>
+                </ScrollView>
                 <View style={styles.redirectView}>
                     <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26 }} />
                     <TouchableOpacity style={styles.redirectBtn}>
@@ -151,7 +158,28 @@ const ProfileScreen = () => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.transactionView}>
-
+                    <View style={styles.trViewHeader}>
+                        <Text
+                            style={[
+                                styles.promotionsTitle,
+                                { color: isDarkTheme ? Colors.white : Colors.black, }]
+                            }>
+                            ტრანზაქციები
+                        </Text>
+                        <View style={styles.trViewHeaderRight}>
+                            {/* <Image source={require('../../assets/images/points_active.png')} style={{width: 19, height: 19}} />
+                            <Switch
+                                        trackColor={{ false: "#28AD25", true: "#28AD25" }}
+                                        thumbColor={Colors.white}
+                                        ios_backgroundColor="#28AD25"
+                                        onValueChange={toggleSwitch}
+                                        style={{ transform: [{ scaleX: 1.3 }, { scaleY: 1.3 }] }}
+                                        value={isMoneyTransaction}
+                                         />
+                            <Image source={require('../../assets/images/GEL_inactive.png')} style={{width: 15, height: 18}} /> */}
+                            <AppSwitch/>
+                        </View>
+                    </View>
                 </View>
             </View>
 
@@ -199,7 +227,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     promotionsTitle: {
-        
+
         fontFamily: 'HMpangram-Bold',
         fontSize: 14,
         lineHeight: 17,
@@ -211,7 +239,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'green',
         width: '100%',
         marginBottom: 20
     },
@@ -231,7 +258,14 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     transactionView: {
-        
+        marginBottom: 20
+    },
+    trViewHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    trViewHeaderRight: {
+        flexDirection: 'row'
     }
 });
 

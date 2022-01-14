@@ -19,64 +19,59 @@ interface IBmItemProps {
 
 const BurgerMenuItem: React.FC<IBmItem> = (props) => {
     const { isDarkTheme } = useContext(AppContext)
-    const [isColapsed, setIsColapsed] = useState<boolean>(false);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
     useEffect(() => {
         return () => {
-            setIsColapsed(false);
+            setIsCollapsed(false);
         };
     }, []);
-    const styles = StyleSheet.create({
-        mainContStyle: {
-            flexDirection: 'row',
-            alignContent: 'flex-start',
-            alignItems: 'center',
 
-        },
-
-        arrowImgStyle: {
-            width: 7,
-            height: 7,
-            transform: [
-                {
-                    rotate: isColapsed ? '90deg' : '0deg'
-                }
-            ]
-        },
-
-        listName: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 14,
-            lineHeight: 17,
-            marginLeft: 5,
-            textTransform: "uppercase"
-        },
-
-        subMenuListText: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Medium',
-            fontSize: 14,
-            lineHeight: 17,
-            fontWeight: '500',
-            marginVertical: 8
-        }
-    })
 
     return (
-        <ScrollView contentContainerStyle={{ marginBottom: '6%' }}>
-            <TouchableOpacity style={styles.mainContStyle} onPress={() => setIsColapsed(!isColapsed)}>
-                <Image style={styles.arrowImgStyle} source={props.item.icon} />
-                <Text style={styles.listName}>{props.item.name}</Text>
+        <ScrollView
+            contentContainerStyle={{ marginBottom: '6%' }}>
+            <TouchableOpacity style={styles.mainContStyle}
+                onPress={() => setIsCollapsed(!isCollapsed)}>
+                <Image
+                    style={[
+                        styles.arrowImgStyle,
+                        { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }
+                    ]}
+                    source={props.item.icon} />
+                <Text
+                    style={[
+                        styles.listName,
+                        { color: isDarkTheme ? Colors.white : Colors.black }
+                    ]}>
+                    {props.item.name}
+                </Text>
             </TouchableOpacity>
             {
-                isColapsed ?
+                isCollapsed ?
                     <View style={{ paddingStart: '8%' }}>
-                        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate(props.item._children[0].route)}>
-                            <Text style={styles.subMenuListText}>{props.item._children[0].location}</Text>
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row' }}
+                            onPress={() => navigate(props.item._children[0].route)}>
+                            <Text
+                                style={[
+                                    styles.subMenuListText,
+                                    { color: isDarkTheme ? Colors.white : Colors.black }
+                                ]}>
+                                {props.item._children[0].location}
+                            </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ flexDirection: 'row' }}>
-                            <Text style={styles.subMenuListText}>{props.item._children[1].location}</Text>
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row' }}
+                            onPress={() => navigate(props.item._children[1].route)}>
+
+                            <Text
+                                style={[
+                                    styles.subMenuListText,
+                                    { color: isDarkTheme ? Colors.white : Colors.black }
+                                ]}>
+                                {props.item._children[1].location}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                     : null
@@ -84,5 +79,34 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
         </ScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    mainContStyle: {
+        flexDirection: 'row',
+        alignContent: 'flex-start',
+        alignItems: 'center',
+    },
+
+    arrowImgStyle: {
+        width: 7,
+        height: 7,
+    },
+
+    listName: {
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 14,
+        lineHeight: 17,
+        marginLeft: 5,
+        textTransform: "uppercase"
+    },
+
+    subMenuListText: {
+        fontFamily: 'HMpangram-Medium',
+        fontSize: 14,
+        lineHeight: 17,
+        fontWeight: '500',
+        marginVertical: 8
+    }
+})
 
 export default BurgerMenuItem;
