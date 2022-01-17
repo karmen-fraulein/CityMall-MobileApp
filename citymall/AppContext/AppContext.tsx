@@ -41,6 +41,7 @@ const AppProvider: React.FC = ({ children }) => {
     const [cardDetails, setCDetails ] = useState(AppState.cardDetails)
 
     const setIsAuth = (value: boolean) => {
+        console.log('setIsAuth', value)
         setIsAuthenticated(value);
     };
 

@@ -40,6 +40,7 @@ const App = () => {
   const logOut = useCallback(async () => {
     await AuthService.SignOut();
     setUserToken("");
+    console.log('aqane')
     setIsAuth(false);
   }, [userToken]);
 
@@ -52,7 +53,7 @@ const App = () => {
         setIsAuth(true);
       }
     });
-    //console.log(userToken)
+    
   }, [userToken]);
 
 

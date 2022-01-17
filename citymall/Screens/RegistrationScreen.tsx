@@ -23,105 +23,10 @@ const RegistrationScreen: React.FC = (props: any) => {
 
     const { isDarkTheme, userPhoneNumber, setDetails } = useContext(AppContext);
     const { height } = useDimension();
-
-    console.log('height', height);
-
-    const styles = StyleSheet.create({
-        regTitle: {
-            textAlign: 'center',
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 18,
-            fontWeight: '700',
-            lineHeight: 22,
-            alignItems: 'center',
-            textTransform: 'uppercase'
-        },
-        authBtn: {
-            marginBottom: 100,
-            alignSelf: 'center',
-            width: 325,
-            height: '100%',
-            maxHeight: 66,
-            backgroundColor: Colors.darkGrey,
-            borderRadius: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            shadowColor: Colors.black,
-            shadowOffset: {
-                width: 0,
-                height: 2
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 4,
-        },
-        btnText: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontSize: 14,
-            lineHeight: 17,
-            fontWeight: '800',
-            fontFamily: 'HMpangram-Bold',
-            textTransform: 'uppercase'
-        },
-        labelText: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 14,
-            fontWeight: '700',
-            lineHeight: 15,
-            marginLeft: 7
-        },
-        inputWithLabel: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 10
-
-
-        },
-        genderCheck: {
-            marginTop: '6%',
-            borderBottomColor: isDarkTheme ? Colors.white : Colors.black,
-            borderBottomWidth: 1,
-            paddingBottom: 12
-        },
-        mailVerification: {
-            width: '100%',
-            marginVertical: 20
-        },
-        mailVerificationTextWrap: {
-            width: '80%',
-            marginLeft: 5
-        },
-        mailVerificationText: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Medium',
-            fontSize: 14,
-            lineHeight: 14
-        },
-        mailVerificationSubtext: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Medium',
-            fontSize: 10,
-            lineHeight: 14
-        },
-        registerSuccess: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 18,
-            fontWeight: '700',
-            lineHeight: 22,
-            textAlign: 'center'
-        },
-        errorText: {
-            color: Colors.red,
-            fontSize: 11,
-            fontFamily: 'HMpangram-Medium'
-        }
-    });
-
-
-
-    const [step, setStep] = useState<number>(1);
+    
+    const [step, setStep] = useState<number>(0);
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
@@ -157,6 +62,28 @@ const RegistrationScreen: React.FC = (props: any) => {
     useEffect(() => {
         GetDistricts();
     }, []);
+
+    useEffect(() => {
+        if (errorMessages.length === 0) {
+            setHasError(false);
+        };
+    }, [errorMessages]);
+
+    const validateInputs = (actionType: string, inputName: string) => {
+        if (actionType === 'add') {
+            let errorArray = [...errorMessages];
+            let index = errorArray.findIndex((e: string) => e === inputName);
+            if (index >= 0) {
+                return;
+            } else {
+                errorArray.push(inputName);
+                setErrorMessages(errorArray);
+            };
+        } else {
+            let errorArray = errorMessages.filter(e => e !== inputName);
+            setErrorMessages(errorArray);
+        }
+    };
 
     useEffect(() => {
         if (email.length === 0) {
@@ -226,7 +153,7 @@ const RegistrationScreen: React.FC = (props: any) => {
             });
         };
     };
-
+    console.log('errorMessages', errorMessages);
     const handleStep = () => {
         console.log('step,', step)
         if (step === 0) {
@@ -303,20 +230,24 @@ const RegistrationScreen: React.FC = (props: any) => {
     };
 
     const handleAddVirtualCard = () => {
-        if (dateOfBirth === '') {
-            console.log('dateOfBirth ===>', dateOfBirth)
-            setBirthDateError(true);
+        // if (dateOfBirth === '') {
+        //     console.log('dateOfBirth ===>', dateOfBirth)
+        //     setBirthDateError(true);
+        //     return;
+        // } else if (selectedDistrict === '' || (selectedDistrict === 'სხვა' && district === '')) {
+        //     setDistrictError('გთხოვთ შეავსოთ ველი');
+        //     return;
+        // } else if (!agreedTerms) {
+        //     setDistrictError('');
+        //     setAgreedTerms((prev: any) => {
+        //         return {
+        //             ...prev, error: true
+        //         };
+        //     });
+        // };
+        if (errorMessages.length > 0) {
+            setHasError(true);
             return;
-        } else if (selectedDistrict === '' || (selectedDistrict === 'სხვა' && district === '')) {
-            setDistrictError('გთხოვთ შეავსოთ ველი');
-            return;
-        } else if (!agreedTerms) {
-            setDistrictError('');
-            setAgreedTerms((prev: any) => {
-                return {
-                    ...prev, error: true
-                };
-            });
         };
         setGeneralError('');
         setButtonLoading(true);
@@ -380,7 +311,7 @@ const RegistrationScreen: React.FC = (props: any) => {
 
 
     return (
-        <Layout hasBackArrow={step < 2 ? true : false} hideArrows onPressBack={() => {
+        <Layout hasBackArrow={step < 2 ? true : false} onPressBack={() => {
             if (step === 0) {
                 GoBack();
             } else {
@@ -390,44 +321,60 @@ const RegistrationScreen: React.FC = (props: any) => {
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 {step !== 2 ?
                     <View style={[Grid.row_12_5, {}]}>
-                        <Text style={styles.regTitle}>რეგისტრაცია</Text>
+                        <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>რეგისტრაცია</Text>
                     </View> : null}
                 {step === 0 ?
                     <ScrollView style={{ flex: 1 }}>
                         <AppInput
                             placeholder='სახელი'
+                            name='name'
                             value={name}
+                            addValidation={validateInputs}
+                            errors={errorMessages}
+                            isRequired={true}
+                            validationRule='required'
                             onChangeText={(val: string) => setName(val)}
                             errorMessage={nameError} />
                         <AppInput
                             placeholder='გვარი'
+                            name='lastName'
                             value={lastname}
+                            addValidation={validateInputs}
+                            errors={errorMessages}
+                            isRequired={true}
+                            validationRule='required'
                             onChangeText={(val: string) => setLastname(val)}
-                            errorMessage={lastnameError} />
+                        />
                         <View>
                             <AppInput
                                 placeholder='პირადი ნომერი'
+                                name = 'idNumber'
+                                value={idNumber}
+                                hasError={hasError}
+                                addValidation={validateInputs}
+                                errors={errorMessages}
+                                isRequired={true}
+                                validationRule='idNumber'
                                 maxLength={isForeignResident ? undefined : 11}
                                 keyboardType={isForeignResident ? 'default' : 'number-pad'}
-                                value={idNumber}
                                 onChangeText={(val: string) => setIdNumber(val)} />
                             {idNumberError ?
                                 <Text style={styles.errorText}>პირადობის ნომერი არასწორია</Text>
                                 : null}
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => setIsForeignResident(!isForeignResident)}>
                                 <AppCheckBox checked={isForeignResident} onChange={() => setIsForeignResident(!isForeignResident)} />
-                                <Text style={styles.labelText}>უცხო ქვეყნის მოქალაქე</Text>
+                                <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>უცხო ქვეყნის მოქალაქე</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.genderCheck}>
+                        <View style={[styles.genderCheck, { borderBottomColor: isDarkTheme ? Colors.white : Colors.black, }]}>
                             <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>სქესი</Text>
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => handleGenderChange('female')}>
                                 <AppCheckBox checked={gender.female} onChange={() => handleGenderChange('female')} />
-                                <Text style={styles.labelText}>მდედრობითი</Text>
+                                <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>მდედრობითი</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.inputWithLabel} onPress={() => handleGenderChange('male')}>
                                 <AppCheckBox checked={gender.male} onChange={() => handleGenderChange('male')} />
-                                <Text style={styles.labelText}>მამრობითი</Text>
+                                <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>მამრობითი</Text>
                             </TouchableOpacity>
                             {gender.error ?
                                 <Text style={styles.errorText}>გთხოვთ აირჩიოთ სქესი </Text>
@@ -478,21 +425,32 @@ const RegistrationScreen: React.FC = (props: any) => {
                             : null}
                         <View>
                             <DistrictPicker data={districts} onSelect={handleDistrictSelect} placeholder='აირჩიეთ რაიონი' />
-                            {selectedDistrict === 'სხვა' && <AppInput
+                            {selectedDistrict === 'სხვა' && 
+                            <AppInput
                                 placeholder='საცხოვრებელი რაიონი'
                                 value={district}
+                                name = 'district'
+                                hasError={hasError}
+                                addValidation={validateInputs}
+                                errors={errorMessages}
+                                isRequired={true}
+                                validationRule='phoneNumber'
                                 onChangeText={(val: string) => setDistrict(val)}
-                                errorMessage={districtError} />}
+                                 />
+                                 }
                         </View>
-
-
                         <View style={{}}>
                             <AppInput
-                                placeholder='ელ-ფოსტა'
+                                placeholder = 'ელ-ფოსტა'
+                                value = {email}
+                                name = 'email'
                                 keyboardType='email-address'
-                                value={email}
+                                hasError={hasError}
+                                addValidation={validateInputs}
+                                errors={errorMessages}
+                                isRequired={true}
+                                validationRule='email'
                                 onChangeText={(val: string) => setEmail(val)}
-                                errorMessage={emailError}
                             />
                             <View style={styles.mailVerification}>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -504,17 +462,23 @@ const RegistrationScreen: React.FC = (props: any) => {
                                         value={verifyEmail}
                                         disabled={email.length > 0 && !emailError ? false : true} />
                                     <View style={styles.mailVerificationTextWrap}>
-                                        <Text style={styles.mailVerificationText}>ელ-ფოსტის ვერიფიკაცია</Text>
-                                        <Text style={styles.mailVerificationSubtext}>ელ. ფოსტის მითითებისა და ვერიფიკაციის შემთხვევაში საჩუქრად დაგერიცხებათ 100 სითი ქულა         </Text>
+                                        <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ელ-ფოსტის ვერიფიკაცია</Text>
+                                        <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ელ. ფოსტის მითითებისა და ვერიფიკაციის შემთხვევაში საჩუქრად დაგერიცხებათ 100 სითი ქულა         </Text>
                                     </View>
                                 </View>
                                 {verifyEmail ?
                                     <View style={{ position: 'relative' }}>
                                         <AppInput
                                             placeholder='ვერიფიკაციის კოდი'
+                                            value={emailVerificationCode}
+                                            name = 'mailOtp'
+                                            hasError={hasError}
+                                            addValidation={validateInputs}
+                                            errors={errorMessages}
+                                            isRequired={true}
+                                            validationRule='required'
                                             keyboardType='number-pad'
                                             maxLength={6}
-                                            value={emailVerificationCode}
                                             onChangeText={(val: string) => setEmailVerificationCode(val)} />
                                         {verifyEmailError ?
                                             <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text>
@@ -536,7 +500,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                         <View >
                             <View style={styles.inputWithLabel}>
                                 <AppCheckBox checked={agreedTerms.value} onChange={() => { setAgreedTerms({ value: !agreedTerms.value, error: false }); Keyboard.dismiss() }} />
-                                <Text style={styles.labelText}>ვეთანხმები წესებს და პირობებს</Text>
+                                <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ვეთანხმები წესებს და პირობებს</Text>
                                 {agreedTerms.error ?
                                     <Text style={styles.errorText}>გთხოვთ დაეთანხმოთ წესებსა და პირობებს</Text>
                                     : null}
@@ -550,24 +514,24 @@ const RegistrationScreen: React.FC = (props: any) => {
                 {step === 2 ?
                     <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                         <Image source={require('../assets/images/success-mark.png')} style={{ width: 64, height: 64, marginBottom: 20 }} />
-                        <Text style={styles.registerSuccess}>რეგისტაცია წარმატებით დასრულდა</Text>
+                        <Text style={[styles.registerSuccess, { color: isDarkTheme ? Colors.white : Colors.black, }]}>რეგისტაცია წარმატებით დასრულდა</Text>
                     </View> : null}
                 <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
                     {step === 0 ?
                         <TouchableOpacity style={styles.authBtn} onPress={handleStep}>
-                            <Text style={styles.btnText}>შემდეგი</Text>
+                            <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>შემდეგი</Text>
                         </TouchableOpacity> :
                         step === 1 ?
                             <TouchableOpacity style={styles.authBtn} onPress={handleAddVirtualCard} disabled={buttonLoading}>
                                 {buttonLoading ?
                                     <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                                     :
-                                    <Text style={styles.btnText}>დადასტურება</Text>
+                                    <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>დადასტურება</Text>
                                 }
                             </TouchableOpacity>
                             :
                             <TouchableOpacity style={styles.authBtn} onPress={handleGetClientCards}>
-                                <Text style={styles.btnText}>დახურვა</Text>
+                                <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>დახურვა</Text>
                             </TouchableOpacity>
                     }
                 </View>
@@ -577,3 +541,98 @@ const RegistrationScreen: React.FC = (props: any) => {
 };
 
 export default RegistrationScreen;
+
+const styles = StyleSheet.create({
+    regTitle: {
+        textAlign: 'center',
+
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 18,
+        fontWeight: '700',
+        lineHeight: 22,
+        alignItems: 'center',
+        textTransform: 'uppercase'
+    },
+    authBtn: {
+        marginBottom: 100,
+        alignSelf: 'center',
+        width: 325,
+        height: '100%',
+        maxHeight: 66,
+        backgroundColor: Colors.darkGrey,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+    },
+
+    btnText: {
+        fontSize: 14,
+        lineHeight: 17,
+        fontWeight: '800',
+        fontFamily: 'HMpangram-Bold',
+        textTransform: 'uppercase'
+    },
+
+    labelText: {
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 14,
+        fontWeight: '700',
+        lineHeight: 15,
+        marginLeft: 7
+    },
+
+    inputWithLabel: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10
+    },
+
+    genderCheck: {
+        marginTop: '6%',
+        borderBottomWidth: 1,
+        paddingBottom: 12
+    },
+
+    mailVerification: {
+        width: '100%',
+        marginVertical: 20
+    },
+
+    mailVerificationTextWrap: {
+        width: '80%',
+        marginLeft: 5
+    },
+
+    mailVerificationText: {
+
+        fontFamily: 'HMpangram-Medium',
+        fontSize: 14,
+        lineHeight: 14
+    },
+
+    mailVerificationSubtext: {
+        fontFamily: 'HMpangram-Medium',
+        fontSize: 10,
+        lineHeight: 14
+    },
+    registerSuccess: {
+
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 18,
+        fontWeight: '700',
+        lineHeight: 22,
+        textAlign: 'center'
+    },
+    errorText: {
+        color: Colors.red,
+        fontSize: 11,
+        fontFamily: 'HMpangram-Medium'
+    }
+});

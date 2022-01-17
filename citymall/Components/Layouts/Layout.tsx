@@ -130,9 +130,9 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                         </View>
                         <Text style={styles.cityMall}>სითი მოლი</Text>
                     </View>
-                    {props.hideArrows ?
-                        null :
-                        <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />}
+                   
+                        
+                        <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
                 </View>
             }
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 10 }}>

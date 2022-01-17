@@ -14,6 +14,7 @@ import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
+import { useState } from 'react';
 
 
 
@@ -22,13 +23,18 @@ const Stack = createStackNavigator();
 const AppStack = () => {
    
     const {isAuthenticated} = useContext(AppContext);
+    const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
     useEffect(() => {
-
+        if(isAuthenticated) {
+            setIsAuthorized(true);
+        } else {
+            setIsAuthorized(false);
+        }
     }, [isAuthenticated])
 
     
     return (
-        !isAuthenticated?
+        !isAuthorized?
         
     // <ProfileScreen/>
         <AuthScreen/>

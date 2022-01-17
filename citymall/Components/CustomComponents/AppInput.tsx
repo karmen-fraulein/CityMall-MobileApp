@@ -68,17 +68,19 @@ const AppInput: React.FC<IAppInput> = (props) => {
         }
     });
 
-    const [errorMessage, setErrorMesage] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
 
     useEffect(() => {
         if (isRequired) {
             if (value === '') {
+                console.log(name)
                 addValidation!('add', name);
             } else {
-                if (validationRule !== 'phoneNumber')
+                if (validationRule !== 'phoneNumber'){
                     addValidation!('remove', name);
-                setErrorMesage('');
+                }
+                setErrorMessage('');
             };
         }
 
@@ -89,7 +91,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
         // console.log(hasError, index, errors)
         if (hasError && index! >= 0) {
             
-            setErrorMesage('გთხოვთ შეავსოთ ველი');
+            setErrorMessage('გთხოვთ შეავსოთ ველი');
         }
     }, [hasError, errors]);
 
@@ -97,10 +99,10 @@ const AppInput: React.FC<IAppInput> = (props) => {
         if (validationRule === 'email' && value !== '') {
             let regex = /\S+@\S+\.\S+/;
             if (regex.test(value)) {
-                setErrorMesage('');
+                setErrorMessage('');
             } else {
                 addValidation!('add', name);
-                setErrorMesage(validations[validationRule]);
+                setErrorMessage(validations[validationRule]);
             };
         }
     }, [value, validationRule]);
@@ -108,13 +110,27 @@ const AppInput: React.FC<IAppInput> = (props) => {
     useEffect(() => {
         if (validationRule === 'phoneNumber') {
             if (value === '') {
-                setErrorMesage('');
+                setErrorMessage('');
             } else if (value.length === 9) {
                 addValidation!('remove', name);
-                setErrorMesage('');
+                setErrorMessage('');
             } else if (maxLength && (value.length !== 9 || value !== '')) {
                 addValidation!('add', name);
-                setErrorMesage(validations[validationRule])
+                setErrorMessage(validations[validationRule])
+            }
+        }
+    }, [value, validationRule, maxLength])
+
+    useEffect(() => {
+        if (validationRule === 'idNumber') {
+            if (value === '') {
+                setErrorMessage('');
+            } else if (value.length === 11) {
+                addValidation!('remove', name);
+                setErrorMessage('');
+            } else if (maxLength && (value.length !== 9 || value !== '')) {
+                addValidation!('add', name);
+                setErrorMessage(validations[validationRule])
             }
         }
     }, [value, validationRule, maxLength])
