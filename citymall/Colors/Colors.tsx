@@ -8,5 +8,8 @@ export const Colors = {
     blue: '#3269E5',
     lightBlue: '#40ADEC',
     transparent: '#24252675',
-    darkGrey: '#636363'
+    darkGrey: '#636363',
+    silver: '#D7D8D9',
+    gold: '#FFE583',
+    platinum: '#A0A9B1'
 }

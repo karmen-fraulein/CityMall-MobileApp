@@ -20,8 +20,11 @@ import AppSwitch from '../../Components/CustomComponents/AppSwitch';
 import Layout from '../../Components/Layouts/Layout';
 import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
+import StatusBar from '../../Components/StatusBar';
 import { useDimension } from '../../Hooks/UseDimension';
+import { navigate } from '../../Services/NavigationServices';
 import Grid from '../../Styles/grid';
+import StatusInfoScreen from './StatusInfoScreen';
 
 
 const offers: any = [
@@ -68,6 +71,8 @@ const offers: any = [
 
 ]
 
+
+
 const ProfileScreen = () => {
     const { width } = useDimension();
     const { isDarkTheme } = useContext(AppContext);
@@ -89,7 +94,7 @@ const ProfileScreen = () => {
 
     return (
         <AppLayout>
-            <View style={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
+            <View style={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: '7%' }}>
                 <View style={styles.balanceView}>
                     <View >
                         <Text style={styles.balanceWrapTitle}>
@@ -109,31 +114,37 @@ const ProfileScreen = () => {
                         </Text>
                     </View>
                 </View>
-                <View style={styles.statusBarView}>
-                    <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
-                        სტატუსბარი
-                    </Text>
-                    <TouchableOpacity>
+                <View style={{ marginBottom: 30, width: '100%' }}>
+                    <View style={styles.statusBarView}>
                         <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
-                            ვრცლად
+                            სტატუსბარი
                         </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigate('StatusInfoScreen')}>
+                            <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                                ვრცლად
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <StatusBar />
                 </View>
+                <View style={{marginBottom: 30}}>
+                    <View style={styles.promotionContainer}>
+                        <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                            პირადი შეთავაზებები
+                        </Text>
+                        <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
+                    </View>
+                    <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
+                        <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                            {offers?.map((el: any, i: number) => (
+                                <PromotionBox key={i} data={el} />
 
-                <View style={styles.promotionContainer}>
-                    <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
-                        პირადი შეთავაზებები
-                    </Text>
-                    <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
-                </View>
-                <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                    <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
-                        {offers?.map((el: any, i: number) => (
-                            <PromotionBox key={i} data={el} />
-
-                        ))}
+                            ))}
+                        </ScrollView>
                     </ScrollView>
-                </ScrollView>
+                </View>
+                <View style={{marginBottom: 30}}>
                 <View style={styles.promotionContainer}>
                     <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                         ქულების გახაჯვის ოფცია
@@ -148,6 +159,7 @@ const ProfileScreen = () => {
                         ))}
                     </ScrollView>
                 </ScrollView>
+                </View>
                 <View style={styles.redirectView}>
                     <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26 }} />
                     <TouchableOpacity style={styles.redirectBtn}>
@@ -177,7 +189,7 @@ const ProfileScreen = () => {
                                         value={isMoneyTransaction}
                                          />
                             <Image source={require('../../assets/images/GEL_inactive.png')} style={{width: 15, height: 18}} /> */}
-                            <AppSwitch/>
+                            <AppSwitch />
                         </View>
                     </View>
                 </View>
@@ -212,9 +224,9 @@ const styles = StyleSheet.create({
 
     statusBarView: {
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        height: 88,
-        marginBottom: 30
+        marginBottom: 20
     },
     promotions: {
         flexDirection: 'row',
@@ -225,9 +237,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginBottom: 20
     },
     promotionsTitle: {
-
         fontFamily: 'HMpangram-Bold',
         fontSize: 14,
         lineHeight: 17,
@@ -240,7 +252,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        marginBottom: 20
+        marginBottom: 30
     },
     redirectBtn: {
         width: '100%',

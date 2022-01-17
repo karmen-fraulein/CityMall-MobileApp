@@ -15,7 +15,6 @@ const AppSwitch: React.FC<IAppSwitch> =() => {
 
     useEffect(() => {
         if(isActive) {
-            console.log('aqane')
             Animated.timing(animatedBall.current, {
                 toValue: 1,
                 duration: 2000,
@@ -23,7 +22,6 @@ const AppSwitch: React.FC<IAppSwitch> =() => {
             }).start();
             
         } else {
-            console.log('iqine')
             Animated.timing(animatedBall.current, {
                 toValue: 1,
                 duration: 2000,

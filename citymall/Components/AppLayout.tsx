@@ -9,7 +9,7 @@ import AppHeader from './AppHeader';
 
 
 const AppLayout = (props: any) => (
-    <NavigationContainer ref={navigationRef}>
+
         <AppNavigator >
             <>
                 <AppHeader />
@@ -20,7 +20,6 @@ const AppLayout = (props: any) => (
                 </ScrollView>
             </>
         </AppNavigator>
-    </NavigationContainer>
 )
 
 export default AppLayout;
