@@ -17,10 +17,7 @@ const WorkingScreen = () => {
         })
     }, []);
 
-    console.log('districts --->',districts )
-    const tt = (data: string) => {
-        console.log(data)
-    }
+  
     return (
         <View style ={{flex: 1, backgroundColor: Colors.black, justifyContent: 'center' }}>
           <AppPicker data = {districts}/>

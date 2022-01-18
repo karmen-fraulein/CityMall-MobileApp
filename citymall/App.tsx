@@ -40,7 +40,6 @@ const App = () => {
   const logOut = useCallback(async () => {
     await AuthService.SignOut();
     setUserToken("");
-    console.log('aqane')
     setIsAuth(false);
   }, [userToken]);
 
@@ -49,12 +48,19 @@ const App = () => {
     //console.log('Developer <--Avtandil Shaburishvili, 08.04.2021--> ')
     AuthService.getToken().then(data => {
       setUserToken(data || "");
-      if (data !== '') {
-        setIsAuth(true);
-      }
-    });
+      setIsInit(true)
+    })
     
-  }, [userToken]);
+  }, [userToken, isInit]);
+
+
+  useEffect(() => {
+    if(userToken && isInit){
+      setIsAuth(true);
+    } else {
+      setIsAuth(false);
+    }
+  }, [userToken, isInit])
 
 
   useEffect(() => {
@@ -68,8 +74,9 @@ const App = () => {
 
 
   return (
+    
     <AppProvider>
-      <StatusBar backgroundColor={isDarkTheme ? Colors.black : Colors.white} />
+        <StatusBar backgroundColor={isDarkTheme ? Colors.black : Colors.white} />
       <AppStack />
     </AppProvider>
   );

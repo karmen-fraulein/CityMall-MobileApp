@@ -39,20 +39,16 @@ const validations: any = {
 const AppInput: React.FC<IAppInput> = (props) => {
     const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style } = props;
     const { isDarkTheme } = useContext(AppContext);
-    const { width } = useDimension();
-
 
     const styles = StyleSheet.create({
         inputWrap: {
             width: '100%',
             position: 'relative',
-            borderColor: isDarkTheme ? Colors.white : Colors.black,
             borderBottomWidth: 1,
-
         },
 
         input: {
-            color: isDarkTheme ? Colors.white : Colors.black,
+            
             fontFamily: 'HMpangram-Medium',
             fontWeight: '500',
             fontSize: 14,
@@ -74,13 +70,15 @@ const AppInput: React.FC<IAppInput> = (props) => {
     useEffect(() => {
         if (isRequired) {
             if (value === '') {
-                console.log(name)
                 addValidation!('add', name);
-            } else {
+            } 
+            else {
                 if (validationRule !== 'phoneNumber'){
-                    addValidation!('remove', name);
-                }
-                setErrorMessage('');
+                    
+                    setErrorMessage('');
+                };
+                addValidation!('remove', name);
+                
             };
         }
 
@@ -90,10 +88,10 @@ const AppInput: React.FC<IAppInput> = (props) => {
         let index = errors?.findIndex((e: string) => e === name);
         // console.log(hasError, index, errors)
         if (hasError && index! >= 0) {
-            
             setErrorMessage('გთხოვთ შეავსოთ ველი');
         }
     }, [hasError, errors]);
+
 
     useEffect(() => {
         if (validationRule === 'email' && value !== '') {
@@ -137,9 +135,9 @@ const AppInput: React.FC<IAppInput> = (props) => {
 
     return (
         <>
-            <View style={styles.inputWrap}> 
+            <View style={[styles.inputWrap, { borderColor: isDarkTheme ? Colors.white : Colors.black,}]}> 
                 <TextInput
-                    style={style || styles.input}
+                    style={[style || styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}
                     {...props}
                     selectionColor={isDarkTheme ? Colors.white : Colors.black}
                     placeholderTextColor={isDarkTheme ? Colors.white : Colors.black} />

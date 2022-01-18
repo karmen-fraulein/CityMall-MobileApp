@@ -15,6 +15,7 @@ import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
+import RegistrationScreen2 from '../Screens/RegistrationScreen2';
 
 
 
@@ -23,21 +24,21 @@ const Stack = createStackNavigator();
 const AppStack = () => {
    
     const {isAuthenticated} = useContext(AppContext);
-    const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+    console.log('isAuthenticated',isAuthenticated)
     useEffect(() => {
-        if(isAuthenticated) {
-            setIsAuthorized(true);
-        } else {
-            setIsAuthorized(false);
-        }
+        // if(isAuthenticated) {
+        //     setIsAuthorized(true);
+        // } else {
+        //     setIsAuthorized(false);
+        // }
     }, [isAuthenticated])
 
     
     return (
-        !isAuthorized?
+        isAuthenticated?
         
-    // <ProfileScreen/>
         <AuthScreen/>
+       // <RegistrationScreen2/>
         //<ShopDetailsScreen/>
         :
         <NavigationContainer  ref = {navigationRef}>
@@ -64,12 +65,20 @@ const AppStack = () => {
                     }}
                 />
                 <Stack.Screen
+                    name='RegistrationScreen2'
+                    component={RegistrationScreen2}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
                     name='UserCardWithBarcode'
                     component={UserCardWithBarcode}
                     options={{
                         headerShown: false,
                     }}
                 />
+                
                 <Stack.Screen
                     name='ShopDetailsScreen'
                     component={ShopDetailsScreen}

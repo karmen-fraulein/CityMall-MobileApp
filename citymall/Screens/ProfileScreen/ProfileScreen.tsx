@@ -21,6 +21,7 @@ import Layout from '../../Components/Layouts/Layout';
 import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
 import StatusBar from '../../Components/StatusBar';
+import TransactionList from '../../Components/TransactionList';
 import { useDimension } from '../../Hooks/UseDimension';
 import { navigate } from '../../Services/NavigationServices';
 import Grid from '../../Styles/grid';
@@ -71,6 +72,79 @@ const offers: any = [
 
 ]
 
+const tr = [
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+    {
+        date: '28.10.2021',
+        time: '16:45',
+        shop : 'Zara',
+        amount: '-90',
+        image: require('../../assets/images/hm-icon-profile.png')
+    },
+] 
+
 
 
 const ProfileScreen = () => {
@@ -79,6 +153,7 @@ const ProfileScreen = () => {
 
     const [offersStep, setOffersStep] = useState<number>(0);
     const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);
+    const [transactions, setTranzactions] = useState<any[]>(tr);
 
 
     const toggleSwitch = () => {
@@ -161,7 +236,7 @@ const ProfileScreen = () => {
                 </ScrollView>
                 </View>
                 <View style={styles.redirectView}>
-                    <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26 }} />
+                    <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26, marginRight: 10 }} />
                     <TouchableOpacity style={styles.redirectBtn}>
                         <Text style={styles.redirectBtnText}>
                             დამატებითი ოპერაციები ფეიუნიქარდში
@@ -179,18 +254,18 @@ const ProfileScreen = () => {
                             ტრანზაქციები
                         </Text>
                         <View style={styles.trViewHeaderRight}>
-                            {/* <Image source={require('../../assets/images/points_active.png')} style={{width: 19, height: 19}} />
-                            <Switch
-                                        trackColor={{ false: "#28AD25", true: "#28AD25" }}
-                                        thumbColor={Colors.white}
-                                        ios_backgroundColor="#28AD25"
-                                        onValueChange={toggleSwitch}
-                                        style={{ transform: [{ scaleX: 1.3 }, { scaleY: 1.3 }] }}
-                                        value={isMoneyTransaction}
-                                         />
-                            <Image source={require('../../assets/images/GEL_inactive.png')} style={{width: 15, height: 18}} /> */}
-                            <AppSwitch />
+                            <Image source={require('../../assets/images/points_active.png')} style={{width: 19, height: 19}} />
+                      
+                                         <AppSwitch />
+                            <Image source={require('../../assets/images/GEL_inactive.png')} style={{width: 15, height: 18}} />
+                            
                         </View>
+                    </View>
+                    <View>
+                        {tr.map((item, index) => (
+                            <TransactionList item = {item} key = {index}/>
+                        ))}
+                        <TransactionList/>
                     </View>
                 </View>
             </View>
@@ -277,7 +352,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     trViewHeaderRight: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: 20
     }
 });
 

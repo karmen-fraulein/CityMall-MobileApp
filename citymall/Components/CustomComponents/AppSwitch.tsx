@@ -49,8 +49,6 @@ const AppSwitch: React.FC<IAppSwitch> =() => {
         setIsActive(!isActive)
     }
 
-    console.log(isActive)
-
 
 
     return (
@@ -69,6 +67,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.white, 
         borderRadius: 15,
         paddingVertical: 3,
+        marginHorizontal: 10,
         backgroundColor: '#28AD25'
     },
     switchBall : {

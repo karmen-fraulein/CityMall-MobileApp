@@ -37,6 +37,7 @@ const AppCheckBox: React.FC<IAppCheckBox> = (props: any) => {
         },
         activeColor: {
             backgroundColor: isDarkTheme? Colors.white : Colors.black
+            
         },
         inactiveColor: {
             backgroundColor: isDarkTheme? Colors.black : Colors.white
