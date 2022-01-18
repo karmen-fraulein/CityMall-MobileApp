@@ -21,8 +21,14 @@ export interface IRegistrationProps {
     email?: string,
     phone?: string,
     address?: string,
-    sex?: number,
+    sex?: Object,
     mailOtp?: string
+}
+
+export interface IGenderTypes {
+    male: boolean,
+    female: boolean,
+    error: boolean
 }
 
 
@@ -33,10 +39,10 @@ const RegistrationScreen: React.FC = (props: any) => {
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
     const [name, setName] = useState<string>('');
-    const [lastname, setLastname] = useState<string>('');
+    const [lastName, setLastname] = useState<string>('');
     const [idNumber, setIdNumber] = useState<string>('');
     const [isForeignResident, setIsForeignResident] = useState<boolean>(false);
-    const [gender, setGender] = useState<any>({
+    const [gender, setGender] = useState<IGenderTypes>({
         male: false,
         female: false,
         error: false,
@@ -96,9 +102,18 @@ const RegistrationScreen: React.FC = (props: any) => {
             setHasError(true);
             return
         };
+        if(!gender.male && !gender.female ){
+            setGender(prevState => {
+                return {
+                    ...prevState,
+                    error: true
+                }
+            });
+            return;
+        };
         const data: IRegistrationProps = {
             firstName: name,
-            lastName: lastname,
+            lastName: lastName,
             personCode: idNumber,
             sex: gender
         }
@@ -138,7 +153,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                     <AppInput
                         placeholder='გვარი'
                         name='lastName'
-                        value={lastname}
+                        value={lastName}
                         hasError={hasError}
                         addValidation={validateInputs}
                         errors={errorMessages}

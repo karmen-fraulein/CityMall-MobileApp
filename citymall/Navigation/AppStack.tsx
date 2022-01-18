@@ -8,6 +8,7 @@ import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
 import WorkingScreen from '../Screens/WorkingScreen';
+ScreenTwo
 
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
@@ -16,6 +17,7 @@ import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
 import RegistrationScreen2 from '../Screens/RegistrationScreen2';
+import { ScreenTwo } from '../Screens/Registration';
 
 
 
