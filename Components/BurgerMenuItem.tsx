@@ -18,7 +18,8 @@ interface IBmItemProps {
 
 
 const BurgerMenuItem: React.FC<IBmItem> = (props) => {
-    const { isDarkTheme } = useContext(AppContext)
+    const { state  } = useContext(AppContext);
+    const {  isDarkTheme } = state;
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
     useEffect(() => {
@@ -80,6 +81,9 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
     );
 };
 
+
+export default BurgerMenuItem;
+
 const styles = StyleSheet.create({
     mainContStyle: {
         flexDirection: 'row',
@@ -107,6 +111,4 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         marginVertical: 8
     }
-})
-
-export default BurgerMenuItem;
+});

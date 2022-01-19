@@ -8,65 +8,16 @@ import { AppContext } from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
 
 const BurgerMenu: React.FC = (props) => {
-
-    const { setIsAuth, isDarkTheme, clientDetails } = useContext(AppContext);
-
-    useEffect(() => {
-        
-        
-    }, [])
-
-    const styles = StyleSheet.create({
-        burgerMenuCont: {
-            flex: 1,
-            backgroundColor: isDarkTheme ? Colors.black : Colors.white,
-           
-            
-        },
-        burgerMenuHeader: {
-            height: Grid.col_2.height,
-            justifyContent: 'space-around',
-            paddingHorizontal: '8%'
-        },
-        usernameText: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Medium',
-            fontSize: 12,
-            lineHeight: 15,
-            fontWeight: '500'
-        },
-
-        burgerMenuSeparator: {
-            height: Grid.row_1.height,
-            justifyContent: 'center',
-            paddingRight: '8%'
-
-
-        },
-
-        logoutBtn: {
-            width: 224,
-            height: 39,
-            borderRadius: 50,
-            backgroundColor: Colors.darkGrey,
-            justifyContent: 'center',
-            alignItems: 'center'
-        },
-
-        logoutBtnText: {
-            fontFamily: 'HMpangram-Bold',
-            textTransform: 'uppercase',
-            fontSize: 14,
-            lineHeight: 17,
-            color: Colors.white 
-        }
-    });
-
+    const { state, setGlobalState } = useContext(AppContext);
+    const {  isDarkTheme, clientDetails} = state;
+  
     return (
-        <SafeAreaView style={styles.burgerMenuCont}>
+        <SafeAreaView style={[styles.burgerMenuCont, {backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
             <View style={styles.burgerMenuHeader}>
                 <Image source={require('../assets/images/city-mall-title.png')} style={{ width: 135, height: 17 }} />
-                <Text style={styles.usernameText}>{clientDetails?.[0]?.firstName} {clientDetails?.[0]?.lastName}</Text>
+                <Text style={[styles.usernameText, { color: isDarkTheme ? Colors.white : Colors.black,}]}>
+                    {clientDetails?.[0]?.firstName} {clientDetails?.[0]?.lastName}
+                    </Text>
                 <Image source={require('../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <ScrollView contentContainerStyle={{ marginVertical: '10%', paddingLeft: '8%' }}>
@@ -82,7 +33,7 @@ const BurgerMenu: React.FC = (props) => {
             <View style={[Grid.col_1, { justifyContent: 'flex-start', marginLeft: '8%'  }]}>
                 <TouchableOpacity style={styles.logoutBtn} onPress={() => {
                     AuthService.SignOut();
-                    setIsAuth(false);
+                    setGlobalState({isAuthenticated:false});
                 }}>
                     <Text style={styles.logoutBtnText}>გამოსვლა</Text>
                 </TouchableOpacity>
@@ -92,3 +43,45 @@ const BurgerMenu: React.FC = (props) => {
 };
 
 export default BurgerMenu;
+
+const styles = StyleSheet.create({
+    burgerMenuCont: {
+        flex: 1,
+    },
+
+    burgerMenuHeader: {
+        height: Grid.col_2.height,
+        justifyContent: 'space-around',
+        paddingHorizontal: '8%'
+    },
+
+    usernameText: {
+        fontFamily: 'HMpangram-Medium',
+        fontSize: 12,
+        lineHeight: 15,
+        fontWeight: '500'
+    },
+
+    burgerMenuSeparator: {
+        height: Grid.row_1.height,
+        justifyContent: 'center',
+        paddingRight: '8%'
+    },
+
+    logoutBtn: {
+        width: 224,
+        height: 39,
+        borderRadius: 50,
+        backgroundColor: Colors.darkGrey,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    logoutBtnText: {
+        fontFamily: 'HMpangram-Bold',
+        textTransform: 'uppercase',
+        fontSize: 14,
+        lineHeight: 17,
+        color: Colors.white 
+    }
+});

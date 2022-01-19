@@ -9,54 +9,10 @@ interface IOtpProps {
     hasError?: boolean
 }
 const OneTimeCode: React.FC<IOtpProps> = (props) => {
-    const {getValue, resend, hasError} = props;
-    const { isDarkTheme } = useContext(AppContext);
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
-    const styles = StyleSheet.create({
-        otpContainer: {
-            position: 'relative',
-            width: '100%',
-            borderColor: isDarkTheme ? Colors.white : Colors.black,
-            borderBottomWidth: 1,
-        },
-        otpTitle: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Medium',
-            fontSize: 13,
-            fontWeight: '500',
-            lineHeight: 17,
-        },
-        otpInput: {
-            paddingHorizontal: 12,
-            paddingTop: 12,
-            paddingBottom: 16,
-            color: isDarkTheme ? Colors.white : Colors.black
-        },
-        otpIputPlaceholder : {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 13,
-        },
-        otpResend: {
-            position: 'absolute',
-            top: 28,
-            right: 5
-        },
-        otpResendText: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Medium',
-            fontSize: 13,
-            fontWeight: '500',
-            lineHeight: 17,
-        },
-        errorText: {
-            position: 'absolute',
-            bottom: -20,
-            color: Colors.red,
-            fontSize: 11,
-            fontFamily: 'HMpangram-Medium'
-        }
-    });
+    const { getValue, resend, hasError } = props;
 
     const [oneTimeCode, setOneTimeCode] = useState<string>('');
 
@@ -65,32 +21,71 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
     }, [oneTimeCode]);
 
     const handleOneTimePasscode = (value: any) => {
-        if(isNaN(value)) {
+        if (isNaN(value)) {
             return;
         } else {
             setOneTimeCode(value);
-        }
+        };
     };
 
     return (
-        <View style={styles.otpContainer}>
-            <Text style={styles.otpTitle}>გთხოვთ შეიყვანოთ ერთჯერადი კოდი</Text>
+        <View style={[styles.otpContainer, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
+            <Text style={[styles.otpTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                გთხოვთ შეიყვანოთ ერთჯერადი კოდი</Text>
             <TextInput
-                style = {styles.otpInput}
+                style={[styles.otpInput, {color: isDarkTheme ? Colors.white : Colors.black}]}
                 value={oneTimeCode}
                 placeholder='sms კოდი'
                 placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                 onChangeText={(val: string) => handleOneTimePasscode(val)}
                 maxLength={4}
                 keyboardType='numeric'
-                textContentType = 'oneTimeCode'
+                textContentType='oneTimeCode'
             />
             <TouchableOpacity style={styles.otpResend} onPress={resend}>
-                <Text style={styles.otpResendText}>თავიდან</Text>
+                <Text style={[styles.otpResendText, { color: isDarkTheme ? Colors.white : Colors.black }]}>თავიდან</Text>
             </TouchableOpacity>
-            {hasError? <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text> : null }
+            {hasError ? <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text> : null}
         </View>
     );
 };
 
 export default OneTimeCode;
+
+const styles = StyleSheet.create({
+    otpContainer: {
+        position: 'relative',
+        width: '100%',
+        borderBottomWidth: 1,
+    },
+    otpTitle: {
+        fontFamily: 'HMpangram-Medium',
+        fontSize: 13,
+        fontWeight: '500',
+        lineHeight: 17,
+    },
+    otpInput: {
+        paddingHorizontal: 12,
+        paddingTop: 12,
+        paddingBottom: 16,
+    },
+
+    otpResend: {
+        position: 'absolute',
+        top: 28,
+        right: 5
+    },
+    otpResendText: {
+        fontFamily: 'HMpangram-Medium',
+        fontSize: 13,
+        fontWeight: '500',
+        lineHeight: 17,
+    },
+    errorText: {
+        position: 'absolute',
+        bottom: -20,
+        color: Colors.red,
+        fontSize: 11,
+        fontFamily: 'HMpangram-Medium'
+    }
+});

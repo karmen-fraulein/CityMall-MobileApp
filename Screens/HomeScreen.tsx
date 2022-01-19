@@ -9,7 +9,6 @@ import Grid from "../Styles/grid";
 import AppLayout from "../Components/AppLayout";
 import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const dummyData = [
     {
@@ -102,7 +101,9 @@ const dummyData = [
 
 
 const HomeScreen = (props: any) => {
-    const { setDetails, clientDetails, fillCardDetails, isDarkTheme } = useContext(AppContext)
+    const {state,  setGlobalState } = useContext(AppContext);
+    const { clientDetails, isDarkTheme } = state;
+
     const { width, height } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offers, setOffers] = useState<any[]>();
@@ -117,7 +118,7 @@ const HomeScreen = (props: any) => {
 
     const handleGetClientCards = () => {
         ApiServices.GetClientCards().then(res => {
-            setDetails(res.data);
+            setGlobalState( {clientDetails: res.data});
             setInitLoading(false);
         })
             .catch(e => {
@@ -128,7 +129,7 @@ const HomeScreen = (props: any) => {
     const handleGetBarcode = (card: string) => {
         ApiServices.GenerateBarcode(card)
             .then(res => {
-                fillCardDetails({ barcode: res.data.base64Data, cardNumber: clientDetails?.[0]?.card });
+                setGlobalState({cardDetails: { barcode: res.data.base64Data, cardNumber: clientDetails?.[0]?.card }})
             })
             .catch(e => {
                 console.log(JSON.parse(JSON.stringify(e.response)).data)

@@ -8,8 +8,6 @@ import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
 import WorkingScreen from '../Screens/WorkingScreen';
-ScreenTwo
-
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
@@ -26,16 +24,17 @@ import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 const Stack = createStackNavigator();
 
 const AppStack = () => {
-   
-    const {isAuthenticated, setIsAuth} = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
+    const { isAuthenticated } = state
+    
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
     useEffect(() => {
         AuthService.isAuthenticated().then(data => {
             if(data) {
-                setIsAuth(true);
+                setGlobalState({isAuthenticated: true});
             }else {
-                setIsAuth(false);
+                setGlobalState({isAuthenticated: false});
             }
         }).finally(() => {
             setIsInitialized(true)

@@ -38,7 +38,9 @@ const validations: any = {
 
 const AppInput: React.FC<IAppInput> = (props) => {
     const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style } = props;
-    const { isDarkTheme } = useContext(AppContext);
+
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
     const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -105,7 +107,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
 
     return (
         <>
-            <View style={[styles.inputWrap, { borderColor: isDarkTheme ? Colors.white : Colors.black, }]}>
+            <View style={[styles.inputWrap, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
                 <TextInput
                     style={[style || styles.input, { color: isDarkTheme ? Colors.white : Colors.black }]}
                     {...props}

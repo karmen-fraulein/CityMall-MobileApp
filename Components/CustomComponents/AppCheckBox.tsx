@@ -18,7 +18,9 @@ const validations: any = {
 }
 
 const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
-    const {isDarkTheme} = useContext(AppContext)
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
+
     const { checked, onChange, hasError, isRequired, name, addValidation } = props;
 
     const [isChecked, setIsChecked] = useState<boolean>(checked);
@@ -42,54 +44,21 @@ const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
 
 
 
-    const styles = StyleSheet.create({
-        roundCheck: {
-            position: 'relative',
-            marginVertical: 5,
-            width: 16,
-            height: 16,
-            borderRadius: 8,
-            borderWidth: 1,
-            alignItems:'center',
-            justifyContent: 'center',
-            borderColor: isDarkTheme? Colors.white : Colors.black,
-            transform: [
-                { rotate: "45deg" },
-            ]
-        },
-        activeColor: {
+ 
+        const activeColor ={
             backgroundColor: isDarkTheme? Colors.white : Colors.black
             
-        },
-        inactiveColor: {
-            backgroundColor: isDarkTheme? Colors.black : Colors.white
-        },
-
-        checkmark: {
-            borderBottomColor: isDarkTheme? Colors.black : Colors.white,
-            borderBottomWidth:2,
-            borderRightColor: isDarkTheme? Colors.black : Colors.white,
-            borderRightWidth: 2,
-            width: 7,
-            height: 10,
-            position: 'relative',
-            top: -1,
-            left: -1
-        },
-
-        errorText: {
-            position: 'absolute',
-            top: 26,
-            color: Colors.red,
-            fontSize: 11,
-            fontFamily: 'HMpangram-Medium'
         }
-    });
+        const inactiveColor= {
+            backgroundColor: isDarkTheme? Colors.black : Colors.white
+        }
+
+       
 
     return (
         <>
-        <TouchableOpacity style={[styles.roundCheck, isChecked ? styles.activeColor : styles.inactiveColor]} onPress={onChange}>
-            <View style={styles.checkmark}/>
+        <TouchableOpacity style={[styles.roundCheck,{borderColor: isDarkTheme? Colors.white : Colors.black}, isChecked ? activeColor : inactiveColor]} onPress={onChange}>
+            <View style={[styles.checkmark, {borderBottomColor: isDarkTheme? Colors.black : Colors.white, borderRightColor: isDarkTheme? Colors.black : Colors.white}]}/>
         </TouchableOpacity>
            {hasError && <Text style={styles.errorText}>{validations[name]}</Text> }
         </>
@@ -97,3 +66,39 @@ const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
 };
 
 export default AppCheckBox;
+
+const styles = StyleSheet.create({
+    roundCheck: {
+        position: 'relative',
+        marginVertical: 5,
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        borderWidth: 1,
+        alignItems:'center',
+        justifyContent: 'center',
+        
+        transform: [
+            { rotate: "45deg" },
+        ]
+    },
+   
+
+    checkmark: {
+        borderBottomWidth:2,
+        borderRightWidth: 2,
+        width: 7,
+        height: 10,
+        position: 'relative',
+        top: -1,
+        left: -1
+    },
+
+    errorText: {
+        position: 'absolute',
+        top: 26,
+        color: Colors.red,
+        fontSize: 11,
+        fontFamily: 'HMpangram-Medium'
+    }
+});

@@ -15,8 +15,9 @@ interface ILayoutProp {
 }
 
 const Layout: React.FC<ILayoutProp> = (props) => {
-    const { isDarkTheme } = useContext(AppContext);
-    const { width, height } = useDimension();
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
+    
     const DownArrowAnim = useRef(new Animated.Value(0));
     const UpArrowAnim = useRef(new Animated.Value(0));
 

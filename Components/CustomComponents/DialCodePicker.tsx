@@ -7,7 +7,9 @@ import { AppContext } from '../../AppContext/AppContext';
 
 
 const DialCodePicker = (props: any) => {
-    const { isDarkTheme } = useContext(AppContext)
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
+    
     const styles = StyleSheet.create({
         centeredView: {
             flex: 1,

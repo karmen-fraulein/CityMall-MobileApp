@@ -23,7 +23,8 @@ import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
 
 
 const AuthScreen = () => {
-    const { setIsAuth, setPhoneNumber } = useContext(AppContext);
+    const { setGlobalState } = useContext(AppContext);
+
 
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
@@ -122,11 +123,16 @@ const AuthScreen = () => {
         AuthService.SignIn(data).then(res => {
             AuthService.setToken(res.data.access_token, res.data.refresh_token);
             setButtonLoading(false);
-            setPhoneNumber(userPhoneNumber);
-            setIsAuth(true);
+            setGlobalState({
+                userPhoneNumber,
+                isAuthenticated: true,
+            });
+            // setPhoneNumber(userPhoneNumber);
+            // setIsAuth(true);
         }).catch(e => {
             setButtonLoading(false);
             let error = JSON.parse(JSON.stringify(e.response)).data.error;
+            console.log(error)
             switch (error) {
                 case 'require_otp':
                     setStep(2);
