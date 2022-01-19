@@ -6,18 +6,40 @@ import { Colors } from '../../Colors/Colors';
 interface IAppCheckBox {
     checked: boolean,
     onChange?: () => void,
-    hasError?: boolean
+    hasError?: boolean,
+    isRequired: boolean,
+    name : string,
+    addValidation?: (actionTpe: string, inputName: string) => void;
+};
+
+const validations: any = {
+    gender: 'გთხოვთ აირჩიოთ სქესი ',
+    terms: 'გთხოვთ დაეთანხმოთ წესებსა და პირობებს'
 }
 
-const AppCheckBox: React.FC<IAppCheckBox> = (props: any) => {
+const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
     const {isDarkTheme} = useContext(AppContext)
-    const { checked, onChange, hasError } = props;
+    const { checked, onChange, hasError, isRequired, name, addValidation } = props;
 
     const [isChecked, setIsChecked] = useState<boolean>(checked);
 
     useEffect(() => {
         setIsChecked(checked);
     }, [checked]);
+
+
+    useEffect(() => {
+        if (isRequired) {
+            if (!checked) {
+                addValidation!('add', name!);
+            } else {
+                addValidation!('remove', name!);
+            };
+        };
+    }, [checked, isRequired]);
+
+
+
 
 
     const styles = StyleSheet.create({
@@ -69,7 +91,7 @@ const AppCheckBox: React.FC<IAppCheckBox> = (props: any) => {
         <TouchableOpacity style={[styles.roundCheck, isChecked ? styles.activeColor : styles.inactiveColor]} onPress={onChange}>
             <View style={styles.checkmark}/>
         </TouchableOpacity>
-           {hasError? <Text style={styles.errorText}>გთხოვთ დაეთანხმოთ წესებს და პირობებს</Text> : null}
+           {hasError && <Text style={styles.errorText}>{validations[name]}</Text> }
         </>
     );
 };

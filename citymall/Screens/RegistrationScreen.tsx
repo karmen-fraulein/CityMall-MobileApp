@@ -48,36 +48,26 @@ const RegistrationScreen: React.FC = (props: any) => {
         error: false,
     });
 
-
-
-
     useEffect(() => {
         if (errorMessages.length === 0) {
             setHasError(false);
-        } 
+        };
     }, [errorMessages]);
 
 
     const validateInputs = (actionType: string, inputName: string) => {
-       
         if (actionType === 'add') {
             let errorArray = [...errorMessages];
-            console.log(errorArray)
-            let index = errorArray.findIndex((e: string) => e === inputName);
-            if (index >= 0) {
-                return;
-            } else {
-                errorArray.push(inputName);
-                setErrorMessages(prevState => {
-                    return [...prevState, ...errorArray]
-                });
-            };
+            errorArray.push(inputName);
+            let uniqueNames = [...new Set(errorArray)];
+            setErrorMessages(prevState => {
+                return [...prevState, ...uniqueNames]
+            });
         } else {
             let errorArray = errorMessages.filter(e => e !== inputName);
             setErrorMessages(errorArray);
-        }
+        };
     };
-
 
     const handleGenderChange = (type: string) => {
         Keyboard.dismiss();
@@ -95,21 +85,11 @@ const RegistrationScreen: React.FC = (props: any) => {
             });
         };
     };
-    
+
     const handleStep = () => {
-        if(errorMessages.length > 0) {
-            console.log('here')
+        if (errorMessages.length > 0) {
             setHasError(true);
             return
-        };
-        if(!gender.male && !gender.female ){
-            setGender(prevState => {
-                return {
-                    ...prevState,
-                    error: true
-                }
-            });
-            return;
         };
         const data: IRegistrationProps = {
             firstName: name,
@@ -121,9 +101,11 @@ const RegistrationScreen: React.FC = (props: any) => {
         navigate('RegistrationScreen2', {
             data
         });
-        
+
 
     };
+
+    console.log('errors', errorMessages)
 
 
 
@@ -149,7 +131,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                         isRequired={true}
                         validationRule='required'
                         onChangeText={(val: string) => setName(val)}
-                       />
+                    />
                     <AppInput
                         placeholder='გვარი'
                         name='lastName'
@@ -173,15 +155,17 @@ const RegistrationScreen: React.FC = (props: any) => {
                             validationRule='idNumber'
                             maxLength={isForeignResident ? undefined : 11}
                             keyboardType={isForeignResident ? 'default' : 'number-pad'}
-                            onChangeText={(val: string) => setIdNumber(val)} />
-
+                            onChangeText={(val: string) => setIdNumber(val)}
+                        />
                         <TouchableOpacity
                             style={styles.inputWithLabel}
                             onPress={() => setIsForeignResident(!isForeignResident)}
                         >
                             <AppCheckBox
+                                name = 'isForeign'
                                 checked={isForeignResident}
                                 onChange={() => setIsForeignResident(!isForeignResident)}
+                                isRequired={false}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                                 უცხო ქვეყნის მოქალაქე
@@ -197,8 +181,12 @@ const RegistrationScreen: React.FC = (props: any) => {
                             onPress={() => handleGenderChange('female')}
                         >
                             <AppCheckBox
+                                name='gender'
                                 checked={gender.female}
                                 onChange={() => handleGenderChange('female')}
+                                hasError={hasError}
+                                addValidation={validateInputs}
+                                isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                                 მდედრობითი
@@ -209,8 +197,12 @@ const RegistrationScreen: React.FC = (props: any) => {
                             onPress={() => handleGenderChange('male')}
                         >
                             <AppCheckBox
+                                name='gender'
                                 checked={gender.male}
                                 onChange={() => handleGenderChange('male')}
+                                hasError={hasError}
+                                addValidation={validateInputs}
+                                isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                                 მამრობითი

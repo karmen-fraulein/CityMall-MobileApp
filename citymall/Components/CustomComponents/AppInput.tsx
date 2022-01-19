@@ -40,56 +40,26 @@ const AppInput: React.FC<IAppInput> = (props) => {
     const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style } = props;
     const { isDarkTheme } = useContext(AppContext);
 
-    const styles = StyleSheet.create({
-        inputWrap: {
-            width: '100%',
-            position: 'relative',
-            borderBottomWidth: 1,
-        },
-
-        input: {
-            
-            fontFamily: 'HMpangram-Medium',
-            fontWeight: '500',
-            fontSize: 14,
-            // lineHeight: 16,
-           paddingVertical: 12,
-            // paddingTop: 33,
-        },
-
-        errorText: {
-            color: Colors.red,
-            fontSize: 11,
-            fontFamily: 'HMpangram-Medium'
-        }
-    });
-
     const [errorMessage, setErrorMessage] = useState<string>('');
-
 
     useEffect(() => {
         if (isRequired) {
             if (value === '') {
                 addValidation!('add', name);
-            } 
-            else {
-                if (validationRule !== 'phoneNumber'){
-                    
+            } else {
+                if (validationRule !== 'phoneNumber') {
                     setErrorMessage('');
                 };
                 addValidation!('remove', name);
-                
             };
-        }
-
+        };
     }, [value, isRequired]);
 
     useEffect(() => {
         let index = errors?.findIndex((e: string) => e === name);
-        // console.log(hasError, index, errors)
         if (hasError && index! >= 0) {
             setErrorMessage('გთხოვთ შეავსოთ ველი');
-        }
+        };
     }, [hasError, errors]);
 
 
@@ -102,7 +72,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
                 addValidation!('add', name);
                 setErrorMessage(validations[validationRule]);
             };
-        }
+        };
     }, [value, validationRule]);
 
     useEffect(() => {
@@ -128,16 +98,16 @@ const AppInput: React.FC<IAppInput> = (props) => {
                 setErrorMessage('');
             } else if (maxLength && (value.length !== 9 || value !== '')) {
                 addValidation!('add', name);
-                setErrorMessage(validations[validationRule])
-            }
-        }
+                setErrorMessage(validations[validationRule]);
+            };
+        };
     }, [value, validationRule, maxLength])
 
     return (
         <>
-            <View style={[styles.inputWrap, { borderColor: isDarkTheme ? Colors.white : Colors.black,}]}> 
+            <View style={[styles.inputWrap, { borderColor: isDarkTheme ? Colors.white : Colors.black, }]}>
                 <TextInput
-                    style={[style || styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}
+                    style={[style || styles.input, { color: isDarkTheme ? Colors.white : Colors.black }]}
                     {...props}
                     selectionColor={isDarkTheme ? Colors.white : Colors.black}
                     placeholderTextColor={isDarkTheme ? Colors.white : Colors.black} />
@@ -150,3 +120,22 @@ const AppInput: React.FC<IAppInput> = (props) => {
 };
 
 export default AppInput;
+
+const styles = StyleSheet.create({
+    inputWrap: {
+        width: '100%',
+        position: 'relative',
+        borderBottomWidth: 1,
+    },
+    input: {
+        fontFamily: 'HMpangram-Medium',
+        fontWeight: '500',
+        fontSize: 14,
+        paddingVertical: 12,
+    },
+    errorText: {
+        color: Colors.red,
+        fontSize: 11,
+        fontFamily: 'HMpangram-Medium'
+    }
+});
