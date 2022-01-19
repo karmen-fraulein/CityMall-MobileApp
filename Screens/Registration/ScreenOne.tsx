@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
-import { AppContext } from '../AppContext/AppContext';
-import { Colors } from '../Colors/Colors';
-import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
-import Layout from '../Components/Layouts/Layout';
-import Grid from '../Styles/grid';
-import ApiServices from '../Services/ApiServices';
-import { ScrollView } from 'react-native-gesture-handler';
-import { GoBack, navigate } from '../Services/NavigationServices';
-import { useDimension } from '../Hooks/UseDimension';
-import AppInput from '../Components/CustomComponents/AppInput';
+import { Keyboard, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
+import { Colors } from '../../Colors/Colors';
+import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
+import AppInput from '../../Components/CustomComponents/AppInput';
+import Layout from '../../Components/Layouts/Layout';
+import { GoBack, navigate } from '../../Services/NavigationServices';
+import Grid from '../../Styles/grid';
 
 export interface IRegistrationProps {
     firstName?: string,
@@ -28,13 +25,11 @@ export interface IRegistrationProps {
 export interface IGenderTypes {
     male: boolean,
     female: boolean,
-    error: boolean
 }
 
 
-const RegistrationScreen: React.FC = (props: any) => {
-
-    const { isDarkTheme, userPhoneNumber, setDetails } = useContext(AppContext);
+const ScreenOne: React.FC = () => {
+    const { isDarkTheme } = useContext(AppContext);
 
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
@@ -45,7 +40,6 @@ const RegistrationScreen: React.FC = (props: any) => {
     const [gender, setGender] = useState<IGenderTypes>({
         male: false,
         female: false,
-        error: false,
     });
 
     useEffect(() => {
@@ -75,13 +69,11 @@ const RegistrationScreen: React.FC = (props: any) => {
             setGender({
                 male: true,
                 female: false,
-                error: false,
             });
         } else {
             setGender({
                 male: false,
                 female: true,
-                error: false,
             });
         };
     };
@@ -101,13 +93,7 @@ const RegistrationScreen: React.FC = (props: any) => {
         navigate('RegistrationScreen2', {
             data
         });
-
-
     };
-
-    console.log('errors', errorMessages)
-
-
 
     return (
         <Layout
@@ -162,7 +148,7 @@ const RegistrationScreen: React.FC = (props: any) => {
                             onPress={() => setIsForeignResident(!isForeignResident)}
                         >
                             <AppCheckBox
-                                name = 'isForeign'
+                                name='isForeign'
                                 checked={isForeignResident}
                                 onChange={() => setIsForeignResident(!isForeignResident)}
                                 isRequired={false}
@@ -208,9 +194,6 @@ const RegistrationScreen: React.FC = (props: any) => {
                                 მამრობითი
                             </Text>
                         </TouchableOpacity>
-                        {gender.error ?
-                            <Text style={styles.errorText}>გთხოვთ აირჩიოთ სქესი </Text>
-                            : null}
                     </View>
                 </ScrollView>
                 <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
@@ -228,7 +211,7 @@ const RegistrationScreen: React.FC = (props: any) => {
     );
 };
 
-export default RegistrationScreen;
+export default ScreenOne;
 
 const styles = StyleSheet.create({
     regTitle: {

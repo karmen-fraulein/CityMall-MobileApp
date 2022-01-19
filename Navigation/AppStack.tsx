@@ -13,11 +13,13 @@ ScreenTwo
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
-import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
 import RegistrationScreen2 from '../Screens/RegistrationScreen2';
 import { ScreenTwo } from '../Screens/Registration';
+import AuthService from '../Services/AuthService';
+import { Text } from 'react-native';
+import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 
 
 
@@ -25,26 +27,38 @@ const Stack = createStackNavigator();
 
 const AppStack = () => {
    
-    const {isAuthenticated} = useContext(AppContext);
-    console.log('isAuthenticated',isAuthenticated)
-    useEffect(() => {
-        // if(isAuthenticated) {
-        //     setIsAuthorized(true);
-        // } else {
-        //     setIsAuthorized(false);
-        // }
-    }, [isAuthenticated])
+    const {isAuthenticated, setIsAuth} = useContext(AppContext);
+    const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
-    
+    useEffect(() => {
+        AuthService.isAuthenticated().then(data => {
+            if(data) {
+                setIsAuth(true);
+            }else {
+                setIsAuth(false);
+            }
+        }).finally(() => {
+            setIsInitialized(true)
+        })
+            
+    }, [])
+
+    if(!isInitialized) return <Text>Loading ...</Text>
+
     return (
-        isAuthenticated?
-        
-        <AuthScreen/>
-       // <RegistrationScreen2/>
-        //<ShopDetailsScreen/>
-        :
         <NavigationContainer  ref = {navigationRef}>
-            <Stack.Navigator initialRouteName='HomeScreen'>
+            <Stack.Navigator initialRouteName='AuthScreen'>
+                {isAuthenticated === false? 
+                (
+                    <Stack.Screen
+                    name='AuthScreen'
+                    component={AuthScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                ):(
+                    <>
                 <Stack.Screen
                     name='HomeScreen'
                     component={HomeScreen}
@@ -109,6 +123,7 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
+                </>)}
             </Stack.Navigator>
         </NavigationContainer>
     );

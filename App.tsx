@@ -10,10 +10,9 @@ import AuthService, { IInterceptop } from './Services/AuthService';
 
 
 const App = () => {
-  const { setIsAuth, isAuthenticated, isDarkTheme } = useContext(AppContext);
+  const { setIsAuth, isDarkTheme } = useContext(AppContext);
 
   const [userToken, setUserToken] = useState<string>("");
-  const [isInit, setIsInit] = useState<boolean>(false);
   const AxiosInterceptor = useRef<IInterceptop[]>([]);
 
   const RegisterCommonInterceptor = () => {
@@ -48,20 +47,9 @@ const App = () => {
     //console.log('Developer <--Avtandil Shaburishvili, 08.04.2021--> ')
     AuthService.getToken().then(data => {
       setUserToken(data || "");
-      setIsInit(true)
     })
     
-  }, [userToken, isInit]);
-
-
-  useEffect(() => {
-    if(userToken && isInit){
-      setIsAuth(true);
-    } else {
-      setIsAuth(false);
-    }
-  }, [userToken, isInit])
-
+  }, [userToken]);
 
   useEffect(() => {
       AxiosInterceptor.current = [RegisterCommonInterceptor(), AuthService.registerAuthInterceptor(async () => await logOut())];
