@@ -101,7 +101,7 @@ const dummyData = [
 
 
 const HomeScreen = (props: any) => {
-    const {state,  setGlobalState } = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
     const { clientDetails, isDarkTheme } = state;
 
     const { width, height } = useDimension();
@@ -109,6 +109,19 @@ const HomeScreen = (props: any) => {
     const [offers, setOffers] = useState<any[]>();
     const [barcode, setBarCode] = useState<string>('');
     const [initLoading, setInitLoading] = useState<boolean>(true);
+
+
+    useEffect(()=> {
+        getOffers();
+    }, [])
+
+
+
+
+
+
+
+
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         let overView = event.nativeEvent.contentOffset.x / (width - 25);
@@ -118,7 +131,7 @@ const HomeScreen = (props: any) => {
 
     const handleGetClientCards = () => {
         ApiServices.GetClientCards().then(res => {
-            setGlobalState( {clientDetails: res.data});
+            setGlobalState({ clientDetails: res.data });
             setInitLoading(false);
         })
             .catch(e => {
@@ -129,7 +142,7 @@ const HomeScreen = (props: any) => {
     const handleGetBarcode = (card: string) => {
         ApiServices.GenerateBarcode(card)
             .then(res => {
-                setGlobalState({cardDetails: { barcode: res.data.base64Data, cardNumber: clientDetails?.[0]?.card }})
+                setGlobalState({ cardDetails: { barcode: res.data.base64Data, cardNumber: clientDetails?.[0]?.card } })
             })
             .catch(e => {
                 console.log(JSON.parse(JSON.stringify(e.response)).data)
@@ -151,45 +164,17 @@ const HomeScreen = (props: any) => {
         };
     };
 
+    const getOffers = () => {
+        ApiServices.GetOffers().then(res => {
+            console.log('res', res.data)
+        }).catch(e => {
+           console.log('error ===>',e)
+        })
+    }
 
 
-    const sytles = StyleSheet.create({
-        giftCardImg: {
-            maxHeight: 187,
-            maxWidth: 300,
-            width: '100%',
-            height: '100%'
-        },
 
-        promotions: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            width: 400,
-        },
-        promotionContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingHorizontal: '7%',
-        },
-        promotionsTitle: {
-            color: isDarkTheme? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 14,
-            lineHeight: 17,
-            fontWeight: '900',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-        },
-        authBtn: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
 
-        },
-
-     
-    });
 
     useEffect(() => {
         handleGetClientCards();
@@ -207,30 +192,32 @@ const HomeScreen = (props: any) => {
 
     return (
         <AppLayout >
-            <View style={{ flex: 1,  backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
+            <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
                 <View style={[Grid.col_4, { justifyContent: 'center' }]}>
                     {!initLoading ?
                         <UserCardSmall
                             cardnumber={clientDetails?.[0]?.card.replace(
                                 /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                                 '$1  $2  $3  $4',
-                              )}
+                            )}
                             navigateToBarCode={() => props.navigation.navigate('UserCardWithBarcode')}
                             navigateToReg={() => props.navigation.navigate('RegistrationScreen')} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
-                    
-                   
+
+
                 </View>
-                <Image style={{width: '100%'}} source={require('../assets/images/gradient-line.png')} />
-                <View style={[Grid.col_8, {  }]}>
+                <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
+                <View style={[Grid.col_8, {}]}>
                     <View style={[Grid.col_12]}>
                         <View style={[Grid.col_1, sytles.promotionContainer]}>
-                            <Text style={sytles.promotionsTitle}>შეთავაზებები</Text>
+                            <Text style={[sytles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                                შეთავაზებები
+                            </Text>
                             <PaginationDots length={offers?.length} step={offersStep} />
                         </View>
-                        <ScrollView contentContainerStyle={{flexDirection: "row" }} showsVerticalScrollIndicator = {false}>
+                        <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
                             <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
                                 {offers?.map((el, i) => (
                                     <View key={i}>
@@ -250,3 +237,41 @@ const HomeScreen = (props: any) => {
 
 
 export default HomeScreen;
+
+const sytles = StyleSheet.create({
+    giftCardImg: {
+        maxHeight: 187,
+        maxWidth: 300,
+        width: '100%',
+        height: '100%'
+    },
+
+    promotions: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: 400,
+    },
+    promotionContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: '7%',
+    },
+    promotionsTitle: {
+
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 14,
+        lineHeight: 17,
+        fontWeight: '900',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+    },
+    authBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+
+
+});

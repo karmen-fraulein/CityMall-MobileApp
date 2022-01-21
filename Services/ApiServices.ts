@@ -95,6 +95,10 @@ class ApiServices {
         return await axios.post(`${envs.API_URL}/api/Cards/order`, data)
     };
 
+    GetOffers = async () => {
+        return await axios.get(`${envs.API_URL}​/api​/Offers​/GetOffers`);
+    };
+
 
 };
 

@@ -62,44 +62,44 @@ export default [
             }
         ]
     },
-    {
-        name: 'სერვისი',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+    // {
+    //     name: 'სერვისი',
+    //      icon: require('../assets/images/arrow-sm.png'),
+    //     _children: [
             
-            {
-                location: 'სითმოლი საბურთალო'
-            },
-            {
-                location: 'სითმოლი გლდანი'
-            }
-        ]
-    },
-    {
-        name: 'სასაჩუქრე ბარათები',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
-            {
-                location: 'სასაჩუქრე ბარათის შეკვეთა',
-                route: 'OrderGiftCardScreen'
-            },
-            {
-                location: 'ნაშთის შემოწმება'
-            }
-        ]
-    },
-    {
-        name: 'მოლის გზამკვლევი',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
-            {
-                location: 'სითმოლი საბურთალო'
-            },
-            {
-                location: 'სითმოლი გლდანი'
-            }
-        ]
-    },
+    //         {
+    //             location: 'სითმოლი საბურთალო'
+    //         },
+    //         {
+    //             location: 'სითმოლი გლდანი'
+    //         }
+    //     ]
+    // },
+    // {
+    //     name: 'სასაჩუქრე ბარათები',
+    //      icon: require('../assets/images/arrow-sm.png'),
+    //     _children: [
+    //         {
+    //             location: 'სასაჩუქრე ბარათის შეკვეთა',
+    //             route: 'OrderGiftCardScreen'
+    //         },
+    //         {
+    //             location: 'ნაშთის შემოწმება'
+    //         }
+    //     ]
+    // },
+    // {
+    //     name: 'მოლის გზამკვლევი',
+    //      icon: require('../assets/images/arrow-sm.png'),
+    //     _children: [
+    //         {
+    //             location: 'სითმოლი საბურთალო'
+    //         },
+    //         {
+    //             location: 'სითმოლი გლდანი'
+    //         }
+    //     ]
+    // },
     {
         name: 'ჩვენს შესახებ',
          icon: require('../assets/images/arrow-sm.png'),
@@ -128,16 +128,16 @@ export default [
             }
         ]
     },
-    {
-        name: 'ფიზიკური ბარათის შეკვეთა',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
-            {
-                location: 'სითმოლი საბურთალო'
-            },
-            {
-                location: 'სითმოლი გლდანი'
-            }
-        ]
-    },
+    // {
+    //     name: 'ფიზიკური ბარათის შეკვეთა',
+    //      icon: require('../assets/images/arrow-sm.png'),
+    //     _children: [
+    //         {
+    //             location: 'სითმოლი საბურთალო'
+    //         },
+    //         {
+    //             location: 'სითმოლი გლდანი'
+    //         }
+    //     ]
+    // },
 ]
