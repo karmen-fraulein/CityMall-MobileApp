@@ -9,119 +9,38 @@ import Grid from "../Styles/grid";
 import AppLayout from "../Components/AppLayout";
 import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
+import { paginationDotCount } from "../Services/Utils";
 
-const dummyData = [
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-]
 
-// interface IOffers {
-//     title: string,  
-//     subTitle: string, 
-//     imgUrl: string
-// } 
 
 
 const HomeScreen = (props: any) => {
     const { state, setGlobalState } = useContext(AppContext);
-    const { clientDetails, isDarkTheme } = state;
+    const { clientDetails, offersArray, isDarkTheme } = state;
 
     const { width, height } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offers, setOffers] = useState<any[]>();
+    const [offersView, setOffersView] = useState<any[]>();
     const [barcode, setBarCode] = useState<string>('');
     const [initLoading, setInitLoading] = useState<boolean>(true);
 
 
-    useEffect(()=> {
+    useEffect(() => {
         getOffers();
-    }, [])
+        handleGetClientCards();
+    }, []);
 
+    useEffect(() => {
+        handleSetOffers();
+    }, [offersArray]);
 
+    useEffect(() => {
+        if (clientDetails?.[0]?.card !== undefined) {
+            handleGetBarcode(clientDetails?.[0]?.card)
+        };
 
-
-
-
-
-
+    }, [clientDetails]);
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         let overView = event.nativeEvent.contentOffset.x / (width - 25);
@@ -145,58 +64,43 @@ const HomeScreen = (props: any) => {
                 setGlobalState({ cardDetails: { barcode: res.data.base64Data, cardNumber: clientDetails?.[0]?.card } })
             })
             .catch(e => {
-                console.log(JSON.parse(JSON.stringify(e.response)).data)
+                console.log('barcode error', JSON.parse(JSON.stringify(e.response)).data)
             });
     }
 
     const handleSetOffers = () => {
-        for (let i = 4; i < dummyData.length + 4; i += 4) {
-            const renderElement =
-                <View style={sytles.promotions}>
-                    {dummyData[i - 4] && <PromotionBox data={dummyData[i - 4]} />}
-                    {dummyData[i - 3] && <PromotionBox data={dummyData[i - 3]} />}
-                    {dummyData[i - 2] && <PromotionBox data={dummyData[i - 2]} />}
-                    {dummyData[i - 1] && <PromotionBox data={dummyData[i - 1]} />}
-                </View>
-            setOffers(prev => {
-                return [...(prev || []), renderElement]
-            });
+        if (offersArray !== undefined) {
+            for (let i = 4; i < offersArray!.length + 4; i += 4) {
+                const renderElement =
+                    <View style={styles.promotions}>
+                        {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} />}
+                        {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} />}
+                        {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} />}
+                        {offersArray![i - 1] && <PromotionBox data={offersArray![i - 1]} />}
+                    </View>
+                setOffersView(prev => {
+                    return [...(prev || []), renderElement]
+                });
+            };
         };
     };
 
     const getOffers = () => {
         ApiServices.GetOffers().then(res => {
-            console.log('res', res.data)
+            setGlobalState({ offersArray: res.data })
         }).catch(e => {
-           console.log('error ===>',e)
-        })
-    }
-
-
-
-
-
-    useEffect(() => {
-        handleGetClientCards();
-        handleSetOffers();
-
-    }, []);
-
-    useEffect(() => {
-        if (clientDetails !== undefined) {
-            handleGetBarcode(clientDetails?.[0]?.card)
-        };
-
-    }, [clientDetails]);
+            console.log('error ===>', e)
+        });
+    };
 
 
     return (
         <AppLayout >
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
-                <View style={[Grid.col_4, { justifyContent: 'center' }]}>
+                <View style={{ flex: 4.5, justifyContent: 'center' }}>
                     {!initLoading ?
                         <UserCardSmall
-                            cardnumber={clientDetails?.[0]?.card.replace(
+                            cardNumber={clientDetails?.[0]?.card.replace(
                                 /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                                 '$1  $2  $3  $4',
                             )}
@@ -205,27 +109,27 @@ const HomeScreen = (props: any) => {
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
-
-
                 </View>
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
-                <View style={[Grid.col_8, {}]}>
-                    <View style={[Grid.col_12]}>
-                        <View style={[Grid.col_1, sytles.promotionContainer]}>
-                            <Text style={[sytles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                <View style={{ flex: 7.5 }}>
+                    <View style={{ flex: 1 }}>
+                        <View style={styles.promotionContainer}>
+                            <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 შეთავაზებები
                             </Text>
-                            <PaginationDots length={offers?.length} step={offersStep} />
+                            <PaginationDots length={paginationDotCount(offersArray, 4)} step={offersStep} />
                         </View>
-                        <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                            <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
-                                {offers?.map((el, i) => (
-                                    <View key={i}>
-                                        {el}
-                                    </View>
-                                ))}
+                        <View style={{ flex: 10 }}>
+                            <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>
+                                <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                                    {offersView?.map((el, i) => (
+                                        <View key={i}>
+                                            {el}
+                                        </View>
+                                    ))}
+                                </ScrollView>
                             </ScrollView>
-                        </ScrollView>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -235,10 +139,9 @@ const HomeScreen = (props: any) => {
 };
 
 
-
 export default HomeScreen;
 
-const sytles = StyleSheet.create({
+const styles = StyleSheet.create({
     giftCardImg: {
         maxHeight: 187,
         maxWidth: 300,
@@ -252,13 +155,14 @@ const sytles = StyleSheet.create({
         width: 400,
     },
     promotionContainer: {
+        marginTop: 10,
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: '7%',
     },
     promotionsTitle: {
-
         fontFamily: 'HMpangram-Bold',
         fontSize: 14,
         lineHeight: 17,
@@ -270,6 +174,7 @@ const sytles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        fontFamily: 'HMpangram-Bold',
 
     },
 

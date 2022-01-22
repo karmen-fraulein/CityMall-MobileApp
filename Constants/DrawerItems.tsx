@@ -19,10 +19,12 @@ export default [
         _children: [
             {
                 location: 'სითმოლი საბურთალო',
+                route: 'OffersScreen'
                 
             },
             {
-                location: 'სითმოლი გლდანი'
+                location: 'სითმოლი გლდანი',
+                route: 'OffersScreen'
             }
         ]
     },

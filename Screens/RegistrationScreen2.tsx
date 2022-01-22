@@ -27,10 +27,12 @@ type RouteParamList = {
     }
 }
 
+
+
 const RegistrationScreen2: React.FC = (props: any) => {
 
-    const { isDarkTheme, userPhoneNumber, setDetails } = useContext(AppContext);
-    const { height } = useDimension();
+    const { state, setGlobalState} = useContext(AppContext);
+    const { isDarkTheme, routeObject, userPhoneNumber } = state;
 
     // const routeObj = useRoute<RouteProp<RouteParamList, 'params'>>();
 
@@ -158,6 +160,11 @@ const RegistrationScreen2: React.FC = (props: any) => {
             });
     };
 
+    const formatDate = (date: Date) => {
+        let dateArray = date.toLocaleDateString().split('/');
+        return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
+    }
+
     const handleAddVirtualCard = () => {
         // if (dateOfBirth === '') {
         //     console.log('dateOfBirth ===>', dateOfBirth)
@@ -182,14 +189,14 @@ const RegistrationScreen2: React.FC = (props: any) => {
         setButtonLoading(true);
         let date = dateOfBirth.toLocaleDateString().split('/');
         let data = {
-            personCode: 'idNumber',
+            firstName: routeObject.firstName,
+            lastName: routeObject.lastName,
+            personCode: routeObject.personCode,
             birthDate: date[2] + '-' + date[0] + '-' + date[1],
-            firstName: 'name',
-            lastName: 'lastname',
             phone: userPhoneNumber,
             email: email,
             address: selectedDistrict === 'სხვა' ? district : selectedDistrict,
-            sex: 1,
+            sex: routeObject.male? 1 : 0,
             mailOtp: emailVerificationCode
         };
 
@@ -209,12 +216,12 @@ const RegistrationScreen2: React.FC = (props: any) => {
                 refreshObj.append('refresh_token', refreshToken!);
 
                 await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', refreshObj, config)
-                    .then(async response => {
+                    .then(async (response: any) => {
                         AuthService.setToken(response.data.access_token, response.data.refresh_token);
                         setButtonLoading(false);
                         //navigate to succes screen
                     })
-                    .catch(e => {
+                    .catch((e: any) => {
                         setButtonLoading(false);
                         console.log(JSON.parse(JSON.stringify(e.response)).data);
                     });
@@ -227,21 +234,21 @@ const RegistrationScreen2: React.FC = (props: any) => {
             });
     };
 
-    console.log(dateOfBirth.toLocaleDateString().split('/'))
+    console.log('routeObject', routeObject)
 
 
     return (
         <Layout hasBackArrow={true} onPressBack={() => {
-
+            GoBack();
         }}>
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
-                <View style={[Grid.row_12_5, {}]}>
+                <View style={{flex: 1}}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>რეგისტრაცია</Text>
                 </View>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 10 }}>
                     <>
                     <TouchableOpacity style={[styles.inputWrap, {borderColor: isDarkTheme ? Colors.white : Colors.black}]} onPress={() => setOpen(true)}>
-                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth.toLocaleDateString() || 'დაბადების თარიღი'}</Text>
+                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatDate(dateOfBirth)|| 'დაბადების თარიღი'}</Text>
                     </TouchableOpacity>
                         <DatePicker
                         style={{backgroundColor: 'red'}}
@@ -269,6 +276,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
                     <View>
                         <DistrictPicker data={districts} onSelect={handleDistrictSelect} placeholder='აირჩიეთ რაიონი' />
                         {selectedDistrict === 'სხვა' &&
+                             <View style={{marginTop: 10}}>
                             <AppInput
                                 placeholder='საცხოვრებელი რაიონი'
                                 value={district}
@@ -280,6 +288,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
                                 validationRule='phoneNumber'
                                 onChangeText={(val: string) => setDistrict(val)}
                             />
+                            </View>
                         }
                     </View>
                     <View style={{marginTop: 10}}>
@@ -358,8 +367,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
                             {generalError}
                         </Text> : null}
                 </View>
-                <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
-
+                <View style={{flex: 1}}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleAddVirtualCard} disabled={buttonLoading}>
                         {buttonLoading ?
                             <ActivityIndicator animating={buttonLoading} color='#dadde1' />
@@ -387,10 +395,11 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase'
     },
     authBtn: {
-        marginBottom: 100,
+        marginTop: 35,
+        marginBottom: 10,
         alignSelf: 'center',
         width: 325,
-        height: '100%',
+        height: 66,
         maxHeight: 66,
         backgroundColor: Colors.darkGrey,
         borderRadius: 50,

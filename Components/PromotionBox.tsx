@@ -13,15 +13,15 @@ const PromotionBox = (props: any) => {
         <TouchableOpacity onPress={() => navigate('ShopDetailsScreen')}>
             <View style={styles.promotionBox}>
                 <View style={styles.container}>
-                    <Text style={{ fontSize: 5 }}> ფასდაკლება</Text>
+                    <Text style={{ fontSize: 5 }}>  {props.data.name}</Text>
                 </View>
-                <Image style={styles.promotionImg} source={require('../assets/images/promotion_img.png')} />
+                <Image style={styles.promotionImg} source={{uri: props.data.imgUrl}} />
 
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {props.data.title}
+                    {props.data.subtitle}
                 </Text>
                 <Text style={[styles.promotionBodyText, { color: isDarkTheme ? Colors.white : Colors.black }]} numberOfLines={1}>
-                    {props.data.subtitle}
+                    {props.data.txt}
                 </Text>
                 <View style={styles.promotionBottom}>
                     <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>

@@ -7,10 +7,8 @@ import HomeScreen from '../Screens/HomeScreen';
 import AuthScreen from '../Screens/AuthScreen';
 import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
-import WorkingScreen from '../Screens/WorkingScreen';
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
-import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
 import RegistrationScreen2 from '../Screens/RegistrationScreen2';
@@ -18,6 +16,8 @@ import { ScreenTwo } from '../Screens/Registration';
 import AuthService from '../Services/AuthService';
 import { Text } from 'react-native';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
+import OffersScreen from '../Screens/OffersScreen/OffersScreen';
+
 
 
 
@@ -118,6 +118,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='StatusInfoScreen'
                     component={StatusInfoScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='OffersScreen'
+                    component={OffersScreen}
                     options={{
                         headerShown: false,
                     }}

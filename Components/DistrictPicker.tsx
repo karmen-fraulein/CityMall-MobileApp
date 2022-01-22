@@ -6,65 +6,11 @@ import { AppContext } from '../AppContext/AppContext';
 
 
 const DistrictPicker = (props: any) => {
-    const { isDarkTheme } = useContext(AppContext)
-    const styles = StyleSheet.create({
-        centeredView: {
-            flex: 1,
-            justifyContent: "flex-end",
-            alignItems: "center",
-        },
-        textStyles: {
-            color: isDarkTheme? 'white' : 'black',
-            fontSize: 20,
-            fontFamily: 'HMpangram-Medium',
-
-            paddingRight: 20
-        },
-        modalView: {
-            backgroundColor: isDarkTheme? 'black' : 'white',
-            borderRadius: 10,
-            shadowColor: Colors.black,
-            shadowOffset: {
-                width: 0,
-                height: 2
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 4,
-            elevation: 5,
-            width: '100%',
-            
-        },
-
-        selectedItem: {
-            paddingTop: 33,
-            paddingBottom: 10,
-            paddingHorizontal: 10,
-            borderBottomColor: isDarkTheme ? Colors.white : Colors.black,
-            borderBottomWidth: 1,
-            color: isDarkTheme ? Colors.white : Colors.black,
-            marginRight: 5
-        },
-
-        itemText: {
-            color: isDarkTheme ? Colors.white : Colors.black
-        },
-
-        infoText: {
-            fontSize: 16,
-            fontFamily: 'HMpangram-Medium',
-            color: isDarkTheme ? Colors.white : Colors.black
-        },
-        modalBar: {
-            paddingVertical: 10,
-            marginHorizontal: 15,
-        }
-    })
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
-
-
-
 
     useEffect(() => {
         props.onSelect(selectedValue);
@@ -73,7 +19,7 @@ const DistrictPicker = (props: any) => {
     return (
         <>
             {isSelecting ?
-                <TouchableOpacity style={styles.centeredView} onPress={() => setIsSelecting(false)}>
+                <TouchableOpacity style={styles.centeredView} onPress={() => setIsSelecting(isSelecting)}>
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -82,12 +28,12 @@ const DistrictPicker = (props: any) => {
                         }}
                         visible={isSelecting}>
                         <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
+                            <View style={[styles.modalView,{ backgroundColor: isDarkTheme? Colors.black : Colors.white}]}>
                                 <View style={styles.modalBar}>
-                                    <Text style={styles.infoText}>აირჩიეთ უბანი</Text>
+                                    <Text style={[styles.infoText, {color: isDarkTheme ? Colors.white : Colors.black}]}>აირჩიეთ უბანი</Text>
                                 </View>
                                 <Picker
-                                    itemStyle={styles.textStyles}
+                                    itemStyle={[styles.textStyles, {color: isDarkTheme ? Colors.white : Colors.black}]}
                                     selectedValue={selectedValue}
                                     onValueChange={(itemValue, itemIndex) =>
                                         setSelectedValue(itemValue)}
@@ -110,12 +56,12 @@ const DistrictPicker = (props: any) => {
                 :
                 null}
             <TouchableOpacity
-                style={styles.selectedItem}
+                style={[styles.selectedItem, {borderBottomColor: isDarkTheme ? Colors.white : Colors.black, }]}
                 onPress={() => setIsSelecting(true)}>
                 {selectedValue ?
-                    <Text style={styles.itemText}>{selectedValue.trim()}</Text>
+                    <Text style={[styles.itemText, {color: isDarkTheme ? Colors.white : Colors.black}]}>{selectedValue.trim()}</Text>
                     :
-                    <Text style={styles.itemText}>{props.placeholder}</Text>
+                    <Text style={[styles.itemText, { color: isDarkTheme ? Colors.white : Colors.black}]}>{props.placeholder}</Text>
                 }
             </TouchableOpacity>
         </>
@@ -123,4 +69,53 @@ const DistrictPicker = (props: any) => {
 };
 
 export default DistrictPicker;
+
+const styles = StyleSheet.create({
+    centeredView: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
+    },
+    textStyles: {
+        fontSize: 20,
+        fontFamily: 'HMpangram-Medium',
+        paddingRight: 20
+    },
+
+    modalView: {
+        borderRadius: 10,
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: '100%',
+        
+    },
+
+    selectedItem: {
+        paddingTop: 33,
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+        borderBottomWidth: 1,
+        marginRight: 5
+    },
+
+    itemText: {
+       
+    },
+
+    infoText: {
+        fontSize: 16,
+        fontFamily: 'HMpangram-Medium',
+        
+    },
+    modalBar: {
+        paddingVertical: 10,
+        marginHorizontal: 15,
+    }
+});
 

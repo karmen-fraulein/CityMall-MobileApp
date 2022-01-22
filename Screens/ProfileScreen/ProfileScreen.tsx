@@ -149,7 +149,8 @@ const tr = [
 
 const ProfileScreen = () => {
     const { width } = useDimension();
-    const { isDarkTheme } = useContext(AppContext);
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
     const [offersStep, setOffersStep] = useState<number>(0);
     const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);

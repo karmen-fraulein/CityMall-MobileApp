@@ -1,5 +1,5 @@
-import axios from 'axios';
 import envs from '../config/env';
+import axios from 'axios'
 
 
 export interface IResonseError {
@@ -96,7 +96,7 @@ class ApiServices {
     };
 
     GetOffers = async () => {
-        return await axios.get(`${envs.API_URL}​/api​/Offers​/GetOffers`);
+        return await axios.get(`${envs.API_URL}/api/Offers/GetOffers`);
     };
 
 

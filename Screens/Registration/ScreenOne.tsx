@@ -14,7 +14,7 @@ export interface IRegistrationProps {
     personCode?: string,
     gender?: boolean,
     birthDate?: string,
-    disctrict?: string,
+    district?: string,
     email?: string,
     phone?: string,
     address?: string,
@@ -29,12 +29,14 @@ export interface IGenderTypes {
 
 
 const ScreenOne: React.FC = () => {
-    const { isDarkTheme } = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
+    const { isDarkTheme} = state;
+
 
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
     const [name, setName] = useState<string>('');
-    const [lastName, setLastname] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
     const [idNumber, setIdNumber] = useState<string>('');
     const [isForeignResident, setIsForeignResident] = useState<boolean>(false);
     const [gender, setGender] = useState<IGenderTypes>({
@@ -79,20 +81,18 @@ const ScreenOne: React.FC = () => {
     };
 
     const handleStep = () => {
-        if (errorMessages.length > 0) {
-            setHasError(true);
-            return
-        };
+        // if (errorMessages.length > 0) {
+        //     setHasError(true);
+        //     return
+        // };
         const data: IRegistrationProps = {
             firstName: name,
             lastName: lastName,
             personCode: idNumber,
             sex: gender
-        }
-
-        navigate('RegistrationScreen2', {
-            data
-        });
+        };
+        setGlobalState({routeObject: data})
+        navigate('RegistrationScreen2');
     };
 
     return (
@@ -101,12 +101,12 @@ const ScreenOne: React.FC = () => {
             onPressBack={() => GoBack()}
         >
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
-                <View style={[Grid.row_12_5, {}]}>
+                <View style={{flex: 1}}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         რეგისტრაცია
                     </Text>
                 </View>
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView style={{ flex: 9 }}>
                     <AppInput
                         placeholder='სახელი'
                         name='name'
@@ -127,7 +127,7 @@ const ScreenOne: React.FC = () => {
                         errors={errorMessages}
                         isRequired={true}
                         validationRule='required'
-                        onChangeText={(val: string) => setLastname(val)}
+                        onChangeText={(val: string) => setLastName(val)}
                     />
                     <View>
                         <AppInput
@@ -196,7 +196,7 @@ const ScreenOne: React.FC = () => {
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
-                <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
+                <View style={{flex: 2, alignItems: 'flex-end'}}>
                     <TouchableOpacity
                         style={styles.authBtn}
                         onPress={handleStep}
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     },
 
     authBtn: {
-        marginBottom: 100,
+        
         alignSelf: 'center',
         width: 325,
         height: '100%',

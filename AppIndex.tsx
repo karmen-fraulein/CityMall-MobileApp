@@ -17,7 +17,7 @@ const AppIndex = () => {
   const AxiosInterceptor = useRef<IInterceptop[]>([]);
 
   const RegisterCommonInterceptor = () => {
-    let requestInterceptor = axios.interceptors.request.use((config) => {
+    let requestInterceptor = axios.interceptors.request.use((config: any) => {
       return config;
     });
     let responseInterceptor = axios.interceptors.response.use(

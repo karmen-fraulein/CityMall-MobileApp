@@ -5,6 +5,9 @@ export interface IAppState {
     userCardDetails: any,
     userPhoneNumber: string,
     cardDetails: any,
+    routeObject: any,
+    offersArray: [],
+    singleOffer: any,
 }
 
 
@@ -15,4 +18,7 @@ export const AppState:IAppState = {
     userCardDetails: {},
     userPhoneNumber: '',
     cardDetails: {},
+    routeObject: {},
+    offersArray: [],
+    singleOffer: {},
 }
