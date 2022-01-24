@@ -93,7 +93,6 @@ const HomeScreen = (props: any) => {
         });
     };
 
-
     return (
         <AppLayout >
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>

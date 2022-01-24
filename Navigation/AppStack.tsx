@@ -17,6 +17,8 @@ import AuthService from '../Services/AuthService';
 import { Text } from 'react-native';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import OffersScreen from '../Screens/OffersScreen/OffersScreen';
+import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
+
 
 
 
