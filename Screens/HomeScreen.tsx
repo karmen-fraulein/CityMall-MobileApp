@@ -73,10 +73,10 @@ const HomeScreen = (props: any) => {
             for (let i = 4; i < offersArray!.length + 4; i += 4) {
                 const renderElement =
                     <View style={styles.promotions}>
-                        {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} />}
-                        {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} />}
-                        {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} />}
-                        {offersArray![i - 1] && <PromotionBox data={offersArray![i - 1]} />}
+                        {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} index = {i - 4}/>}
+                        {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} index = {i - 3}/>}
+                        {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} index = {i - 2}/>}
+                        {offersArray![i - 1] && <PromotionBox data={offersArray![i - 1]} index = {i - 1}/>}
                     </View>
                 setOffersView(prev => {
                     return [...(prev || []), renderElement]

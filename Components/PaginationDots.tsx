@@ -13,7 +13,7 @@ const PaginationDots: React.FC<IPageProps> = (props) => {
     console.log('length', props.length)
     const [length, setLength] = useState<number[]>([]);
 
-    const DotCollor = (i: number) => {
+    const DotColor = (i: number) => {
         if(i % 4 === 1) {
             return styles.dotRed;
         } else if (i% 4 === 2) {
@@ -68,7 +68,7 @@ const PaginationDots: React.FC<IPageProps> = (props) => {
     }, [props.length]);
 
     const dots = length.map((_, i) => 
-    <View key={i} style={[i === props.step ?styles.dotActive : styles.dot, DotCollor(i) ]}></View>
+    <View key={i} style={[i === props.step ?styles.dotActive : styles.dot, DotColor(i) ]}></View>
     );
 
     return (

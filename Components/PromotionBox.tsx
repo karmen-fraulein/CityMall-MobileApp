@@ -9,11 +9,24 @@ const PromotionBox = (props: any) => {
     const { isDarkTheme } = state;
 
 
+    const BoxColor = (i: number) => {
+        console.log(i)
+        if(i % 4 === 1) {
+            return styles.promotionRed;
+        } else if (i% 4 === 2) {
+            return styles.promotionBlue;
+        } if(i % 4 === 3) {
+            return styles.promotionLightBlue;
+        } else {
+            return styles.promotionYellow;   
+        }
+    }
+
     return (
         <TouchableOpacity onPress={() => navigate('ShopDetailsScreen')}>
             <View style={styles.promotionBox}>
-                <View style={styles.container}>
-                    <Text style={{ fontSize: 5 }}>  {props.data.name}</Text>
+                <View style={[styles.container, BoxColor(props.index) ]}>
+                    <Text style={{ fontSize: 5, color: isDarkTheme? Colors.white : Colors.black }}>  {props.data.name}</Text>
                 </View>
                 <Image style={styles.promotionImg} source={{uri: props.data.imgUrl}} />
 
@@ -55,8 +68,26 @@ const styles = StyleSheet.create({
         top: 9,
         left: 9,
         zIndex: 1,
+        backgroundColor: 'red'
 
     },
+
+    promotionRed: {
+        backgroundColor: Colors.red
+    },
+
+    promotionBlue: {
+        backgroundColor: Colors.blue
+    },
+
+    promotionLightBlue: {
+        backgroundColor: Colors.lightBlue
+    },
+
+    promotionYellow: {
+        backgroundColor: Colors.yellow
+    },
+
 
     promotionImg: {
         position: 'relative',

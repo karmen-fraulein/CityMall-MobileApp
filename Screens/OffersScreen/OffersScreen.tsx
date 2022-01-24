@@ -7,9 +7,7 @@ import AppLayout from "../../Components/AppLayout";
 import PaginationDots from "../../Components/PaginationDots";
 import PromotionBox from "../../Components/PromotionBox";
 import { useDimension } from "../../Hooks/UseDimension";
-import ApiServices from "../../Services/ApiServices";
 import { paginationDotCount } from "../../Services/Utils";
-import Grid from "../../Styles/grid";
 
 
 
@@ -17,11 +15,9 @@ const OffersScreen = (props: any) => {
     const { state, setGlobalState } = useContext(AppContext);
     const { offersArray, isDarkTheme } = state;
 
-    const { width, height } = useDimension();
+    const { width } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
-    const [init, setInit] = useState<boolean>(false)
     const [offersView, setOffersView] = useState<any[]>();
-    const [barcode, setBarCode] = useState<string>('');
     const [initLoading, setInitLoading] = useState<boolean>(true);
 
 
@@ -38,14 +34,14 @@ const OffersScreen = (props: any) => {
             for (let i = 4; i < offersArray!.length + 8; i += 8) {
                 const renderElement =
                     <View style={styles.promotions}>
-                        {offersArray![i - 1] && <PromotionBox data={offersArray![i - 1]} />}
-                        {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} />}
-                        {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} />}
-                        {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} />}
-                        {offersArray![i - 5] && <PromotionBox data={offersArray![i - 5]} />}
-                        {offersArray![i - 6] && <PromotionBox data={offersArray![i - 6]} />}
-                        {offersArray![i - 7] && <PromotionBox data={offersArray![i - 7]} />}
-                        {offersArray![i - 8] && <PromotionBox data={offersArray![i - 8]} />}
+                        {offersArray![i - 8] && <PromotionBox data={offersArray![i - 8]} index = {i - 8} />}
+                        {offersArray![i - 7] && <PromotionBox data={offersArray![i - 7]} index = {i - 7} />}
+                        {offersArray![i - 6] && <PromotionBox data={offersArray![i - 6]} index = {i - 6} />}
+                        {offersArray![i - 5] && <PromotionBox data={offersArray![i - 5]} index = {i - 5} />}
+                        {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} index = {i - 4} />}
+                        {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} index = {i - 3} />}
+                        {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} index = {i - 2} />}
+                        {offersArray![i - 1] && <PromotionBox data={offersArray![i - 1]} index = {i - 1} />}
                     </View>
                 setOffersView(prev => {
                     return [...(prev || []), renderElement]
@@ -54,20 +50,10 @@ const OffersScreen = (props: any) => {
         };
     };
 
-  
-
-
-
-
-
     useEffect(() => {
         handleSetOffers();
 
     }, [offersArray]);
-
-    console.log(offersArray)
-
-
 
     return (
         <AppLayout >
@@ -78,18 +64,17 @@ const OffersScreen = (props: any) => {
                     </Text>
                     <PaginationDots length={paginationDotCount(offersArray!, 8) } step={offersStep} />
                 </View>
-                {init &&
                     <View style={{flex: 11}}>
-                        <ScrollView contentContainerStyle={{ flexDirection: "row", backgroundColor: 'red' }} showsVerticalScrollIndicator={false}>
-                            <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%', backgroundColor: 'green' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                        <ScrollView contentContainerStyle={{ flexDirection: "row"}} showsVerticalScrollIndicator={false}>
+                            <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
                                 {offersView?.map((el, i) => (
-                                    <View key={i}>
+                                    <View key={i} >
                                         {el}
                                     </View>
                                 ))}
                             </ScrollView>
                         </ScrollView>
-                    </View>}
+                    </View>
             </View>
         </AppLayout>
     );
