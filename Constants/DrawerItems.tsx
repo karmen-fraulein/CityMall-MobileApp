@@ -1,158 +1,205 @@
+export interface ICategories {
+    id?: Number,
+    name?: String
+}
+
+export interface ILocation {
+    name?: String,
+    routeName?: String
+}
+
+export interface IDrawerItem {
+    id?: Number,
+    name?: String,
+    location?: ILocation[],
+    categories?: ICategories[] | [],
+
+
+}
+
 export default [
     {
         name: 'მთავარი',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [
             {
-                location: 'სითმოლი საბურთალო',
-                route: 'HomeScreen2'
+                name: 'სითმოლი საბურთალო',
+                routeName: 'HomeScreen'
             },
             {
-                location: 'სითმოლი გლდანი',
-                route: 'HomeScreen2'
+                name: 'სითმოლი გლდანი',
+                routeName: 'HomeScreen'
             }
-        ]
+        ],
+        categories: [],
+        id: 1,
     },
     {
         name: 'შეთავაზებები',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [
             {
-                location: 'სითმოლი საბურთალო',
-                route: 'OffersScreen'
-                
+                name: 'სითმოლი საბურთალო',
+                routeName: 'OffersScreen'
+
             },
             {
-                location: 'სითმოლი გლდანი',
-                route: 'OffersScreen'
+                name: 'სითმოლი გლდანი',
+                routeName: 'OffersScreen'
             },
-            // {
-            //   submenu:  [
-            //         {
-            //             title: 'ფასდაკლებები'
-            //         },
-            //         {
-            //             title: 'სიახლეები'
-            //         },
-            //         {
-            //             title: 'ღონისძიებები'
-            //         }
-            //     ]
-            // }
-        ]
+
+        ],
+        categories: [
+            {
+                id: 1,
+                name: 'ფასდაკლებები'
+            },
+            {
+                id: 2,
+                name: 'სიახლეები'
+            },
+            {
+                id: 3,
+                name: 'ღონისძიებები'
+            }
+        ],
+        id: 2,
     },
     {
         name: 'მაღაზიები',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [
             {
-                location: 'სითმოლი საბურთალო'
+                name: 'სითმოლი საბურთალო'
             },
             {
-                location: 'სითმოლი გლდანი'
+                name: 'სითმოლი გლდანი'
             }
-        ]
+        ],
+        categories: [
+            {
+                id: 1,
+                name: 'მაღაზიები'
+            },
+            {
+                id: 2,
+                name: 'პრემიუმ სივრცე'
+            },
+        ],
+        id:3
     },
     {
         name: 'გართობა',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [
             {
-                location: 'სითმოლი საბურთალო'
+                name: 'სითმოლი საბურთალო'
             },
             {
-                location: 'სითმოლი გლდანი'
+                name: 'სითმოლი გლდანი'
             }
-        ]
+        ],
+        categories: [],
+        id:4
     },
     {
         name: 'კვება',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [
             {
-                location: 'სითმოლი საბურთალო'
+                name: 'სითმოლი საბურთალო'
             },
             {
-                location: 'სითმოლი გლდანი'
+                name: 'სითმოლი გლდანი'
             }
-        ]
+        ],
+        categories: [],
+        id:5
     },
     // {
     //     name: 'სერვისი',
     //      icon: require('../assets/images/arrow-sm.png'),
-    //     _children: [
-            
+    //     location: [
+
     //         {
-    //             location: 'სითმოლი საბურთალო'
+    //             name: 'სითმოლი საბურთალო'
     //         },
     //         {
-    //             location: 'სითმოლი გლდანი'
+    //             name: 'სითმოლი გლდანი'
     //         }
-    //     ]
+    //     ],
+    //      id:6,
     // },
     // {
     //     name: 'სასაჩუქრე ბარათები',
     //      icon: require('../assets/images/arrow-sm.png'),
-    //     _children: [
+    //     location: [
     //         {
-    //             location: 'სასაჩუქრე ბარათის შეკვეთა',
-    //             route: 'OrderGiftCardScreen'
+    //             name: 'სასაჩუქრე ბარათის შეკვეთა',
+    //             routeName: 'OrderGiftCardScreen'
     //         },
     //         {
-    //             location: 'ნაშთის შემოწმება'
+    //             name: 'ნაშთის შემოწმება'
     //         }
-    //     ]
+    //     ],
+    //     id:7,
     // },
     // {
     //     name: 'მოლის გზამკვლევი',
     //      icon: require('../assets/images/arrow-sm.png'),
-    //     _children: [
+    //     location: [
     //         {
-    //             location: 'სითმოლი საბურთალო'
+    //             name: 'სითმოლი საბურთალო'
     //         },
     //         {
-    //             location: 'სითმოლი გლდანი'
+    //             name: 'სითმოლი გლდანი'
     //         }
-    //     ]
+    //     ],
+    //     id:8,
     // },
     {
         name: 'ჩვენს შესახებ',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [
             {
-                location: 'სითმოლი საბურთალო'
+                name: 'ჩვენს შესახებ'
             },
             {
-                location: 'სითმოლი გლდანი'
+                name: 'ლოიალობის შესახებ'
             }
-        ]
+        ],
+        categories: [],
+        id:9,
     },
     {
         name: '_blank',
     },
     {
         name: 'პირადი კაბინეტი',
-         icon: require('../assets/images/arrow-sm.png'),
-        _children: [
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [
             {
-                location: 'პარამეტრები'
+                name: 'პარამეტრები'
             },
             {
-                location: 'პირადი კაბინეტი',
-                route: 'ProfileScreen'
+                name: 'პირადი კაბინეტი',
+                routeName: 'ProfileScreen'
             }
-        ]
+        ],
+        categories: [],
+        id:10,
     },
     // {
     //     name: 'ფიზიკური ბარათის შეკვეთა',
     //      icon: require('../assets/images/arrow-sm.png'),
-    //     _children: [
+    //     location: [
     //         {
     //             location: 'სითმოლი საბურთალო'
     //         },
     //         {
     //             location: 'სითმოლი გლდანი'
     //         }
-    //     ]
+    //     ],
+    //     id:11,
     // },
 ]

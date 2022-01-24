@@ -23,6 +23,9 @@ import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
 
 
 
+
+
+
 const Stack = createStackNavigator();
 
 const AppStack = () => {
@@ -127,6 +130,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='OffersScreen'
                     component={OffersScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='SingleOfferScreen'
+                    component={SingleOfferScreen}
                     options={{
                         headerShown: false,
                     }}

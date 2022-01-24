@@ -1,7 +1,7 @@
 import React from 'react';
 import {View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import BurgerMenu from '../Components/BurgerMenu';
+import BurgerMenu from '../Components/BurgerMenu/BurgerMenu';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import HomeScreen from '../Screens/HomeScreen';
 

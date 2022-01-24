@@ -1,26 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Grid from '../Styles/grid';
-import { Colors } from '../Colors/Colors';
+import Grid from '../../Styles/grid';
+import { Colors } from '../../Colors/Colors';
 import BurgerMenuItem from './BurgerMenuItem';
-import DrawerItems from '../Constants/DrawerItems';
-import { AppContext } from '../AppContext/AppContext';
-import AuthService from '../Services/AuthService';
+import DrawerItems from '../../Constants/DrawerItems';
+import { AppContext } from '../../AppContext/AppContext';
+import AuthService from '../../Services/AuthService';
 
-const BurgerMenu: React.FC = (props) => {
+const BurgerMenu = () => {
     const { state, setGlobalState } = useContext(AppContext);
-    const {  isDarkTheme, clientDetails} = state;
-  
+    const { isDarkTheme, clientDetails } = state;
+
     return (
-        <SafeAreaView style={[styles.burgerMenuCont, {backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
+        <SafeAreaView style={[styles.burgerMenuCont, { backgroundColor: isDarkTheme ? Colors.black : Colors.white }]}>
             <View style={styles.burgerMenuHeader}>
-                <Image source={require('../assets/images/city-mall-title.png')} style={{ width: 135, height: 17 }} />
-                <Text style={[styles.usernameText, { color: isDarkTheme ? Colors.white : Colors.black,}]}>
+                <Image source={require('../../assets/images/city-mall-title.png')} style={{ width: 135, height: 17 }} />
+                <Text style={[styles.usernameText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                     {clientDetails?.[0]?.firstName} {clientDetails?.[0]?.lastName}
-                    </Text>
-                <Image source={require('../assets/images/gradient-line.png')} style={{ width: '100%' }} />
+                </Text>
+                <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
-            <ScrollView contentContainerStyle={{ marginVertical: '10%', paddingLeft: '8%' }}>
+            <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingLeft: '8%', flexGrow: 1 }}>
                 {DrawerItems.map((item: any, index: number) => (
                     item.name === '_blank' ?
                         <View style={styles.burgerMenuSeparator} key='_blank'>
@@ -30,10 +30,10 @@ const BurgerMenu: React.FC = (props) => {
                         <BurgerMenuItem item={item} key={index} />
                 ))}
             </ScrollView>
-            <View style={[Grid.col_1, { justifyContent: 'flex-start', marginLeft: '8%'  }]}>
+            <View style={[Grid.col_1, { justifyContent: 'flex-start', marginLeft: '8%' }]}>
                 <TouchableOpacity style={styles.logoutBtn} onPress={() => {
                     AuthService.SignOut();
-                    setGlobalState({isAuthenticated:false});
+                    setGlobalState({ isAuthenticated: false });
                 }}>
                     <Text style={styles.logoutBtnText}>გამოსვლა</Text>
                 </TouchableOpacity>
@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         fontSize: 14,
         lineHeight: 17,
-        color: Colors.white 
+        color: Colors.white
     }
 });
