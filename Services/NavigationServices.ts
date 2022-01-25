@@ -1,14 +1,18 @@
 // RootNavigation.js
 import * as React from 'react';
 import { createNavigationContainerRef, DrawerActions } from '@react-navigation/native';
+import { useDrawerStatus } from '@react-navigation/drawer';
+
 
 export const navigationRef = createNavigationContainerRef()
 
 
 
 export function navigate(route: string, params?: any) {
+  
   if (navigationRef.isReady()) {
     console.log(route)
+    toggleDrawer();
     navigationRef.navigate(route, params);
   }
 }

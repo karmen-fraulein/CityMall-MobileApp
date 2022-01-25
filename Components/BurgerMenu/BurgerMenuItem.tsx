@@ -30,6 +30,8 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
         };
     }, []);
 
+ 
+
 
     return (
         <View style = {{marginBottom: 20}}>
@@ -52,7 +54,7 @@ const BurgerMenuItem: React.FC<IBmItem> = (props) => {
             {isCollapsed && 
             <View style={{marginBottom: 5}}>
                {props.item?.location?.map((el, i) => (
-                   <BurgerMenuLocation item = {el} key = {i} categories = {props.item.categories}/>
+                   <BurgerMenuLocation item = {el} key = {i} categories = {props.item.categories} routeName = {props.item.routeName!}/>
                ))}     
             </View>}
         </View>

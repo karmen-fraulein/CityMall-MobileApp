@@ -7,7 +7,8 @@ import { navigate } from '../../Services/NavigationServices';
 
 export interface IBmCategoriesItem {
     item?: ICategories,
-   
+    routeName: string,
+    routeId?: number
 }
 
 const BurgerMenuCategories: React.FC<IBmCategoriesItem> = (props) => {
@@ -15,7 +16,7 @@ const BurgerMenuCategories: React.FC<IBmCategoriesItem> = (props) => {
     const { isDarkTheme } = state;
     return (
         <View style={styles.categoryView}>
-            <TouchableOpacity style={styles.categoryItem} onPress={() => navigate('OffersScreen')}>
+            <TouchableOpacity style={styles.categoryItem} onPress={() => navigate(props.routeName!, {id: props.item?.id, routeId: props.routeId})}>
                 <Text style={[styles.categoryItemText, {color: isDarkTheme? Colors.white : Colors.black}]}>
                     {props.item?.name}
                 </Text>
@@ -38,6 +39,6 @@ const styles = StyleSheet.create({
     },
 
     categoryItemText: {
-        color: 'yellow'
+        
     }
 })

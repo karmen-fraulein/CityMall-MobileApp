@@ -5,12 +5,11 @@ import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
 
 const PromotionBox = (props: any) => {
-    const { state } = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
 
 
     const BoxColor = (i: number) => {
-        console.log(i)
         if(i % 4 === 1) {
             return styles.promotionRed;
         } else if (i% 4 === 2) {
@@ -20,11 +19,17 @@ const PromotionBox = (props: any) => {
         } else {
             return styles.promotionYellow;   
         }
-    }
-    
-console.log(props.data)
+    };
+
+    const handlePromotionBoxClick = () => {
+        console.log('PromotionBox clicked')
+        setGlobalState({singleOffer: props.data})
+        navigate('SingleOfferScreen');
+        
+    };
+
     return (
-        <TouchableOpacity onPress={() => navigate('ShopDetailsScreen')} style={props.style}>
+        <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
             <View style={styles.promotionBox}>
                 <View style={[styles.container, BoxColor(props.index) ]}>
                     <Text style={{ fontSize: 5, color: isDarkTheme? Colors.white : Colors.black }}>  {props.data.name}</Text>
