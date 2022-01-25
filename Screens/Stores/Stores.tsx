@@ -18,7 +18,7 @@ import {Colors} from '../../Colors/Colors';
 import PaginationDots from '../../Components/PaginationDots';
 import {ChunckArrays} from '../../Utils/utils';
 import PromotionBox from '../../Components/PromotionBox';
-
+ 
 const categories: Array<string> = [
   'ტანსცმელი',
   'ფეხსაცმელი',
