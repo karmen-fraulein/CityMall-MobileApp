@@ -12,7 +12,6 @@ export function navigate(route: string, params?: any) {
   
   if (navigationRef.isReady()) {
     console.log(route)
-    toggleDrawer();
     navigationRef.navigate(route, params);
   }
 }
