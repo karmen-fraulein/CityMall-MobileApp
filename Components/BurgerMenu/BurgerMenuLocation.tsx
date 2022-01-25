@@ -8,7 +8,8 @@ import BurgerMenuCategories from './BurgerMenuCategories';
 
 export interface IBmItem {
     item: ILocation,
-    categories?: ICategories[]
+    categories?: ICategories[],
+    routeName: string
 }
 
 
@@ -26,9 +27,10 @@ const BurgerMenuLocation: React.FC<IBmItem> = (props) => {
         }
     };
 
+
     return (
         <View style={{ marginLeft: 10, marginVertical: 7 }}>
-            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => hasCategories() ? setIsCollapsed(!isCollapsed) : navigate('HomeScreen')}>
+            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => hasCategories() ? setIsCollapsed(!isCollapsed) : navigate(props.routeName!)}>
                 {
                     hasCategories() ?
                         <Image
@@ -44,7 +46,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = (props) => {
             {
                 isCollapsed && <View>
                     {props.categories?.map((el, i) => (
-                        <BurgerMenuCategories item={el} key={i} />
+                        <BurgerMenuCategories item={el} key={i} routeName = {props.routeName!} routeId = {props.item.id}  />
                     ))}
                 </View>
             }

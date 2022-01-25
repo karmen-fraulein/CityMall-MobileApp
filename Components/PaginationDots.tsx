@@ -10,7 +10,6 @@ interface IPageProps {
 
 
 const PaginationDots: React.FC<IPageProps> = (props) => {
-    console.log('length', props.length)
     const [length, setLength] = useState<number[]>([]);
 
     const DotColor = (i: number) => {

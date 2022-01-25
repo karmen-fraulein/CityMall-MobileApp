@@ -1,18 +1,20 @@
 export interface ICategories {
-    id?: Number,
-    name?: String
+    id?: number,
+    name?: string
 }
 
 export interface ILocation {
-    name?: String,
-    routeName?: String
+    name?: string,
+    routeName?: string,
+    id?: number
 }
 
 export interface IDrawerItem {
-    id?: Number,
-    name?: String,
+    id?: number,
+    name?: string,
     location?: ILocation[],
     categories?: ICategories[] | [],
+    routeName?: string 
 
 
 }
@@ -24,11 +26,13 @@ export default [
         location: [
             {
                 name: 'სითმოლი საბურთალო',
-                routeName: 'HomeScreen'
+                routeName: 'HomeScreen',
+                id: 1
             },
             {
                 name: 'სითმოლი გლდანი',
-                routeName: 'HomeScreen'
+                routeName: 'HomeScreen',
+                id: 2
             }
         ],
         categories: [],
@@ -40,29 +44,32 @@ export default [
         location: [
             {
                 name: 'სითმოლი საბურთალო',
-                routeName: 'OffersScreen'
+               
+                id:1
 
             },
             {
                 name: 'სითმოლი გლდანი',
-                routeName: 'OffersScreen'
+                
+                id: 2
             },
 
         ],
         categories: [
             {
-                id: 1,
+                id: 0,
                 name: 'ფასდაკლებები'
             },
             {
-                id: 2,
+                id: 1,
                 name: 'სიახლეები'
             },
             {
-                id: 3,
+                id: 2,
                 name: 'ღონისძიებები'
             }
         ],
+        routeName: 'OffersScreen',
         id: 2,
     },
     {
@@ -70,10 +77,12 @@ export default [
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო'
+                name: 'სითმოლი საბურთალო',
+                id: 1
             },
             {
-                name: 'სითმოლი გლდანი'
+                name: 'სითმოლი გლდანი',
+                id: 2
             }
         ],
         categories: [
@@ -93,10 +102,12 @@ export default [
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო'
+                name: 'სითმოლი საბურთალო',
+                id: 1
             },
             {
-                name: 'სითმოლი გლდანი'
+                name: 'სითმოლი გლდანი',
+                id: 2
             }
         ],
         categories: [],
@@ -107,10 +118,12 @@ export default [
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო'
+                name: 'სითმოლი საბურთალო',
+                id: 1
             },
             {
-                name: 'სითმოლი გლდანი'
+                name: 'სითმოლი გლდანი',
+                id: 2
             }
         ],
         categories: [],

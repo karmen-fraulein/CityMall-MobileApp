@@ -1,15 +1,27 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from "react-native";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
+import { CategoryTypes } from "../../Constants/Categories";
 import { useDimension } from "../../Hooks/UseDimension";
 
+import {IRegistrationProps} from '../RegistrationScreen';
 
+type RouteParamList = {
+    params: {
+        id: number
+    }
+}
 
 const SingleOfferScreen = () => {
     const { state } = useContext(AppContext);
-    const { isDarkTheme } = state;
+    const { isDarkTheme, singleOffer } = state;
     const { height } = useDimension();
+
+    const routeObj = useRoute<RouteProp<RouteParamList, 'params'>>();
+
+    console.log('single offers',routeObj.params)
 
 
     return (
@@ -19,46 +31,47 @@ const SingleOfferScreen = () => {
                     <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
                 </TouchableOpacity>
                 <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    ღონისძიებები
+                    {CategoryTypes[singleOffer.offerType]}
                 </Text>
             </View>
             <View style={{ flex: 6 }}>
-                <Image source={require('../../assets/images/shopdetails.png')} style={{ width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 }} />
+                <Image source={{uri: singleOffer.imgUrl}} style={{ width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 }} />
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
                 <View style={styles.offerTitleBox}>
                     <Text style={[styles.offerTitleBoxText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        ფასდაკლება
+                    {CategoryTypes[singleOffer.offerType]}
                     </Text>
                 </View>
                 <View style={{ marginTop: 23 }}>
                     <Text style={[styles.merchantTitle, { color: isDarkTheme ? Colors.white : Colors.black }]} >
-                        შემოთავაზება მეამასგან
+                    {singleOffer.name}
                     </Text>
                     <Text style={[styles.merchantDesc, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        ყავის აპარატი საჩუქრად მეამასგან
+                    {singleOffer.subtitle}
                     </Text>
                 </View>
                 <View style={{ marginTop: 25 }}>
                     <Text style={[styles.merchantDesc, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        შეუკვეთე ევროპული ან ამერიკული ფორმატის 240 კაფსულა და მიიღე ყავის აპარატი ჩვენგან. ისარგებლე შეთავაზებით ჩვენს სივრცეში სპეციალურ ფასად: 360-610 -ის ნაცვლად ან შეიძინეთ ონლაინ.
+                       {singleOffer.txt}
                     </Text>
                 </View>
                 <View style={[styles.merchantUrl, { borderBottomColor: isDarkTheme? Colors.white : Colors.black}]}>
                     <Text style={[styles.merchantUrlText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        https://google.com
+                    {singleOffer.merchantUrl}
                     </Text>
                 </View>
                 <View style={{ marginTop: 25 }}>
+                   {singleOffer.contactiInfoMerchant &&
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>მაღაზია: </Text>
-                        <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>+995 555 555 555</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactiInfoMerchant}</Text>
+                    </View>}
+                    {singleOffer.contactInfoCityMall && <View style={{ flexDirection: 'row' }}>
                         <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>სითი მოლი: </Text>
-                        <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>+995 555 555 555</Text>
-                    </View>
+                        <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactInfoCityMall}</Text>
+                    </View>}
 
                 </View>
             </View>

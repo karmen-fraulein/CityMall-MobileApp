@@ -188,6 +188,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
         setGeneralError('');
         setButtonLoading(true);
         let date = dateOfBirth.toLocaleDateString().split('/');
+        
         let data = {
             firstName: routeObject.firstName,
             lastName: routeObject.lastName,

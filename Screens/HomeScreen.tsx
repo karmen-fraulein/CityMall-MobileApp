@@ -10,6 +10,7 @@ import AppLayout from "../Components/AppLayout";
 import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
 import { paginationDotCount } from "../Services/Utils";
+import { navigate } from "../Services/NavigationServices";
 
 
 
@@ -103,8 +104,8 @@ const HomeScreen = (props: any) => {
                                 /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                                 '$1  $2  $3  $4',
                             )}
-                            navigateToBarCode={() => props.navigation.navigate('UserCardWithBarcode')}
-                            navigateToReg={() => props.navigation.navigate('RegistrationScreen')} />
+                            navigateToBarCode={() => navigate('UserCardWithBarcode')}
+                            navigateToReg={() => navigate('RegistrationScreen')} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
