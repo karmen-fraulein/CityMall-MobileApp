@@ -18,6 +18,7 @@ import { Text } from 'react-native';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import OffersScreen from '../Screens/OffersScreen/OffersScreen';
 import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
+import Stores from '../Screens/Stores/Stores';
 
 
 
@@ -63,6 +64,13 @@ const AppStack = () => {
                 />
                 ):(
                     <>
+                     <Stack.Screen
+                    name='Stores'
+                    component={Stores}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
                 <Stack.Screen
                     name='HomeScreen'
                     component={HomeScreen}
@@ -141,7 +149,9 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
-                </>)}
+               
+                </>
+                )}
             </Stack.Navigator>
         </NavigationContainer>
     );

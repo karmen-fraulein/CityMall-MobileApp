@@ -21,9 +21,10 @@ const PromotionBox = (props: any) => {
             return styles.promotionYellow;   
         }
     }
-
+    
+console.log(props.data)
     return (
-        <TouchableOpacity onPress={() => navigate('ShopDetailsScreen')}>
+        <TouchableOpacity onPress={() => navigate('ShopDetailsScreen')} style={props.style}>
             <View style={styles.promotionBox}>
                 <View style={[styles.container, BoxColor(props.index) ]}>
                     <Text style={{ fontSize: 5, color: isDarkTheme? Colors.white : Colors.black }}>  {props.data.name}</Text>
@@ -38,7 +39,7 @@ const PromotionBox = (props: any) => {
                 </Text>
                 <View style={styles.promotionBottom}>
                     <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        ვრცლად
+                        ვრცლად 
                     </Text>
                     <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
                 </View>
