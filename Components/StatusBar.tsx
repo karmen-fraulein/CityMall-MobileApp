@@ -54,9 +54,6 @@ const StatusBar = () => {
     });
   }, [data.categoryPointInfo]);
 
-  let x1 = false,
-    x2 = false;
-
   const _progressValue = (value: number, points: number) => {
     const mod = points / lineWidth;
     return value / mod;
@@ -68,10 +65,7 @@ const StatusBar = () => {
       } else if (value === lineWidth) {
         return lineWidth;
       } else if (value > lineWidth) {
-        x2 = true;
         return lineWidth;
-      } else {
-        x2 = false;
       }
   };
 
