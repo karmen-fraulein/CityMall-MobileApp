@@ -11,6 +11,7 @@ import VouchersButton from '../CustomComponents/VouchersButton';
 import ReadMoreCategories from '../ReadMore/ReadMoreCategories';
 import ReadMoreItem from '../ReadMore/ReadMoreItem';
 import {Item} from '../../Constants/ShopList';
+import { ScrollView } from 'react-native-gesture-handler';
 let hm = require('../../assets/images/H&M.png');
 
 const VouchersInfo = () => {
@@ -19,7 +20,6 @@ const VouchersInfo = () => {
   const {isDarkTheme} = state;
 
 
-  console.log('item ===>', Item)
   return (
     <AppLayout>
       <View
@@ -32,7 +32,7 @@ const VouchersInfo = () => {
           <VouchersButton title="ვაუჩერის შეძენა" onPress={() => navigate('BuyVouchers')} />
         </View>
         {/* <ReadMoreItem item={Item} /> */}
-        <View style={styles.cardWrapper}>
+        <ScrollView contentContainerStyle={styles.cardWrapper}>
           <View>
             <VoucherCardLayout
               amount={15}
@@ -67,7 +67,7 @@ const VouchersInfo = () => {
               icon = {require('../../assets/images/Polygon.png')}
             />
           </View>
-        </View>
+        </ScrollView>
       </View>
       
      

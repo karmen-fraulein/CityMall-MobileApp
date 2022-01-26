@@ -21,6 +21,7 @@ import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
 import VouchersInfo from '../Components/Vouchers/VouchersInfo';
 import BuyVouchers from '../Components/Vouchers/BuyVouchers';
 import Stores from '../Screens/Stores/Stores';
+import RegistrationScreen3 from '../Screens/RegistrationScreen3';
 
 
 
@@ -90,6 +91,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='RegistrationScreen2'
                     component={RegistrationScreen2}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                 <Stack.Screen
+                    name='RegistrationScreen3'
+                    component={RegistrationScreen3}
                     options={{
                         headerShown: false,
                     }}

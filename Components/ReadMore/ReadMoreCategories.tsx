@@ -15,7 +15,6 @@ const ReadMoreCategories: React.FC<ShopItem> = (props) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
 
-    console.log(props.item)
     return (
         <View style={styles.categoryView}>
             <TouchableOpacity style={styles.categoryItem}>

@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Image, Modal, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
@@ -23,48 +24,33 @@ interface IDistricts {
 
 
 const DistrictPiker = (props: any) => {
-    const [isSelecting, setIsSelecting] = useState<boolean>(false);
-    const [selectedItem, setSelectedItem] = useState<IDistrict>();
-    const { width, height } = useDimension();
-    const { isDarkTheme } = useContext(AppContext);
 
-    useEffect(() => {
-        if (selectedItem) {
-            props.onSelect(selectedItem);
-        };
-    }, [selectedItem])
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
     const styles = StyleSheet.create({
-        background: {
-
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 30,
-            backgroundColor: 'red',
-            elevation: 10,
-
-        },
-
         centeredView: {
             flex: 1,
-            justifyContent: "center",
+            justifyContent: "flex-end",
             alignItems: "center",
         },
 
-        selectBox: {
+        pickerStyle: {
+        },
+        choseButton: {
 
         },
+
+        textStyles: {
+            color: isDarkTheme ? 'white' : 'black',
+            fontSize: 20,
+            fontFamily: 'HMpangram-Medium',
+
+            paddingRight: 20
+        },
         modalView: {
-            margin: 20,
-            backgroundColor: Colors.black,
+            backgroundColor: isDarkTheme ? 'black' : 'white',
             borderRadius: 10,
-            borderColor: Colors.bgColor,
-            borderWidth: 1,
-            paddingVertical: 10,
             shadowColor: Colors.black,
             shadowOffset: {
                 width: 0,
@@ -73,75 +59,123 @@ const DistrictPiker = (props: any) => {
             shadowOpacity: 0.25,
             shadowRadius: 4,
             elevation: 5,
-            width: '90%',
-            maxWidth: 380
+            width: '100%',
         },
 
         selectedItem: {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingTop: 16,
-            paddingBottom: 10,
+            paddingVertical: 16,
             paddingHorizontal: 10,
             borderBottomColor: isDarkTheme ? Colors.white : Colors.black,
             borderBottomWidth: 1,
-            height: 65
+            color: isDarkTheme ? Colors.white : Colors.black,
+            marginRight: 5
         },
 
         itemText: {
             color: isDarkTheme ? Colors.white : Colors.black
+        },
+
+        infoText: {
+            fontSize: 20,
+            fontFamily: 'HMpangram-Medium',
+            color: isDarkTheme ? Colors.white : Colors.black
+        },
+        modalBar: {
+            paddingVertical: 10,
+            marginHorizontal: 15,
         }
     })
 
+    const [selectedValue, setSelectedValue] = useState<string>('');
+    const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
-    const handleSelect = (item: IDistrict) => {
-        setSelectedItem(item);
-        setIsSelecting(false);
-    };
+
+
+
+    useEffect(() => {
+        if (selectedValue !== '') {
+            props.onSelect(selectedValue);
+            setIsSelecting(false);
+        }
+    }, [selectedValue]);
+
+    const picker = useRef<any>();
+
+    useEffect(() => {
+        if (isSelecting) {
+            picker.current.focus()
+        }
+    }, [isSelecting])
 
 
     return (
-        !isSelecting ?
+        <>
+            {(isSelecting && Platform.OS === 'ios') ?
+                <TouchableOpacity style={styles.centeredView} onPress={() => setIsSelecting(false)}>
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        onRequestClose={() => {
+                            setIsSelecting(!isSelecting)
+                        }}
+                        visible={isSelecting}>
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <View style={styles.modalBar}>
+                                    <Text style={styles.infoText}>აირჩიეთ ქვეყანა</Text>
+                                </View>
+                                <Picker
+                                    style={styles.pickerStyle}
+                                    itemStyle={styles.textStyles}
+                                    selectedValue={selectedValue}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        setSelectedValue(itemValue)}
+                                >
+                                    {props.districts.map((item: any, index: number) => (
+                                        <Picker.Item
+                                            key={item.name}
+                                            label={item.name} value={item.name} />
+
+                                    ))}
+                                </Picker>
+                                <TouchableOpacity style={[styles.modalBar, { paddingBottom: 20 }]} onPress={() => setIsSelecting(false)}>
+                                    <Text style={[styles.infoText, { textAlign: 'right', color: Colors.red }]}>არჩევა</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+                </TouchableOpacity>
+                : (isSelecting && Platform.OS === 'android') ?
+                    <Picker ref={picker}
+                        style={styles.pickerStyle}
+                        itemStyle={styles.textStyles}
+                        selectedValue={selectedValue}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedValue(itemValue)}
+                    >
+                        {props.districts.map((item: any, index: number) => (
+                            <Picker.Item
+                                key={item.name}
+                                label={item.name} value={item.name} />
+
+                        ))}
+                    </Picker> : null}
             <TouchableOpacity
                 style={styles.selectedItem}
                 onPress={() => setIsSelecting(true)}>
-                {selectedItem ?
-                    <Text style={styles.itemText}>{selectedItem?.name}</Text>
+                {selectedValue ?
+                    <Text style={styles.itemText}>{selectedValue}</Text>
                     :
                     <Text style={styles.itemText}>{props.placeholder}</Text>
                 }
-                <Image source = {require('./../../assets/images/arrow-down-sm.png')} style={{width: 7, height: 7, marginLeft: 10}} />
             </TouchableOpacity>
-            :
-
-            <View style={styles.centeredView}>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    onRequestClose={() => {
-                        setIsSelecting(!isSelecting)
-                    }}
-                    visible={isSelecting}>
-                        
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <ScrollView style={{ maxHeight: height - 200 }} contentContainerStyle={{ flexGrow: 1 }} pointerEvents='box-none'>
-                                {props.districts.map((item: IDistrict) => (
-                                    <TouchableOpacity
-                                        style={styles.selectedItem}
-                                        key={item.id}
-                                        onPress={() => handleSelect(item)}>
-                                        <Text style={styles.itemText}>{item.name}</Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </ScrollView>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
+        </>
     );
 };
+
 
 
 

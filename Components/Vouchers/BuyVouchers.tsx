@@ -20,7 +20,6 @@ const BuyVouchers = () => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
 
-  console.log('item ===>', Item);
   return (
     <AppLayout>
       <View

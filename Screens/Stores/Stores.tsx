@@ -17,10 +17,11 @@ import AppLayout from '../../Components/AppLayout';
 import { Colors } from '../../Colors/Colors';
 import PaginationDots from '../../Components/PaginationDots';
 import { ChunckArrays as ChunkArrays } from '../../Utils/utils';
-import PromotionBox from '../../Components/PromotionBox';
+
 import ApiServices, { IMerchants } from '../../Services/ApiServices';
 import RenderCategories from '../../Components/CategoriesFilter/RenderCategories';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import ShopDetailBox from '../../Components/ShopDetailBox';
 
 
 export interface IServiceCategories {
@@ -72,7 +73,7 @@ const Stores: React.FC = () => {
   const [isFilterCollapsed, setIsFilterCollapsed] = useState<boolean>(true);
   const [secStep, setSectStep] = useState<number>(0);
   const carouselRef = createRef<ScrollView>();
-  const { isDarkTheme } = useContext(AppContext);
+  const { isDarkTheme, subCategoryArray } = useContext(AppContext);
   const itemChunk = 4;
 
   const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
@@ -92,8 +93,8 @@ const Stores: React.FC = () => {
     })
   }
 
-  const getServiceSubCategories = () => {
-    ApiServices.GetServiceSubCategories([1, 2, 3, 4]).then(res => {
+  const getServiceSubCategories = (data: Array<number>) => {
+    ApiServices.GetServiceSubCategories(data).then(res => {
       setServiceSubCategories(res.data)
     }).catch(e => {
       console.log(e)
@@ -108,7 +109,7 @@ const Stores: React.FC = () => {
     })
   }
 
-
+console.log('subCategoryArray', subCategoryArray)
 
   useEffect(() => {
     getServiceCategories();
@@ -118,6 +119,12 @@ const Stores: React.FC = () => {
     getMerchants();
   }, [routeParams.params.routeId])
 
+  useEffect(()=> {
+    console.log('usefffect', subCategoryArray)
+    if(subCategoryArray !== undefined){
+    getServiceSubCategories(subCategoryArray)
+    }
+  }, [subCategoryArray])
 
 
 
@@ -184,6 +191,7 @@ const Stores: React.FC = () => {
           </Text>
 
           <RenderCategories
+          isCatregory
             data={serviceCategories!}
             title="კატეგორიები" />
 
@@ -191,6 +199,7 @@ const Stores: React.FC = () => {
             data={serviceSubCategories}
             title="ქვეკატეგორიები"
             style={styles.subCategoryes}
+            isCatregory = {false}
           />
 
           <Image
@@ -229,7 +238,7 @@ const Stores: React.FC = () => {
             {chunkedData.map((data, i) => (
               <View key={i} style={[styles.dataContent, itemStyle]}>
                 {data.map((item, index) => (
-                  <PromotionBox
+                  <ShopDetailBox
                     index={index}
                     data={item}
                     key={item.name! + index}

@@ -199,7 +199,8 @@ const VoucherCardLayout: React.FC<IAppBtnProps> = props => {
 
 const styles = StyleSheet.create({
   main: {
-    width: 342,
+    width: '100%',
+    maxWidth: 342,
     height: 125,
     borderRadius: 5,
     borderColor: Colors.white,
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
   cardView: {
     flexDirection: 'row',
     alignItems: 'center',
+    
   },
 });
 export default VoucherCardLayout;
