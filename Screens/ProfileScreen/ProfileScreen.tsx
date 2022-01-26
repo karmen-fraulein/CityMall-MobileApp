@@ -139,7 +139,7 @@ const ProfileScreen = () => {
 
 
 
-    console.log('client data', clientInfo.points)
+    console.log('client data', clientInfo)
 
 
 
