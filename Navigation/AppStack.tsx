@@ -18,7 +18,8 @@ import { Text } from 'react-native';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import OffersScreen from '../Screens/OffersScreen/OffersScreen';
 import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
-import Stores from '../Screens/Stores/Stores';
+import VouchersInfo from '../Components/Vouchers/VouchersInfo';
+import BuyVouchers from '../Components/Vouchers/BuyVouchers';
 
 
 
@@ -53,104 +54,111 @@ const AppStack = () => {
     return (
         <NavigationContainer ref={navigationRef}>
             <Stack.Navigator initialRouteName='AuthScreen'>
-                {isAuthenticated === false ?
-                    (
-                        <Stack.Screen
-                            name='AuthScreen'
-                            component={AuthScreen}
-                            options={{
-                                headerShown: false,
-                            }}
-                        />
-                    ) : (
-                        <>
-                            <Stack.Screen
-                                name='HomeScreen'
-                                component={HomeScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='HomeScreen2'
-                                component={HomeScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='RegistrationScreen'
-                                component={RegistrationScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='RegistrationScreen2'
-                                component={RegistrationScreen2}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='UserCardWithBarcode'
-                                component={UserCardWithBarcode}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
+                {isAuthenticated === false? 
+                (
+                    <Stack.Screen
+                    name='AuthScreen'
+                    component={AuthScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                ):(
+                    <>
+                <Stack.Screen
+                    name='HomeScreen'
+                    component={HomeScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='HomeScreen2'
+                    component={HomeScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='RegistrationScreen'
+                    component={RegistrationScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='RegistrationScreen2'
+                    component={RegistrationScreen2}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='UserCardWithBarcode'
+                    component={UserCardWithBarcode}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                
+                <Stack.Screen
+                    name='ShopDetailsScreen'
+                    component={ShopDetailsScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='OrderGiftCardScreen'
+                    component={OrderGiftCardScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='ProfileScreen'
+                    component={ProfileScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='StatusInfoScreen'
+                    component={StatusInfoScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='OffersScreen'
+                    component={OffersScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='SingleOfferScreen'
+                    component={SingleOfferScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='VouchersInfo'
+                    component={VouchersInfo}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='BuyVouchers'
+                    component={BuyVouchers}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
 
-                            <Stack.Screen
-                                name='ShopDetailsScreen'
-                                component={ShopDetailsScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='OrderGiftCardScreen'
-                                component={OrderGiftCardScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='ProfileScreen'
-                                component={ProfileScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='StatusInfoScreen'
-                                component={StatusInfoScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='OffersScreen'
-                                component={OffersScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='SingleOfferScreen'
-                                component={SingleOfferScreen}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                            <Stack.Screen
-                                name='Stores'
-                                component={Stores}
-                                options={{
-                                    headerShown: false,
-                                }}
-                            />
-                        </>
-                    )}
+                </>)}
             </Stack.Navigator>
         </NavigationContainer>
     );
