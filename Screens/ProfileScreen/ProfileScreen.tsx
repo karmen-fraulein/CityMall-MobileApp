@@ -12,7 +12,8 @@ import {
     ScrollView,
     NativeSyntheticEvent,
     NativeScrollEvent,
-    Image
+    Image,
+    Button
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
@@ -29,6 +30,7 @@ import { navigate } from '../../Services/NavigationServices';
 import { formatNumber } from '../../Services/Utils';
 import Grid from '../../Styles/grid';
 import StatusInfoScreen from './StatusInfoScreen';
+import VouchersInfo from '../../Components/Vouchers/VouchersInfo';
 
 
 
@@ -185,6 +187,8 @@ const ProfileScreen = () => {
                     </View>
                     <StatusBar />
                 </View>
+                <Button title="ვაუჩერები" onPress={() => navigate('VouchersInfo')} /> 
+
                 <View style={{marginBottom: 30}}>
                     <View style={styles.promotionContainer}>
                         <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>

@@ -12,5 +12,6 @@ export const Colors = {
     silver: '#D7D8D9',
     gold: '#FFE583',
     platinum: '#A0A9B1',
-    standart: '#F2F2F2'
+    btnGrey: '#636363',
+    txtGrey: '#686868'
 }
