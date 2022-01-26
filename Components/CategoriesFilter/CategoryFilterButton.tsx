@@ -30,7 +30,7 @@ const CategoryFilterButton: React.FC<ICatButton> = (props) => {
             setGlobalState({subCategoryArray: [...tempArray]});
         }
 
-    }, [isChosen, subCategoryArray])  
+    }, [isChosen])  
 
 
 

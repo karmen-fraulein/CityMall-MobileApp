@@ -10,43 +10,56 @@ const PromotionBox = (props: any) => {
 
 
     const BoxColor = (i: number) => {
-        if(i % 4 === 1) {
+        if (i % 4 === 1) {
             return styles.promotionRed;
-        } else if (i% 4 === 2) {
+        } else if (i % 4 === 2) {
             return styles.promotionBlue;
-        } if(i % 4 === 3) {
+        } if (i % 4 === 3) {
             return styles.promotionLightBlue;
         } else {
-            return styles.promotionYellow;   
+            return styles.promotionYellow;
         }
     };
 
     const handlePromotionBoxClick = () => {
         console.log('PromotionBox clicked')
-        setGlobalState({singleOffer: props.data})
+        setGlobalState({ singleOffer: props.data })
         navigate('SingleOfferScreen');
-        
+
     };
+
+    console.log(props.data)
 
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
             <View style={styles.promotionBox}>
-                <View style={[styles.container, BoxColor(props.index) ]}>
-                    <Text style={{ fontSize: 5, color: isDarkTheme? Colors.white : Colors.black }}>  {props.data.name}</Text>
+                <View style={[styles.container, BoxColor(props.index)]}>
+                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}>  {props.data.name}</Text>
                 </View>
-                <Image style={styles.promotionImg} source={{uri: props.data.imgUrl}} />
+                <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl || props.data.imageUrl }} />
 
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {props.data.subtitle}
+                    {props.data.subtitle || props.data.name}
                 </Text>
                 <Text style={[styles.promotionBodyText, { color: isDarkTheme ? Colors.white : Colors.black }]} numberOfLines={1}>
-                    {props.data.txt}
+                    {props.data.txt || props.data.categoryNames}
                 </Text>
                 <View style={styles.promotionBottom}>
-                    <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        ვრცლად 
-                    </Text>
-                    <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
+                    {
+                    props.data.floor ?
+                    <View>
+                        <Text  style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                            {`სართული: ${props.data.floor}`}
+                        </Text>
+                    </View>
+                    : null
+                    }
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                            ვრცლად
+                        </Text>
+                        <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>
@@ -74,7 +87,6 @@ const styles = StyleSheet.create({
         top: 9,
         left: 9,
         zIndex: 1,
-        backgroundColor: 'red'
 
     },
 
@@ -129,6 +141,7 @@ const styles = StyleSheet.create({
     promotionBottom: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between'
     },
 
     promotionBottomText: {

@@ -37,6 +37,7 @@ export default [
         ],
         categories: [],
         id: 1,
+        routeName: 'HomeScreen',
     },
     {
         name: 'შეთავაზებები',

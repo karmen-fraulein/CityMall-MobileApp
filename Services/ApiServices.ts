@@ -20,6 +20,19 @@ export interface IClientInfo {
     categoryPointInfo?: ICategoryPointInfo[],
 }
 
+export interface IMerchants {
+    merchId?: string,
+    name?: string,
+    imageUrl?: string,
+    categoryNames?: string,
+    floor?: number,
+    orgId?: number
+}
+
+interface IMerchantsResponse {
+    data:IMerchants[] 
+}
+
 
 
 
@@ -136,6 +149,11 @@ class ApiServices {
 
     GetClientInfo = async () => {
         return await axios.get<IClientInfo>(`${envs.API_URL}/api/Mobile/ClientInfo`);
+    }
+
+    GetMerchants = async (id: number) => {
+        console.log('merchant url', `${envs.API_URL}/api/Mobile/Address=${id}&Page=1&PageSize=10`)
+        return await axios.get<IMerchantsResponse>(`${envs.API_URL}/api/Mobile/GetMerchants?Address=${id}&Page=1&PageSize=10`);
     }
 
 

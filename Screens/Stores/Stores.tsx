@@ -18,8 +18,9 @@ import { Colors } from '../../Colors/Colors';
 import PaginationDots from '../../Components/PaginationDots';
 import { ChunckArrays as ChunkArrays } from '../../Utils/utils';
 import PromotionBox from '../../Components/PromotionBox';
-import ApiServices from '../../Services/ApiServices';
+import ApiServices, { IMerchants } from '../../Services/ApiServices';
 import RenderCategories from '../../Components/CategoriesFilter/RenderCategories';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 
 export interface IServiceCategories {
@@ -35,6 +36,12 @@ export interface IServiceSubCategories {
   name: string
 }
 
+type RouteParamList = {
+  params: {
+      id: number,
+      routeId: number
+  }
+}
 
 
 interface IData {
@@ -45,85 +52,6 @@ interface IData {
   subtitle: string;
 }
 
-const filteredData: IData[] = [
-  {
-    id: 1,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 2,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 3,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 4,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 5,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 6,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 7,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 8,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 9,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 10,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-  {
-    id: 11,
-    imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
-    name: 'GANT',
-    subtitle: 'ტანსაცმელი, ფეხსაცმელი, აქ ტანსაცმელი, ფეხსაცმელი, აქ',
-    txt: '1',
-  },
-];
 
 interface ICatsProps {
   data?: IServiceCategories[] | [];
@@ -139,6 +67,7 @@ interface ICatsProps2 {
 
 
 
+
 const Stores: React.FC = () => {
   const [isFilterCollapsed, setIsFilterCollapsed] = useState<boolean>(true);
   const [secStep, setSectStep] = useState<number>(0);
@@ -146,8 +75,13 @@ const Stores: React.FC = () => {
   const { isDarkTheme } = useContext(AppContext);
   const itemChunk = 4;
 
+  const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
+
+  console.log('routeParams', routeParams.params.routeId  )
+
   const [serviceCategories, setServiceCategories] = useState<IServiceCategories[]>();
   const [serviceSubCategories, setServiceSubCategories] = useState<IServiceSubCategories[]>([])
+  const [merchants, setMerchants] = useState<IMerchants[]>()
 
 
   const getServiceCategories = () => {
@@ -164,12 +98,22 @@ const Stores: React.FC = () => {
     }).catch(e => {
       console.log(e)
     })
+  };
+
+  const getMerchants = () => {
+    ApiServices.GetMerchants(routeParams.params.routeId).then(res => {
+      setMerchants(res.data.data!)
+    }).catch(e => {
+      console.log(JSON.parse(JSON.stringify(e)))
+    })
   }
+
+  console.log(merchants)
 
 
   useEffect(() => {
+    getMerchants();
     getServiceCategories();
-    getServiceSubCategories();
   }, [])
 
 
@@ -221,7 +165,7 @@ const Stores: React.FC = () => {
     width: Dimensions.get('screen').width,
   };
 
-  const chunkedData = ChunkArrays<IData>(filteredData, itemChunk);
+  const chunkedData = ChunkArrays<IMerchants>(merchants!, itemChunk);
   const fillSpace = (ln: number) => {
     if ((itemChunk - ln) === 0) return null;
     return Array.from(Array(itemChunk - ln).keys()).map(element => (
@@ -280,13 +224,13 @@ const Stores: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}
             horizontal={isFilterCollapsed}>
-            {chunkedData.map(data => (
-              <View key={data[0].id} style={[styles.dataContent, itemStyle]}>
+            {chunkedData.map((data, i) => (
+              <View key={i} style={[styles.dataContent, itemStyle]}>
                 {data.map((item, index) => (
                   <PromotionBox
                     index={index}
                     data={item}
-                    key={item.id + index}
+                    key={item.name! + index}
                     style={styles.dataItem}
                   />
                 ))}
