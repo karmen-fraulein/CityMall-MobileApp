@@ -99,7 +99,7 @@ const StatusBar = () => {
           justifyContent: 'center',
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, {backgroundColor: Colors.standart}]}/>
+          <View style={[styles.round, {backgroundColor: Colors.standard}]}/>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -108,7 +108,7 @@ const StatusBar = () => {
               styles.line,
               {
                 width: getMax(_progressValue(curPoints, pointArray[0]), 1),
-                backgroundColor: Colors.standart,
+                backgroundColor: Colors.standard,
                 position: 'absolute',
               },
             ]}

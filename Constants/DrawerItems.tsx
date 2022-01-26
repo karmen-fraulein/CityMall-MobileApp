@@ -96,7 +96,6 @@ export default [
             },
         ],
         routeName: 'Stores',
-        objectTypeId: 1,
         id:3
     },
     {
