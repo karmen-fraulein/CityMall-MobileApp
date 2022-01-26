@@ -28,8 +28,6 @@ const PromotionBox = (props: any) => {
 
     };
 
-    console.log(props.data)
-
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
             <View style={styles.promotionBox}>

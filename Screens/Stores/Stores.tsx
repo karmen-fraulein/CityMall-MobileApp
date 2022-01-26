@@ -108,13 +108,15 @@ const Stores: React.FC = () => {
     })
   }
 
-  console.log(merchants)
 
 
   useEffect(() => {
-    getMerchants();
     getServiceCategories();
   }, [])
+
+  useEffect(() => {
+    getMerchants();
+  }, [routeParams.params.routeId])
 
 
 
