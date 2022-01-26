@@ -9,4 +9,13 @@ export const paginationDotCount = (dataArray: any[], moduloNumber: number) => {
     };
 
     return count;
-}
+};
+
+export const formatNumber = (number: any) => {
+    let formattedNumber = parseFloat(number);
+    return formattedNumber
+        .toFixed(2)
+        .toString()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}       
+

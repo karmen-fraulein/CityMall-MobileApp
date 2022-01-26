@@ -1,5 +1,6 @@
 import React, {
     useContext,
+    useEffect,
     useState
 } from 'react';
 import {
@@ -23,54 +24,14 @@ import PromotionBox from '../../Components/PromotionBox';
 import StatusBar from '../../Components/StatusBar';
 import TransactionList from '../../Components/TransactionList';
 import { useDimension } from '../../Hooks/UseDimension';
+import ApiServices, { IClientInfo } from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
+import { formatNumber } from '../../Services/Utils';
 import Grid from '../../Styles/grid';
 import StatusInfoScreen from './StatusInfoScreen';
 
 
-const offers: any = [
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
-    {
-        title: 'ფასდაკლება THE NORTH FACE-ში',
-        subTitle: 'საცურაო აუზი -30% ფასდაკლება',
-        imgUrl: '../assets/images/promotion_img.png'
-    },
 
-]
 
 const tr = [
     {
@@ -150,16 +111,35 @@ const tr = [
 const ProfileScreen = () => {
     const { width } = useDimension();
     const { state } = useContext(AppContext);
-    const { isDarkTheme } = state;
+    const { isDarkTheme, offersArray } = state;
 
     const [offersStep, setOffersStep] = useState<number>(0);
     const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);
-    const [transactions, setTranzactions] = useState<any[]>(tr);
+    const [transactions, setTransactions] = useState<any[]>(tr);
+    const [clientInfo, setClientInfo] = useState<IClientInfo>({})
 
 
     const toggleSwitch = () => {
         setIsMoneyTransaction(!isMoneyTransaction)
     };
+
+    const getClientData = () => {
+        ApiServices.GetClientInfo().then(res => {
+            setClientInfo(res.data);
+        }).catch(e => {
+            console.log(e)
+        })
+    };
+
+
+    useEffect(() => {
+        getClientData();
+    }, []);
+
+
+
+
+    console.log('client data', clientInfo.points)
 
 
 
@@ -169,15 +149,16 @@ const ProfileScreen = () => {
     };
 
     return (
-        <AppLayout>
-            <View style={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: '7%' }}>
+        <AppLayout pageTitle = {'კაბინეტი'}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: '7%' }}>
                 <View style={styles.balanceView}>
                     <View >
                         <Text style={styles.balanceWrapTitle}>
                             ხელმისაწვდომი თანხა
                         </Text>
                         <Text style={styles.balanceWrapAmount}>
-                            1050.50
+                            {formatNumber(clientInfo.balance)}
+                            {}
                         </Text>
 
                     </View>
@@ -186,7 +167,7 @@ const ProfileScreen = () => {
                             სითი ქულა
                         </Text>
                         <Text style={styles.balanceWrapAmount}>
-                            1360.50
+                            {formatNumber(clientInfo.points)}
                         </Text>
                     </View>
                 </View>
@@ -209,11 +190,11 @@ const ProfileScreen = () => {
                         <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                             პირადი შეთავაზებები
                         </Text>
-                        <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
+                        <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
                     </View>
                     <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
                         <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
-                            {offers?.map((el: any, i: number) => (
+                            {offersArray?.map((el: any, i: number) => (
                                 <PromotionBox key={i} data={el} />
 
                             ))}
@@ -225,18 +206,18 @@ const ProfileScreen = () => {
                     <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                         ქულების გახაჯვის ოფცია
                     </Text>
-                    <PaginationDots length={Math.round(offers?.length / 2)} step={offersStep} />
+                    <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
                 </View>
                 <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
                     <ScrollView contentContainerStyle={{ flexDirection: 'row' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
-                        {offers?.map((el: any, i: number) => (
+                        {offersArray?.map((el: any, i: number) => (
                             <PromotionBox key={i} data={el} />
 
                         ))}
                     </ScrollView>
                 </ScrollView>
                 </View>
-                <View style={styles.redirectView}>
+                {/* <View style={styles.redirectView}>
                     <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26, marginRight: 10 }} />
                     <TouchableOpacity style={styles.redirectBtn}>
                         <Text style={styles.redirectBtnText}>
@@ -244,7 +225,7 @@ const ProfileScreen = () => {
                         </Text>
                         <Image source={require('../../assets/images/redirect_icon.png')} style={{ width: 9, height: 9 }} />
                     </TouchableOpacity>
-                </View>
+                </View> */}
                 <View style={styles.transactionView}>
                     <View style={styles.trViewHeader}>
                         <Text
@@ -269,7 +250,7 @@ const ProfileScreen = () => {
                         <TransactionList/>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
 
 
 

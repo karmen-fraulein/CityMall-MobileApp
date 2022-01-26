@@ -10,7 +10,7 @@ const AppLayout = (props: any) => (
 
         <AppNavigator >
             <>
-                <AppHeader />
+                <AppHeader pageTitle = {props.pageTitle}/>
                 <ScrollView style={Grid.col_11} contentContainerStyle={{flex:1}} >
                     <View style={{flex: 1}}>
                         {props.children}

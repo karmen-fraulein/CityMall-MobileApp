@@ -8,9 +8,9 @@ const data = {
   name: 'ცისანა',
   surname: 'თოდრია',
   ballance: null,
-  points: 107895,
+  points: 11100,
   status: 'სილვერი',
-  category: 3,
+  category: 1,
   categoryStatus: 1,
   categoryPointInfo: [
     {
@@ -99,7 +99,7 @@ const StatusBar = () => {
           justifyContent: 'center',
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, {backgroundColor: Colors.bgColor}]}/>
+          <View style={[styles.round, {backgroundColor: Colors.standart}]}/>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -108,7 +108,7 @@ const StatusBar = () => {
               styles.line,
               {
                 width: getMax(_progressValue(curPoints, pointArray[0]), 1),
-                backgroundColor: Colors.bgColor,
+                backgroundColor: Colors.standart,
                 position: 'absolute',
               },
             ]}
@@ -171,7 +171,7 @@ const StatusBar = () => {
             />
           </View>
         </View>
-        <View style={[styles.round, data.category === 4? activeCategoryGold: inActiveCategory]}/>
+        <View style={[styles.round, data.category === 4? activeCategoryPlatinum: inActiveCategory]}/>
       </View>
 
       <View
@@ -237,8 +237,8 @@ const styles = StyleSheet.create({
   },
 
   line: {
-    height: 4,
-    borderWidth: 1,
-    borderColor: Colors.white
+    height: 8,
+    borderColor: Colors.white,
+    borderWidth: 1
   },
 });

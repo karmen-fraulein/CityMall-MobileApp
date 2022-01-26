@@ -28,7 +28,7 @@ const AppHeader = (props: any) => {
                         <Text style={[styles.langText, {color: isDarkTheme? Colors.white : Colors.black}]}>ENG </Text>
                     </View>
                 </View>
-                <Text style={[styles.titletext, {color: isDarkTheme? Colors.white : Colors.black}]}>მთავარი</Text>
+                <Text style={[styles.titletext, {color: isDarkTheme? Colors.white : Colors.black}]}>{props.pageTitle}</Text>
                 <View style={[styles.appHeaderLeft, {width: (width / 3.6)}]}>
                     <TouchableOpacity style={[styles.iconCircle, {borderColor: isDarkTheme? Colors.white : Colors.black}]}>
                         <Image style={styles.icons} source={require('../assets/images/loupe.png')} />

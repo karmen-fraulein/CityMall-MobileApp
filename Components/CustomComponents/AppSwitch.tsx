@@ -52,7 +52,7 @@ const AppSwitch: React.FC<IAppSwitch> =() => {
 
 
     return (
-        <TouchableOpacity style={styles.switchView} onPress={toggleSwitchBall}>
+        <TouchableOpacity style={styles.switchView} >
             <Animated.View style={[styles.switchBall, isActive? inactiveBallStyle : activeBallStyle  ]}/>
         </TouchableOpacity>
     )

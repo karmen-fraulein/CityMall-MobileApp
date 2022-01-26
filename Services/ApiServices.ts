@@ -3,6 +3,29 @@ import axios from 'axios'
 import {IServiceCategories, IServiceSubCategories} from '../Screens/Stores/Stores';
 
 
+
+export interface ICategoryPointInfo {
+    point?: number,
+    pointsLeft?: number,
+    category?: number
+
+}
+export interface IClientInfo {
+    name?:string,
+    surname?: string,
+    balance?: number,
+    points?: number,
+    category?: number,
+    categoryStatus?: number,
+    categoryPointInfo?: ICategoryPointInfo[],
+}
+
+
+
+
+
+
+
 export interface IResonseError {
     errorDesc: string,
     errorCode: string
@@ -109,6 +132,10 @@ class ApiServices {
         let queryParams = data.map((el: number) => `CategoryId=${el}`).join('&');
         
         return await axios.get<IServiceSubCategories[]>(`${envs.API_URL}/api/Category/GetSubCategories?${queryParams}`)
+    }
+
+    GetClientInfo = async () => {
+        return await axios.get<IClientInfo>(`${envs.API_URL}/api/Mobile/ClientInfo`);
     }
 
 

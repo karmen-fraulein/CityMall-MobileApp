@@ -95,7 +95,7 @@ const HomeScreen = (props: any) => {
     };
 
     return (
-        <AppLayout >
+        <AppLayout pageTitle = {'მთავარი'}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
                 <View style={{ flex: 4.5, justifyContent: 'center' }}>
                     {!initLoading ?
