@@ -21,7 +21,6 @@ const BurgerMenuCategories: React.FC<IBmCategoriesItem> = (props) => {
                     {props.item?.name}
                 </Text>
             </TouchableOpacity>
-           
         </View>
     );
 };

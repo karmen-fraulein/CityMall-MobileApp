@@ -50,6 +50,7 @@ const OffersScreen = (props: any) => {
         if (filteredOffers !== undefined) {
            
             for (let i = 8; i < filteredOffers!.length + 8; i += 8) {
+                
                 const renderElement =
                     <View style={styles.promotions}>
                         {filteredOffers![i - 8] && <PromotionBox data={filteredOffers![i - 8]} index={i - 8} />}
@@ -61,9 +62,7 @@ const OffersScreen = (props: any) => {
                         {filteredOffers![i - 2] && <PromotionBox data={filteredOffers![i - 2]} index={i - 2} />}
                         {filteredOffers![i - 1] && <PromotionBox data={filteredOffers![i - 1]} index={i - 1} />}
                     </View>
-                setOffersView(prev => {
-                    return [...(prev || []), renderElement]
-                });
+                setOffersView([renderElement]);
             };
 
         };
@@ -105,12 +104,7 @@ const OffersScreen = (props: any) => {
             </View>
         </AppLayout>
     );
-
-
-
 };
-
-
 
 export default OffersScreen;
 

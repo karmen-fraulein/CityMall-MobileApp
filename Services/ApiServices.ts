@@ -1,5 +1,6 @@
 import envs from '../config/env';
 import axios from 'axios'
+import {IServiceCategories, IServiceSubCategories} from '../Screens/Stores/Stores';
 
 
 export interface IResonseError {
@@ -98,6 +99,17 @@ class ApiServices {
     GetOffers = async () => {
         return await axios.get(`${envs.API_URL}/api/Offers/GetOffers`);
     };
+
+    GetServiceCategories = async (id: number) => {
+        return await axios.get<IServiceCategories[]>(`${envs.API_URL}/api/Category/Get?ObjectTypes=${id}`);
+    };
+
+    GetServiceSubCategories = async (data: Array<number>) => {
+
+        let queryParams = data.map((el: number) => `CategoryId=${el}`).join('&');
+        
+        return await axios.get<IServiceSubCategories[]>(`${envs.API_URL}/api/Category/GetSubCategories?${queryParams}`)
+    }
 
 
 };

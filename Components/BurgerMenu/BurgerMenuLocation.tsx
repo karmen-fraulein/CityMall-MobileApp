@@ -19,20 +19,23 @@ const BurgerMenuLocation: React.FC<IBmItem> = (props) => {
     const { isDarkTheme } = state;
     const [isCollapsed, setIsCollapsed] = useState<Boolean>(false);
 
-    const hasCategories = () => {
-        if (props.categories!?.length > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
+    // const hasCategories = () => {
+    //     if (props.categories!?.length > 0) {
+    //         console.log('has categories true')
+    //         return true;
+    //     } else {
+    //         console.log('has categories false ')
+    //         return false;
+    //     }
+    // };
+    console.log('sssssssssssssssssssssssssssss', props.categories!?.length == 0)
 
     return (
         <View style={{ marginLeft: 10, marginVertical: 7 }}>
-            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => hasCategories() ? setIsCollapsed(!isCollapsed) : navigate(props.routeName!)}>
+            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} 
+            onPress={() =>props.categories!?.length > 0 ? setIsCollapsed(!isCollapsed) : navigate(props.routeName!)}>
                 {
-                    hasCategories() ?
+                   props.categories!?.length > 0 ?
                         <Image
                             style={[
                                 styles.arrowImgStyle,
@@ -51,6 +54,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = (props) => {
                 </View>
             }
         </View>
+        
     );
 };
 

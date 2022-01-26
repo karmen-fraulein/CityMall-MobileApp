@@ -8,9 +8,9 @@ const data = {
   name: 'ცისანა',
   surname: 'თოდრია',
   ballance: null,
-  points: 120000,
+  points: 107895,
   status: 'სილვერი',
-  category: 2,
+  category: 3,
   categoryStatus: 1,
   categoryPointInfo: [
     {
@@ -69,6 +69,27 @@ const StatusBar = () => {
       }
   };
 
+  const activeCategorySilver = {
+    backgroundColor: Colors.silver,
+    borderWidth: 0
+  }
+
+  const activeCategoryGold = {
+    backgroundColor: Colors.gold,
+    borderWidth: 0
+  }
+
+  const activeCategoryPlatinum = {
+    backgroundColor: Colors.platinum,
+    borderWidth: 0
+  }
+
+  const inActiveCategory = {
+    backgroundColor: isDarkTheme? Colors.black : Colors.white,
+    borderWidth: 1,
+    borderColor: isDarkTheme? Colors.white : Colors.black
+  }
+
   return (
     <>
       <View
@@ -78,23 +99,16 @@ const StatusBar = () => {
           justifyContent: 'center',
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View
-            style={[styles.round, {backgroundColor: Colors.bgColor}]}></View>
+          <View style={[styles.round, {backgroundColor: Colors.bgColor}]}/>
         </View>
 
         <View style={{position: 'relative'}}>
-          <View
-            style={[
-              styles.line,
-              {width: lineWidth, backgroundColor: Colors.silver},
-            ]}
-          />
-          <View
-            style={[
+          <View style={[styles.line, {width: lineWidth}, ]}/>
+          <View style={[
               styles.line,
               {
                 width: getMax(_progressValue(curPoints, pointArray[0]), 1),
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.bgColor,
                 position: 'absolute',
               },
             ]}
@@ -102,14 +116,14 @@ const StatusBar = () => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, {backgroundColor: Colors.silver}]}></View>
+          <View style={[styles.round, data.category >=2? activeCategorySilver: inActiveCategory]}/>
         </View>
 
         <View style={{position: 'relative'}}>
           <View
             style={[
               styles.line,
-              {width: lineWidth, backgroundColor: Colors.silver},
+              {width: lineWidth},
             ]}
           />
           <View
@@ -123,7 +137,7 @@ const StatusBar = () => {
                   ),
                   2,
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.silver,
                 position: 'absolute',
               },
             ]}
@@ -131,12 +145,12 @@ const StatusBar = () => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, {backgroundColor: Colors.gold}]}></View>
+          <View style={[styles.round, data.category >=3? activeCategoryGold: inActiveCategory]}/>
           <View style={{position: 'relative'}}>
             <View
               style={[
                 styles.line,
-                {width: lineWidth, backgroundColor: Colors.gold},
+                {width: lineWidth},
               ]}
             />
             <View
@@ -150,14 +164,14 @@ const StatusBar = () => {
                     ),
                     3,
                   ),
-                  backgroundColor: 'green',
+                  backgroundColor: Colors.gold,
                   position: 'absolute',
                 },
               ]}
             />
           </View>
         </View>
-        <View style={[styles.round, {backgroundColor: Colors.platinum}]}></View>
+        <View style={[styles.round, data.category === 4? activeCategoryGold: inActiveCategory]}/>
       </View>
 
       <View
@@ -224,5 +238,7 @@ const styles = StyleSheet.create({
 
   line: {
     height: 4,
+    borderWidth: 1,
+    borderColor: Colors.white
   },
 });

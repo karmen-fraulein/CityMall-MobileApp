@@ -24,6 +24,7 @@ export interface IAppState {
     routeObject: any,
     offersArray: IOffers[] | [],
     singleOffer: IOffers | {},
+    subCategoryArray: Array<number>
 }
 
 
@@ -37,4 +38,5 @@ export const AppState: IAppState = {
     routeObject: {},
     offersArray: [],
     singleOffer: {},
+    subCategoryArray: []
 }

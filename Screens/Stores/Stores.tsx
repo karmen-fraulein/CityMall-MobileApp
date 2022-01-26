@@ -1,4 +1,4 @@
-import React, {createRef, useContext, useEffect, useRef, useState} from 'react';
+import React, { createRef, useContext, useEffect, useRef, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,36 +12,30 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
-import {AppContext} from '../../AppContext/AppContext';
+import { AppContext } from '../../AppContext/AppContext';
 import AppLayout from '../../Components/AppLayout';
-import {Colors} from '../../Colors/Colors';
+import { Colors } from '../../Colors/Colors';
 import PaginationDots from '../../Components/PaginationDots';
-import {ChunckArrays} from '../../Utils/utils';
+import { ChunckArrays as ChunkArrays } from '../../Utils/utils';
 import PromotionBox from '../../Components/PromotionBox';
- 
-const categories: Array<string> = [
-  'ტანსცმელი',
-  'ფეხსაცმელი',
-  'აქსესუარები',
-  'პარფიუმერია',
-  'ტანსცმელი2',
-  'ფეხსაცმელი2',
-  'აქსესუარები2',
-  'პარფიუმერია2',
-  'ტანსცმელი3',
-  'ფეხსაცმელი3',
-  'აქსესუარები3',
-  'პარფიუმერია3',
-];
+import ApiServices from '../../Services/ApiServices';
+import RenderCategories from '../../Components/CategoriesFilter/RenderCategories';
 
-const subCategories: Array<string> = [
-  'ქალის',
-  'კაცის',
-  'ბავშვის',
-  'გეის',
-  'ტრანსის',
-  'რაღაცის',
-];
+
+export interface IServiceCategories {
+  id?: number,
+  name?: string,
+  objectTypeId?: number,
+  objectTypeName?: string,
+  subCategories: IServiceSubCategories[]
+}
+
+export interface IServiceSubCategories {
+  id: number,
+  name: string
+}
+
+
 
 interface IData {
   id: number;
@@ -51,7 +45,7 @@ interface IData {
   subtitle: string;
 }
 
-const filteredeData: IData[] = [
+const filteredData: IData[] = [
   {
     id: 1,
     imgUrl: 'https://www.payunicard.ge/images/pngImages/Visa-Card.png',
@@ -132,71 +126,54 @@ const filteredeData: IData[] = [
 ];
 
 interface ICatsProps {
-  data?: Array<string>;
+  data?: IServiceCategories[] | [];
   style?: StyleProp<ViewStyle>;
   title: string;
 }
 
-const RenderCategoryes: React.FC<ICatsProps> = props => {
-  const [catStep, setCatStep] = useState<number>(0);
-  const carouselRef = createRef<ScrollView>();
-  const {isDarkTheme} = useContext(AppContext);
+interface ICatsProps2 {
+  data?: IServiceCategories[] | [];
+  style?: StyleProp<ViewStyle>;
+  title: string;
+}
 
-  const onChangeCategoriesSectionStep = (nativeEvent: NativeScrollEvent) => {
-    if (nativeEvent) {
-      const slide = Math.ceil(
-        nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
-      );
 
-      setCatStep(slide);
-    }
-  };
-
-  const textStyle = {
-    color: !isDarkTheme ? Colors.white : Colors.black,
-  };
-  const borderStyle = {
-    borderColor: !isDarkTheme ? Colors.white : Colors.black,
-  };
-  return (
-    <View style={[styles.catView, props.style]}>
-      <View style={styles.catHeader}>
-        <Text style={[styles.catTitle, textStyle]}>{props.title}</Text>
-        <PaginationDots
-          length={
-            props.data?.length
-              ? props.data?.length % 3 === 0
-                ? props.data?.length / 3
-                : Math.ceil(props.data?.length / 3)
-              : 1
-          }
-          step={catStep}
-        />
-      </View>
-      <ScrollView
-        style={styles.scrollerStyle}
-        contentContainerStyle={styles.scrollContainer}
-        ref={carouselRef}
-        onScroll={({nativeEvent}) => onChangeCategoriesSectionStep(nativeEvent)}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled={false}
-        horizontal>
-        {props.data?.map((category: string) => (
-          <View key={category} style={[styles.catItem, borderStyle]}>
-            <Text style={[styles.catItemTitle, textStyle]}>{category}</Text>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
-  );
-};
 
 const Stores: React.FC = () => {
   const [isFilterCollapsed, setIsFilterCollapsed] = useState<boolean>(true);
   const [secStep, setSectStep] = useState<number>(0);
   const carouselRef = createRef<ScrollView>();
-  const {isDarkTheme} = useContext(AppContext);
+  const { isDarkTheme } = useContext(AppContext);
   const itemChunk = 4;
+
+  const [serviceCategories, setServiceCategories] = useState<IServiceCategories[]>();
+  const [serviceSubCategories, setServiceSubCategories] = useState<IServiceSubCategories[]>([])
+
+
+  const getServiceCategories = () => {
+    ApiServices.GetServiceCategories(1).then(res => {
+      setServiceCategories(res.data);
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+
+  const getServiceSubCategories = () => {
+    ApiServices.GetServiceSubCategories([1, 2, 3, 4]).then(res => {
+      setServiceSubCategories(res.data)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+
+
+  useEffect(() => {
+    getServiceCategories();
+    getServiceSubCategories();
+  }, [])
+
+
+
 
   const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
     if (!isFilterCollapsed) return;
@@ -225,7 +202,7 @@ const Stores: React.FC = () => {
     }).start();
   }, [isFilterCollapsed]);
 
-  const collapsableHeight = {
+  const collapsibleHeight = {
     height: animatedIsCollapsed.current.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 266],
@@ -235,31 +212,37 @@ const Stores: React.FC = () => {
   const containerStyle = {
     backgroundColor: !isDarkTheme ? Colors.black : Colors.white,
   };
+
   const textStyle = {
     color: !isDarkTheme ? Colors.white : Colors.black,
   };
+
   const itemStyle = {
     width: Dimensions.get('screen').width,
   };
-  const chunkedData = ChunckArrays<IData>(filteredeData, itemChunk);
+
+  const chunkedData = ChunkArrays<IData>(filteredData, itemChunk);
   const fillSpace = (ln: number) => {
     if ((itemChunk - ln) === 0) return null;
     return Array.from(Array(itemChunk - ln).keys()).map(element => (
       <View style={styles.emptyItem} key={`_${element}`}></View>
     ));
   };
+
   return (
     <AppLayout>
       <View style={[styles.container, containerStyle]}>
-        <Animated.View style={[styles.collabsable, collapsableHeight]}>
+        <Animated.View style={[styles.collapsible, collapsibleHeight]}>
           <Text style={[styles.headerText, textStyle]}>
             <Text style={styles.baseText}>მაღაზიები</Text> | სითი მოლი საბურთალო
           </Text>
 
-          <RenderCategoryes data={categories} title="კატეგორიები" />
+          <RenderCategories
+            data={serviceCategories!}
+            title="კატეგორიები" />
 
-          <RenderCategoryes
-            data={subCategories}
+          <RenderCategories
+            data={serviceSubCategories}
             title="ქვეკატეგორიები"
             style={styles.subCategoryes}
           />
@@ -293,7 +276,7 @@ const Stores: React.FC = () => {
           <ScrollView
             style={styles.dataScroller}
             ref={carouselRef}
-            onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
+            onScroll={({ nativeEvent }) => onChangeSectionStep(nativeEvent)}
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}
             horizontal={isFilterCollapsed}>
@@ -321,7 +304,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  collabsable: {
+  collapsible: {
     overflow: 'hidden',
   },
   headerText: {
@@ -333,40 +316,11 @@ const styles = StyleSheet.create({
   baseText: {
     fontWeight: '700',
   },
-  catView: {marginTop: 35},
-  catHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: '7%',
-  },
-  catTitle: {
-    fontFamily: 'HMpangram-Bold',
-    fontSize: 14,
-    lineHeight: 17,
-    fontWeight: '700',
-  },
-  catItem: {
-    borderWidth: 1,
-    borderRadius: 25,
-    marginRight: 17,
-    paddingVertical: 8,
-    paddingHorizontal: 11,
-  },
-  catItemTitle: {
-    fontFamily: 'HMpangram-Bold',
-    fontSize: 14,
-    lineHeight: 17,
-  },
+
   subCategoryes: {
     marginTop: 50,
   },
-  scrollerStyle: {
-    marginTop: 16,
-  },
-  scrollContainer: {
-    paddingLeft: '7%',
-  },
+
   line: {
     width: '100%',
     marginTop: 22,

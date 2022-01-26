@@ -95,6 +95,8 @@ export default [
                 name: 'პრემიუმ სივრცე'
             },
         ],
+        routeName: 'Stores',
+        objectTypeId: 1,
         id:3
     },
     {
@@ -111,6 +113,8 @@ export default [
             }
         ],
         categories: [],
+        routeName: 'Stores',
+        objectTypeId: 2,
         id:4
     },
     {
@@ -124,25 +128,31 @@ export default [
             {
                 name: 'სითმოლი გლდანი',
                 id: 2
-            }
+            } 
         ],
         categories: [],
+        routeName: 'Stores',
+        objectTypeId: 3,
         id:5
     },
-    // {
-    //     name: 'სერვისი',
-    //      icon: require('../assets/images/arrow-sm.png'),
-    //     location: [
-
-    //         {
-    //             name: 'სითმოლი საბურთალო'
-    //         },
-    //         {
-    //             name: 'სითმოლი გლდანი'
-    //         }
-    //     ],
-    //      id:6,
-    // },
+    {
+        name: 'სერვისი',
+         icon: require('../assets/images/arrow-sm.png'),
+         location: [
+            {
+                name: 'სითმოლი საბურთალო',
+                id: 1
+            },
+            {
+                name: 'სითმოლი გლდანი',
+                id: 2
+            } 
+        ],
+        categories: [],
+        routeName: 'Stores',
+        objectTypeId: 4,
+         id:6,
+    },
     // {
     //     name: 'სასაჩუქრე ბარათები',
     //      icon: require('../assets/images/arrow-sm.png'),
@@ -201,6 +211,7 @@ export default [
         ],
         categories: [],
         id:10,
+        routeName: 'ProfileScreen'
     },
     // {
     //     name: 'ფიზიკური ბარათის შეკვეთა',
