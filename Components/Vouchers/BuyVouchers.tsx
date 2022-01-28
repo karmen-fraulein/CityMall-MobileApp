@@ -4,15 +4,11 @@ import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
 import {navigate} from '../../Services/NavigationServices';
-import AppHeader from '../AppHeader';
 import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
-import VouchersButton from '../CustomComponents/VouchersButton';
-import ReadMoreCategories from '../ReadMore/ReadMoreCategories';
-import ReadMoreItem from '../ReadMore/ReadMoreItem';
 import {Item} from '../../Constants/ShopList';
+import  Data  from '../../Constants/VouchersDummyData'
 import AppCheckBox from '../CustomComponents/AppCheckBox';
-import AppButton from '../CustomComponents/AppButton';
 let hm = require('../../assets/images/H&M.png');
 
 const BuyVouchers = () => {
@@ -30,20 +26,21 @@ const BuyVouchers = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.cardWrapper}>
-          <View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View>
-                <VoucherCardLayout
-                  amount={15}
-                  percent="%"
-                  text="ვადა: 15 სექტ - 20 სექტ"
-                  amountText="რაოდენობა: 2"
-                  image={require('../../assets/images/H&M.png')}
-                  more="ვრცლად"
-                  icon={require('../../assets/images/Polygon.png')}
-                />
-                <View></View>
-              </View>
+          <View >
+            <View >
+            {Data.map((el : any, i: React.Key) => (
+            <View key={i} >
+              <VoucherCardLayout
+                amount={el.amount}
+                percent={el.percent}
+                text={el.text}
+                amountText={el.amountText}
+                image={el.image}
+                more={el.more}
+                icon={el.icon}
+              />
+            </View>
+          ))}
               <View style={{paddingLeft: 10}}>
                 <AppCheckBox checked={false} isRequired={false} name={''} />
               </View>
@@ -59,64 +56,9 @@ const BuyVouchers = () => {
               <Image source={require('../../assets/images/Star.png')} />
             </View>
           </View>
-
-          <View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View>
-                <VoucherCardLayout
-                  amount={20}
-                  percent="%"
-                  text="ვადა: უვადო"
-                  amountText="რაოდენობა: 1"
-                  image={require('../../assets/images/H&M.png')}
-                  more="ვრცლად"
-                  icon={require('../../assets/images/Polygon.png')}
-                />
-              </View>
-
-              <View style={{paddingLeft: 10}}>
-                <AppCheckBox checked={false} isRequired={false} name={''} />
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingVertical: 7,
-                paddingBottom: 26,
-              }}>
-              <Text style={{color: Colors.white}}>ფასი: 1000 </Text>
-              <Image source={require('../../assets/images/Star.png')} />
-            </View>
-          </View>
-
-          <View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View>
-                <VoucherCardLayout
-                  amount={10}
-                  percent="%"
-                  text="ვადა: უვადო"
-                  amountText="რაოდენობა: 2"
-                  image={require('../../assets/images/H&M.png')}
-                  more="ვრცლად"
-                  icon={require('../../assets/images/Polygon.png')}
-                />
-              </View>
-              <View style={{paddingLeft: 10}}>
-                <AppCheckBox checked={true} isRequired={false} name={''} />
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingVertical: 7,
-                paddingBottom: 26,
-              }}>
-              <Text style={{color: Colors.white}}>ფასი: 1000 </Text>
-              <Image source={require('../../assets/images/Star.png')} />
-            </View>
-          </View>
-          <AppButton onPress={() =>{}} title={''} btnStyle={undefined} />
+          <TouchableOpacity style={styles.btnStyle} onPress={() => navigate('SelectedVouchers')} >
+          <Text style={styles.btnText}>შეძენა</Text>
+          </TouchableOpacity>
         </View>
         
       </View>
@@ -132,6 +74,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  btnStyle: {
+    top: 15,
+    width: 325,
+        height: 66,
+        borderRadius: 50,
+        backgroundColor: Colors.darkGrey,
+        justifyContent: 'center',
+        alignItems: 'center'
+  },
+  btnText: {
+    fontFamily: 'HMpangram-Bold',
+        textTransform: 'uppercase',
+        fontSize: 14,
+        lineHeight: 17,
+        color: Colors.white
+  }
 });
 
 export default BuyVouchers;

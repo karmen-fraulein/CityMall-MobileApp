@@ -20,6 +20,8 @@ import OffersScreen from '../Screens/OffersScreen/OffersScreen';
 import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
 import VouchersInfo from '../Components/Vouchers/VouchersInfo';
 import BuyVouchers from '../Components/Vouchers/BuyVouchers';
+import SelectedVouchers from '../Components/Vouchers/SelectedVouchers';
+import VouchersDone from '../Components/Vouchers/VouchersDone';
 
 
 
@@ -153,6 +155,20 @@ const AppStack = () => {
                 <Stack.Screen
                     name='BuyVouchers'
                     component={BuyVouchers}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='SelectedVouchers'
+                    component={SelectedVouchers}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='VouchersDone'
+                    component={VouchersDone}
                     options={{
                         headerShown: false,
                     }}

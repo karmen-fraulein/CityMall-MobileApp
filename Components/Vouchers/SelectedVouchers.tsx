@@ -6,6 +6,7 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
+import  Data  from '../../Constants/VouchersDummyData'
 import OneTimeCode from '../OneTimeCode';
 
 let hm = require('../../assets/images/H&M.png');
@@ -14,6 +15,7 @@ const SelectedVouchers = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+  
 
   return (
     <AppLayout>
@@ -27,13 +29,13 @@ const SelectedVouchers = () => {
           <View style={{height: 70}}>
             <View>
               <VoucherCardLayout
-                amount={15}
-                percent="%"
-                text="ვადა: 15 სექტ - 20 სექტ"
-                amountText="რაოდენობა: 2"
-                image={require('../../assets/images/H&M.png')}
-                more="ვრცლად"
-                icon={require('../../assets/images/Polygon.png')}
+                amount={Data[0].amount}
+                percent={Data[0].percent}
+                text={Data[0].text}
+                amountText={Data[0].amountText}
+                image={Data[0].image}
+                more={Data[0].more}
+                icon={Data[0].icon}
               />
             </View>
 
@@ -50,20 +52,19 @@ const SelectedVouchers = () => {
               <Image source={require('../../assets/images/Star.png')} />
             </View>
             <View>
-            <Text style={{color: Colors.white, fontFamily: 'HM pangram'}}>
-              ვერიფიკაციისთვის საჭირო სმს გამოგზავნილია
-            </Text>
+              <Text style={{color: Colors.white, fontFamily: 'HM pangram'}}>
+                ვერიფიკაციისთვის საჭირო სმს გამოგზავნილია
+              </Text>
+            </View>
           </View>
-          </View>
-          
-          </View>
-          <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.btnStyle} onPress={() => navigate('VouchersDone')}>
+        </View>
+        <View style={{flex: 1}}>
+          <TouchableOpacity
+            style={styles.btnStyle}
+            onPress={() => navigate('VouchersDone')}>
             <Text style={styles.btnText}>დადასტურება</Text>
           </TouchableOpacity>
-          </View>
-          
-        
+        </View>
       </View>
     </AppLayout>
   );

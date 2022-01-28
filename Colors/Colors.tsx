@@ -13,5 +13,6 @@ export const Colors = {
     gold: '#FFE583',
     platinum: '#A0A9B1',
     btnGrey: '#636363',
-    txtGrey: '#686868'
+    txtGrey: '#686868',
+    successGreen: '#28AD25',
 }
