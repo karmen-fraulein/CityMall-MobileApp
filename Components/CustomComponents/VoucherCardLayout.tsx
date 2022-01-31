@@ -1,4 +1,4 @@
-import React, {ElementType, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -8,9 +8,8 @@ import {
   View,
 } from 'react-native';
 import {Colors} from '../../Colors/Colors';
-import ReadMoreItem from '../ReadMore/ReadMoreItem';
 
-import {Item, Location} from '../../Constants/ShopList';
+import {Item} from '../../Constants/ShopList';
 
 export interface IAppBtnProps {
   text: string;
@@ -20,19 +19,18 @@ export interface IAppBtnProps {
   image: ImageSourcePropType;
   more: string;
   icon: ImageSourcePropType;
-  
 }
 
 const VoucherCardLayout: React.FC<IAppBtnProps> = props => {
   const {text, amountText, amount, percent, image, more, icon} = props;
   const [isMore, setIsMore] = useState<boolean>(false);
-  //const styles = StyleSheet.create({});
-  // console.log('image ==>', image);
-  // console.log('image ==>', icon);
+  
+  // console.log(Item);
 
   return (
     <>
-      <View style={styles.main}>
+    <View style={{paddingBottom: 25}}>
+    <View style={styles.main}>
         <View style={styles.cardWrapper}>
           <View style={styles.cardView}>
             <View>
@@ -48,7 +46,7 @@ const VoucherCardLayout: React.FC<IAppBtnProps> = props => {
             <View>
               <View>
                 <View>
-                  <Text style={{color: Colors.white, fontSize: 35}}>
+                  <Text style={{color: Colors.white, fontSize: 35,fontFamily: 'HMpangram-Bold',}}>
                     {percent}
                   </Text>
                 </View>
@@ -106,15 +104,14 @@ const VoucherCardLayout: React.FC<IAppBtnProps> = props => {
           </View>
         </View>
       </View>
-      {isMore && (
-        <View
-          style={{
-            minHeight: 330,
-            justifyContent: 'space-between',
-            paddingVertical: 17,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={Item[0].image} />
+    </View>
+      
+      {isMore &&
+        Item.map((el: any, i: React.Key) => (
+          <View key={i} style={{justifyContent: 'space-between',
+          paddingVertical: 5}} >
+            <View style={{flexDirection: 'row', alignItems: 'center', top: -15}}>
+            <Image source={el.image} />
             <Text
               style={{
                 color: Colors.white,
@@ -123,76 +120,14 @@ const VoucherCardLayout: React.FC<IAppBtnProps> = props => {
                 fontSize: 8,
                 paddingHorizontal: 10,
               }}>
-              {Item[0].name} {Item[0].address1}
+              {el.name} {el.address}
             </Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={Item[0].image} />
-            <Text
-              style={{
-                color: Colors.white,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-                fontSize: 8,
-                paddingHorizontal: 10,
-              }}>
-              {Item[0].name} {Item[0].address2}
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={Item[2].image} />
-            <Text
-              style={{
-                color: Colors.white,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-                fontSize: 8,
-                paddingHorizontal: 10,
-              }}>
-              {Item[2].name} {Item[2].address}
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={Item[3].image} />
-            <Text
-              style={{
-                color: Colors.white,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-                fontSize: 8,
-                paddingHorizontal: 10,
-              }}>
-              {Item[3].name} {Item[3].address}
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={Item[4].image} />
-            <Text
-              style={{
-                color: Colors.white,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-                fontSize: 8,
-                paddingHorizontal: 10,
-              }}>
-              {Item[4].name} {Item[4].address}
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={Item[5].image} />
-            <Text
-              style={{
-                color: Colors.white,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-                fontSize: 8,
-                paddingHorizontal: 10,
-              }}>
-              {Item[5].name} {Item[5].address}
-            </Text>
-          </View>
-        </View>
-      )}
+            </View>
+
+        ))}
+
+      
     </>
   );
 };

@@ -16,8 +16,7 @@ export  const Item = [
     name: '- მაღაზია',
     id: 1,
     image: require('../assets/images/HMimage.png'),
-    address1: '| სითი მოლი გლდანი',
-    address2: '| სითი მოლი საბურთალო',
+    address: '| სითი მოლი გლდანი',
   },
   {
     name: '- მაღაზია',
