@@ -6,17 +6,17 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
-import {Item} from '../../Constants/ShopList';
 import  Data  from '../../Constants/VouchersDummyData'
-import AppCheckBox from '../CustomComponents/AppCheckBox';
+import OneTimeCode from '../OneTimeCode';
+
 let hm = require('../../assets/images/H&M.png');
 
-const BuyVouchers = () => {
+const SelectedVouchers = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+  
 
-  console.log('item ===>', Item);
   return (
     <AppLayout>
       <View
@@ -26,70 +26,72 @@ const BuyVouchers = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.cardWrapper}>
-          <View >
-            <View >
-            {Data.map((el : any, i: React.Key) => (
-            <View key={i} >
+          <View style={{height: 70}}>
+            <View>
               <VoucherCardLayout
-                amount={el.amount}
-                percent={el.percent}
-                text={el.text}
-                amountText={el.amountText}
-                image={el.image}
-                more={el.more}
-                icon={el.icon}
+                amount={Data[0].amount}
+                percent={Data[0].percent}
+                text={Data[0].text}
+                amountText={Data[0].amountText}
+                image={Data[0].image}
+                more={Data[0].more}
+                icon={Data[0].icon}
               />
             </View>
-          ))}
-              <View style={{paddingLeft: 10}}>
-                <AppCheckBox checked={false} isRequired={false} name={''} />
-              </View>
-            </View>
+
             <View
               style={{
                 flexDirection: 'row',
                 paddingVertical: 7,
                 paddingBottom: 26,
               }}>
-              <Text style={{color: Colors.white}}>ფასი: 1000 </Text>
+              <Text style={{color: Colors.white, fontFamily: 'HMpangram-Bold'}}>
+                ფასი: 1000{' '}
+              </Text>
 
               <Image source={require('../../assets/images/Star.png')} />
             </View>
+            <View>
+              <Text style={{color: Colors.white, fontFamily: 'HM pangram'}}>
+                ვერიფიკაციისთვის საჭირო სმს გამოგზავნილია
+              </Text>
+            </View>
           </View>
-          <TouchableOpacity style={styles.btnStyle} onPress={() => navigate('SelectedVouchers')} >
-          <Text style={styles.btnText}>შეძენა</Text>
+        </View>
+        <View style={{flex: 1}}>
+          <TouchableOpacity
+            style={styles.btnStyle}
+            onPress={() => navigate('VouchersDone')}>
+            <Text style={styles.btnText}>დადასტურება</Text>
           </TouchableOpacity>
         </View>
-        
       </View>
-      
     </AppLayout>
   );
 };
 
 const styles = StyleSheet.create({
   cardWrapper: {
+    flex: 3,
     top: 100,
     height: 445,
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   btnStyle: {
     top: 15,
     width: 325,
-        height: 66,
-        borderRadius: 50,
-        backgroundColor: Colors.darkGrey,
-        justifyContent: 'center',
-        alignItems: 'center'
+    height: 66,
+    borderRadius: 50,
+    backgroundColor: Colors.darkGrey,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnText: {
     fontFamily: 'HMpangram-Bold',
-        textTransform: 'uppercase',
-        fontSize: 14,
-        lineHeight: 17,
-        color: Colors.white
-  }
+    textTransform: 'uppercase',
+    fontSize: 14,
+    lineHeight: 17,
+    color: Colors.white,
+  },
 });
 
-export default BuyVouchers;
+export default SelectedVouchers;
