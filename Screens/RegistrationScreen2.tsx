@@ -9,15 +9,16 @@ import ApiServices from '../Services/ApiServices';
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import AuthService from '../Services/AuthService';
-import { GoBack } from '../Services/NavigationServices';
+import { GoBack, navigate } from '../Services/NavigationServices';
 
 import { useDimension } from '../Hooks/UseDimension';
-import DistrictPicker from '../Components/DistrictPicker';
 import AppInput from '../Components/CustomComponents/AppInput';
 import { IRegistrationProps } from './RegistrationScreen';
 // import { RouteProp, useRoute } from '@react-navigation/native';
 import { getItem } from '../Services/StorageService';
 import DatePicker from 'react-native-date-picker';
+import DistrictPiker from '../Components/CustomComponents/DistrictPiker';
+import DistrictPicker from '../Components/DistrictPicker';
 
 
 
@@ -106,6 +107,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
     };
 
     const handleDistrictSelect = (item: string) => {
+        console.log(item)
         setSelectedDistrict(item);
         setDistrictError('');
     };
@@ -161,6 +163,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
     };
 
     const formatDate = (date: Date) => {
+        console.log(date)
         let dateArray = date.toLocaleDateString().split('/');
         return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
     }
@@ -188,12 +191,13 @@ const RegistrationScreen2: React.FC = (props: any) => {
         setGeneralError('');
         setButtonLoading(true);
         let date = dateOfBirth.toLocaleDateString().split('/');
+        console.log('date', date)
         
         let data = {
             firstName: routeObject.firstName,
             lastName: routeObject.lastName,
             personCode: routeObject.personCode,
-            birthDate: date[2] + '-' + date[0] + '-' + date[1],
+            birthDate: dateOfBirth,
             phone: userPhoneNumber,
             email: email,
             address: selectedDistrict === 'სხვა' ? district : selectedDistrict,
@@ -220,7 +224,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
                     .then(async (response: any) => {
                         AuthService.setToken(response.data.access_token, response.data.refresh_token);
                         setButtonLoading(false);
-                        //navigate to succes screen
+                        navigate('RegistrationScreen3');
                     })
                     .catch((e: any) => {
                         setButtonLoading(false);
@@ -268,14 +272,14 @@ const RegistrationScreen2: React.FC = (props: any) => {
                             confirmText='არჩევა'
                             cancelText='გაუქმება'
                             locale="ka-GE"
-                            androidVariant='iosClone'
+                            androidVariant='nativeAndroid'
                         />
                     </>
                     {birthDateError ?
                         <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
                         : null}
                     <View>
-                        <DistrictPicker data={districts} onSelect={handleDistrictSelect} placeholder='აირჩიეთ რაიონი' />
+                        <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder='აირჩიეთ რაიონი' />
                         {selectedDistrict === 'სხვა' &&
                              <View style={{marginTop: 10}}>
                             <AppInput
@@ -301,7 +305,7 @@ const RegistrationScreen2: React.FC = (props: any) => {
                             hasError={hasError}
                             addValidation={validateInputs}
                             errors={errorMessages}
-                            isRequired={true}
+                            isRequired={false}
                             validationRule='email'
                             onChangeText={(val: string) => setEmail(val)}
                         />

@@ -13,6 +13,7 @@ interface ICatsProps {
     data?: IServiceCategories[] | IServiceSubCategories[];
     style?: StyleProp<ViewStyle>;
     title: string;
+    isCatregory?:boolean
 }
 
 const RenderCategories: React.FC<ICatsProps> = props => {
@@ -60,7 +61,7 @@ const RenderCategories: React.FC<ICatsProps> = props => {
                 pagingEnabled={false}
                 horizontal>
                 {props.data?.map((el: IServiceCategories | IServiceSubCategories) => (
-                    <CategoryFilterButton key={el.id} data={el} />
+                    <CategoryFilterButton key={el.id} data={el} isCatregory = {props.isCatregory}/>
                 ))}
             </ScrollView>
         </View>

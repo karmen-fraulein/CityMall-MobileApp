@@ -23,6 +23,7 @@ import BuyVouchers from '../Components/Vouchers/BuyVouchers';
 import Stores from '../Screens/Stores/Stores';
 import SelectedVouchers from '../Components/Vouchers/SelectedVouchers';
 import VouchersDone from '../Components/Vouchers/VouchersDone';
+import RegistrationScreen3 from '../Screens/RegistrationScreen3';
 
 
 
@@ -92,6 +93,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='RegistrationScreen2'
                     component={RegistrationScreen2}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                 <Stack.Screen
+                    name='RegistrationScreen3'
+                    component={RegistrationScreen3}
                     options={{
                         headerShown: false,
                     }}
