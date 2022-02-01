@@ -22,6 +22,10 @@ import VouchersInfo from '../Components/Vouchers/VouchersInfo';
 import BuyVouchers from '../Components/Vouchers/BuyVouchers';
 import SelectedVouchers from '../Components/Vouchers/SelectedVouchers';
 import VouchersDone from '../Components/Vouchers/VouchersDone';
+import Parameters from '../Components/Parameters/Parameters';
+import ProfileInfo from '../Components/Parameters/ProfileInfo';
+import EmailChanged from '../Components/Parameters/EmailChanged';
+import AboutUs from '../Components/AboutUs/AboutUs';
 
 
 
@@ -173,6 +177,35 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
+                <Stack.Screen
+                    name='Parameters'
+                    component={Parameters}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='ProfileInfo'
+                    component={ProfileInfo}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='EmailChanged'
+                    component={EmailChanged}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='AboutUs'
+                    component={AboutUs}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+
 
                 </>)}
             </Stack.Navigator>
