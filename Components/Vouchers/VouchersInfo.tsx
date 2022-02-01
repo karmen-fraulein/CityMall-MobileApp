@@ -34,6 +34,7 @@ const VouchersInfo = () => {
         </View>
         <View style={styles.cardWrapper}>
           {Data.map((el : any, i: React.Key) => (
+            
             <View key={i}>
               <VoucherCardLayout
                 amount={el.amount}
