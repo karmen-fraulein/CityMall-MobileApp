@@ -8,10 +8,8 @@ import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import VouchersButton from '../CustomComponents/VouchersButton';
 import  Data  from '../../Constants/VouchersDummyData'
-import ReadMoreCategories from '../ReadMore/ReadMoreCategories';
 import {Item} from '../../Constants/ShopList';
 import { ScrollView } from 'react-native-gesture-handler';
-let hm = require('../../assets/images/H&M.png');
 
 
 
@@ -20,7 +18,6 @@ const VouchersInfo = () => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
  
-
 
   return (
     <AppLayout>
@@ -38,6 +35,7 @@ const VouchersInfo = () => {
         </View>
         <View style={styles.cardWrapper}>
           {Data.map((el : any, i: React.Key) => (
+            
             <View key={i}>
               <VoucherCardLayout
                 amount={el.amount}

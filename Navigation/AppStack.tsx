@@ -155,6 +155,13 @@ const AppStack = () => {
                     }}
                 />
                 <Stack.Screen
+                    name='Stores'
+                    component={Stores}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
                     name='VouchersInfo'
                     component={VouchersInfo}
                     options={{
@@ -168,14 +175,7 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
-                <Stack.Screen
-                    name='Stores'
-                    component={Stores}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
+                 <Stack.Screen
                     name='SelectedVouchers'
                     component={SelectedVouchers}
                     options={{
@@ -189,8 +189,6 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
-                
-
                 </>)}
             </Stack.Navigator>
         </NavigationContainer>
