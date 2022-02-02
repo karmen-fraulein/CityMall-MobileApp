@@ -4,10 +4,11 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
-import {navigate} from '../../Services/NavigationServices';
+import {GoBack, navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 
 import UserInfoView from '../CustomComponents/UserInfoView';
+import Layout from '../Layouts/Layout';
 
 const ProfileInfo = () => {
   const {width} = useDimension();
@@ -15,14 +16,14 @@ const ProfileInfo = () => {
   const {isDarkTheme} = state;
 
   return (
-    <AppLayout>
+    <Layout hasBackArrow pageName="პროფილის გვერდი" onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
         }}>
-        <View style={{flex: 4}}>
+        <View>
           <UserInfoView label="სახელი" identification="გვანცა" />
           <UserInfoView label="გვარი" identification="გაბუნია" />
           <UserInfoView label="პირადი ნომერი" identification="01005020429" />
@@ -37,16 +38,16 @@ const ProfileInfo = () => {
             identification="1gvancagabunia@gmail.com"
           />
         </View>
-        <View style={{flex:1}}>
+        <View style={styles.btnView}>
         <TouchableOpacity
           style={styles.btnStyle}
           onPress={() => navigate('EmailChanged')}>
-          <Text style={styles.btnText}>დადასტურება</Text>
+          <Text style={styles.btnText}>ცვლილება</Text>
         </TouchableOpacity>
         </View>
         
       </View>
-    </AppLayout>
+    </Layout>
   );
 };
 
@@ -65,6 +66,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 17,
     color: Colors.white,
+  },
+  btnView: {
+    top: 100,
   },
 });
 
