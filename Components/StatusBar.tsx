@@ -8,9 +8,9 @@ const data = {
   name: 'ცისანა',
   surname: 'თოდრია',
   ballance: null,
-  points: 11100,
+  points: 121100,
   status: 'სილვერი',
-  category: 1,
+  category: 3,
   categoryStatus: 1,
   categoryPointInfo: [
     {
@@ -36,23 +36,24 @@ const data = {
   ],
 };
 
-const StatusBar = () => {
+const StatusBar = (props: any) => {
   const {state} = useContext(AppContext);
   const [pointArray, setPointArray] = useState<Array<number>>([]);
   const {isDarkTheme} = state;
   const {width} = useDimension();
 
   const lineWidth = width / 2 - 70 - (width * 15) / 100;
-  const curPoints = data.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
+  const curPoints =props.data.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
 
   useEffect(() => {
     setPointArray([]);
-    data.categoryPointInfo.map((point, index) => {
+    if( props.data?.categoryPointInfo)
+   props.data?.categoryPointInfo.map((point: any, index: number) => {
       if (index !== 0) {
         setPointArray(prev => [...(prev || []), point.point]);
       }
     });
-  }, [data.categoryPointInfo]);
+  }, [props.data?.categoryPointInfo]);
 
   const _progressValue = (value: number, points: number) => {
     const mod = points / lineWidth;
@@ -99,7 +100,7 @@ const StatusBar = () => {
           justifyContent: 'center',
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, {backgroundColor: Colors.standart}]}/>
+          <View style={[styles.round, {backgroundColor: Colors.standard, borderRadius: 15}]}/>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -108,7 +109,7 @@ const StatusBar = () => {
               styles.line,
               {
                 width: getMax(_progressValue(curPoints, pointArray[0]), 1),
-                backgroundColor: Colors.standart,
+                backgroundColor: Colors.standard,
                 position: 'absolute',
               },
             ]}
@@ -116,7 +117,7 @@ const StatusBar = () => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, data.category >=2? activeCategorySilver: inActiveCategory]}/>
+          <View style={[styles.round,props.data.category >=2? activeCategorySilver: inActiveCategory]}/>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -145,7 +146,7 @@ const StatusBar = () => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, data.category >=3? activeCategoryGold: inActiveCategory]}/>
+          <View style={[styles.round,props.data.category >=3? activeCategoryGold: inActiveCategory]}/>
           <View style={{position: 'relative'}}>
             <View
               style={[
@@ -171,7 +172,7 @@ const StatusBar = () => {
             />
           </View>
         </View>
-        <View style={[styles.round, data.category === 4? activeCategoryPlatinum: inActiveCategory]}/>
+        <View style={[styles.round,props.data.category === 4? activeCategoryPlatinum: inActiveCategory]}/>
       </View>
 
       <View
@@ -234,6 +235,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 30,
     height: 30,
+    borderWidth: 1,
+    borderColor: Colors.white,
   },
 
   line: {

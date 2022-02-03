@@ -6,7 +6,8 @@ import {Colors} from '../../Colors/Colors';
 import { AppContext } from '../../AppContext/AppContext';
 
 interface ICatButton {
-    data?: IServiceCategories | IServiceSubCategories
+    data?: IServiceCategories | IServiceSubCategories,
+    isCatregory?: boolean
 }
 
 const CategoryFilterButton: React.FC<ICatButton> = (props) => {
@@ -17,20 +18,26 @@ const CategoryFilterButton: React.FC<ICatButton> = (props) => {
     const handleChoseCategory = (catId: number) => {
         setIsChosen(!isChosen)
       };
-
     useEffect(() => {
-        if(!isChosen && subCategoryArray != undefined) {
+      if(props.isCatregory){
+        
+        if(!isChosen ) {
             let tempArray = subCategoryArray;
-            tempArray.filter((el: number) => el != props.data?.id);
-            setGlobalState({subCategoryArray: [...tempArray]});
+            tempArray.filter((el: number) =>{ 
+              console.log(el, '<============, tempArray');
+              return el !== props.data?.id
+            });
+            console.log('tempArray====>',tempArray, props.data?.id)
+            setGlobalState({subCategoryArray:[...tempArray]});
         } else {
             let tempArray = subCategoryArray;
-            console.log('tempArray',tempArray)
-            // tempArray.push(props.data?.id);
-            setGlobalState({subCategoryArray: [...tempArray]});
-        }
+            
+            tempArray.push(props.data?.id);
+            console.log('tempArray push',tempArray, '*****', props.data?.id)
+            setGlobalState({subCategoryArray: tempArray});
+        }}
 
-    }, [isChosen, subCategoryArray])  
+    }, [isChosen])  
 
 
 

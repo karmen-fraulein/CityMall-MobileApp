@@ -1,56 +1,36 @@
+
 import React, { useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
 
-const PromotionBox = (props: any) => {
+const ShopDetailBox = (props: any) => {
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
 
-
-    const BoxColor = (i: number) => {
-        if (i % 4 === 1) {
-            return styles.promotionRed;
-        } else if (i % 4 === 2) {
-            return styles.promotionBlue;
-        } if (i % 4 === 3) {
-            return styles.promotionLightBlue;
-        } else {
-            return styles.promotionYellow;
-        }
-    };
-
     const handlePromotionBoxClick = () => {
         setGlobalState({ singleOffer: props.data })
-        navigate('SingleOfferScreen');
-
+        navigate('ShopDetailsScreen');
     };
 
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
             <View style={styles.promotionBox}>
-                <View style={[styles.container, BoxColor(props.index)]}>
-                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}>  {props.data.name}</Text>
-                </View>
                 <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl || props.data.imageUrl }} />
-
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {props.data.subtitle || props.data.name}
+                    {props.data.name}
                 </Text>
                 <Text style={[styles.promotionBodyText, { color: isDarkTheme ? Colors.white : Colors.black }]} numberOfLines={1}>
-                    {props.data.txt || props.data.categoryNames}
+                    {props.data.categoryNames}
                 </Text>
                 <View style={styles.promotionBottom}>
-                    {
-                    props.data.floor ?
+                    
                     <View>
                         <Text  style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             {`სართული: ${props.data.floor}`}
                         </Text>
                     </View>
-                    : null
-                    }
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             ვრცლად
@@ -65,7 +45,7 @@ const PromotionBox = (props: any) => {
 
 
 
-export default PromotionBox;
+export default ShopDetailBox;
 
 const styles = StyleSheet.create({
     promotionBox: {
@@ -86,23 +66,6 @@ const styles = StyleSheet.create({
         zIndex: 1,
 
     },
-
-    promotionRed: {
-        backgroundColor: Colors.red
-    },
-
-    promotionBlue: {
-        backgroundColor: Colors.blue
-    },
-
-    promotionLightBlue: {
-        backgroundColor: Colors.lightBlue
-    },
-
-    promotionYellow: {
-        backgroundColor: Colors.yellow
-    },
-
 
     promotionImg: {
         position: 'relative',

@@ -37,6 +37,7 @@ export default [
         ],
         categories: [],
         id: 1,
+        routeName: 'HomeScreen',
     },
     {
         name: 'შეთავაზებები',
@@ -96,7 +97,6 @@ export default [
             },
         ],
         routeName: 'Stores',
-        objectTypeId: 1,
         id:3
     },
     {

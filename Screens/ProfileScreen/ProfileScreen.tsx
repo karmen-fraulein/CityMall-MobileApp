@@ -141,7 +141,7 @@ const ProfileScreen = () => {
 
 
 
-    console.log('client data', clientInfo.points)
+    console.log('client data', clientInfo)
 
 
 
@@ -159,10 +159,8 @@ const ProfileScreen = () => {
                             ხელმისაწვდომი თანხა
                         </Text>
                         <Text style={styles.balanceWrapAmount}>
-                            {formatNumber(clientInfo.balance)}
-                            {}
+                            {formatNumber(clientInfo.ballance)}
                         </Text>
-
                     </View>
                     <View>
                         <Text style={styles.balanceWrapTitle}>
@@ -185,10 +183,14 @@ const ProfileScreen = () => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <StatusBar />
+                  {clientInfo?  <StatusBar data = {clientInfo}/> : null}
                 </View>
-                <Button title="ვაუჩერები" onPress={() => navigate('VouchersInfo')} /> 
-
+               <View style={{marginBottom: 20, alignItems: 'center'}}>
+                    <TouchableOpacity onPress={() => navigate('VouchersInfo')} style={{flexDirection: 'row', width: 272, height: 39, backgroundColor: '#636363', alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}>
+                        <Image source={require('../../assets/images/vaucher.png')} style={{width: 22, height: 16, marginRight: 10}}/>
+                        <Text style={[styles.promotionsTitle,{ color: isDarkTheme ? Colors.white : Colors.black, } ]}>ჩემი ვაუჩერები</Text>
+                    </TouchableOpacity>
+               </View>
                 <View style={{marginBottom: 30}}>
                     <View style={styles.promotionContainer}>
                         <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>

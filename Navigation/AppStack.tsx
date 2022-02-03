@@ -20,12 +20,17 @@ import OffersScreen from '../Screens/OffersScreen/OffersScreen';
 import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
 import VouchersInfo from '../Components/Vouchers/VouchersInfo';
 import BuyVouchers from '../Components/Vouchers/BuyVouchers';
+import Stores from '../Screens/Stores/Stores';
 import SelectedVouchers from '../Components/Vouchers/SelectedVouchers';
 import VouchersDone from '../Components/Vouchers/VouchersDone';
+
 import Parameters from '../Components/Parameters/Parameters';
 import ProfileInfo from '../Components/Parameters/ProfileInfo';
 import EmailChanged from '../Components/Parameters/EmailChanged';
 import AboutUs from '../Components/AboutUs/AboutUs';
+
+import RegistrationScreen3 from '../Screens/RegistrationScreen3';
+
 
 
 
@@ -99,6 +104,13 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
+                 <Stack.Screen
+                    name='RegistrationScreen3'
+                    component={RegistrationScreen3}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
                 <Stack.Screen
                     name='UserCardWithBarcode'
                     component={UserCardWithBarcode}
@@ -150,6 +162,13 @@ const AppStack = () => {
                     }}
                 />
                 <Stack.Screen
+                    name='Stores'
+                    component={Stores}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
                     name='VouchersInfo'
                     component={VouchersInfo}
                     options={{
@@ -163,7 +182,7 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
-                <Stack.Screen
+                 <Stack.Screen
                     name='SelectedVouchers'
                     component={SelectedVouchers}
                     options={{
@@ -177,6 +196,7 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
+
                 <Stack.Screen
                     name='Parameters'
                     component={Parameters}
@@ -205,6 +225,7 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
+
 
 
                 </>)}

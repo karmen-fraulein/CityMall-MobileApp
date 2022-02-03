@@ -8,7 +8,8 @@ import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import VouchersButton from '../CustomComponents/VouchersButton';
 import  Data  from '../../Constants/VouchersDummyData'
-let hm = require('../../assets/images/H&M.png');
+import {Item} from '../../Constants/ShopList';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
