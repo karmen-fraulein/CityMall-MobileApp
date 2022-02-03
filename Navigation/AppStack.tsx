@@ -23,7 +23,14 @@ import BuyVouchers from '../Components/Vouchers/BuyVouchers';
 import Stores from '../Screens/Stores/Stores';
 import SelectedVouchers from '../Components/Vouchers/SelectedVouchers';
 import VouchersDone from '../Components/Vouchers/VouchersDone';
+
+import Parameters from '../Components/Parameters/Parameters';
+import ProfileInfo from '../Components/Parameters/ProfileInfo';
+import EmailChanged from '../Components/Parameters/EmailChanged';
+import AboutUs from '../Components/AboutUs/AboutUs';
+
 import RegistrationScreen3 from '../Screens/RegistrationScreen3';
+
 
 
 
@@ -189,6 +196,38 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
+
+                <Stack.Screen
+                    name='Parameters'
+                    component={Parameters}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='ProfileInfo'
+                    component={ProfileInfo}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='EmailChanged'
+                    component={EmailChanged}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='AboutUs'
+                    component={AboutUs}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+
+
+
                 </>)}
             </Stack.Navigator>
         </NavigationContainer>
