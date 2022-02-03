@@ -193,10 +193,17 @@ export default [
             {
                 name: 'ლოიალობის შესახებ',
                 id: 2
+            },
+            {
+                name: 'მოგვწერე',
+                id: 3
             }
         ],
         categories: [],
         id:9,
+        // routeName: 'AboutUs',
+        // routeName: 'Loiality',
+        routeName: 'ContactUs',
     },
     {
         name: '_blank',
