@@ -12,7 +12,7 @@ import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
 import RegistrationScreen2 from '../Screens/RegistrationScreen2';
-import { ScreenTwo } from '../Screens/Registration';
+import {ScreenOne, ScreenTwo, ScreenThree } from '../Screens/Registration/index';
 import AuthService from '../Services/AuthService';
 import { Text } from 'react-native';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
@@ -91,22 +91,22 @@ const AppStack = () => {
                     }}
                 />
                 <Stack.Screen
-                    name='RegistrationScreen'
-                    component={RegistrationScreen}
+                    name='REGSTEP_ONE'
+                    component={ScreenOne}
                     options={{
                         headerShown: false,
                     }}
                 />
                 <Stack.Screen
-                    name='RegistrationScreen2'
-                    component={RegistrationScreen2}
+                    name='REGSTEP_TWO'
+                    component={ScreenTwo}
                     options={{
                         headerShown: false,
                     }}
                 />
                  <Stack.Screen
-                    name='RegistrationScreen3'
-                    component={RegistrationScreen3}
+                    name='REGSTEP_THREE'
+                    component={ScreenThree}
                     options={{
                         headerShown: false,
                     }}

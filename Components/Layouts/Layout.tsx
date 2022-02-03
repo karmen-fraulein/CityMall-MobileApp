@@ -1,11 +1,24 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Animated, Image, Keyboard, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, {
+    useContext,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
+import {
+    Animated,
+    Image,
+    Keyboard,
+    StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
+    ScrollView,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform
+} from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
-import { useDimension } from '../../Hooks/UseDimension';
-import Grid from '../../Styles/grid';
 
 interface ILayoutProp {
     pageName?: string,
@@ -23,44 +36,6 @@ const Layout: React.FC<ILayoutProp> = (props) => {
 
     const [keyBoardShown, setKeyBoardShown] = useState<boolean>(false)
 
-    const styles = StyleSheet.create({
-        layout: {
-            flex: 1,
-            backgroundColor: isDarkTheme ? Colors.black : Colors.white
-        },
-
-        upArrow: {
-            position: 'absolute',
-            maxWidth: 89,
-            width: '100%',
-            height: 89,
-        },
-
-        downArrow: {
-            position: 'absolute',
-            right: 0,
-            maxWidth: 89,
-            width: '100%',
-            height: 89,
-        },
-
-        headerAction: {
-            height: 50,
-            marginTop: 10,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '68%'
-        },
-
-        cityMall: {
-            color: isDarkTheme ? Colors.white : Colors.black,
-            fontFamily: 'HMpangram-Bold',
-            fontSize: 24,
-            textTransform: 'uppercase',
-            textAlign: 'center'
-        }
-    });
 
     const downArrowStyle = {
         top: DownArrowAnim.current.interpolate({
@@ -113,8 +88,8 @@ const Layout: React.FC<ILayoutProp> = (props) => {
     }, []);
 
     return (
-        <SafeAreaView style={styles.layout}>
-            <View style={{ flex: props.hideArrows ? 1 : 2, flexDirection: 'row'}}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
+            <View style={{ flexDirection: 'row', height: keyBoardShown || props.hideArrows ? 'auto' : 89 }}>
                 <View style={styles.headerAction}>
                     <View style={{ flexDirection: 'row' }}>
                         {
@@ -126,10 +101,14 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                                 null
                         }
                         <TouchableOpacity >
-                            <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
+                            <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>
+                                ENG
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.cityMall}>{props.pageName}</Text>
+                    <Text style={[styles.cityMall, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                        {props.pageName}
+                    </Text>
                 </View>
                 {
                     (keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
@@ -138,7 +117,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                         <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
                 }
             </View>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: props.hideArrows ? 11 : 8}}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
                     {props.children}
                 </ScrollView>
@@ -147,7 +126,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                 (keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
                     null
                     :
-                    <Animated.View style={{ flex: 2, justifyContent: 'flex-end' }}>
+                    <Animated.View style={{ justifyContent: 'flex-end', height: props.hideArrows ? 'auto' : 89 }}>
                         <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
                     </Animated.View >
             }
@@ -157,3 +136,35 @@ const Layout: React.FC<ILayoutProp> = (props) => {
 };
 
 export default Layout;
+const styles = StyleSheet.create({
+    upArrow: {
+        position: 'absolute',
+        maxWidth: 89,
+        width: '100%',
+        height: 89,
+    },
+
+    downArrow: {
+        position: 'absolute',
+        right: 0,
+        maxWidth: 89,
+        width: '100%',
+        height: 89,
+    },
+
+    headerAction: {
+        height: 50,
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '68%'
+    },
+
+    cityMall: {
+        fontFamily: 'HMpangram-Bold',
+        fontSize: 24,
+        textTransform: 'uppercase',
+        textAlign: 'center'
+    }
+});

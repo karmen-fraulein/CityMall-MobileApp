@@ -105,7 +105,7 @@ const HomeScreen = (props: any) => {
                                 '$1  $2  $3  $4',
                             )}
                             navigateToBarCode={() => navigate('UserCardWithBarcode')}
-                            navigateToReg={() => navigate('RegistrationScreen')} />
+                            navigateToReg={() => navigate('REGSTEP_ONE')} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
