@@ -8,6 +8,7 @@ import {navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import AppSwitch from '../CustomComponents/AppSwitch';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
+import Layout from '../Layouts/Layout';
 
 const Parameters = () => {
   const {width} = useDimension();
@@ -17,7 +18,7 @@ const Parameters = () => {
 
 
   return (
-    <AppLayout>
+    <Layout>
       <View
         style={{
           flexGrow: 1,
@@ -60,7 +61,7 @@ const Parameters = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </AppLayout>
+    </Layout>
   );
 };
 

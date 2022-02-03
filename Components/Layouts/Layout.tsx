@@ -56,7 +56,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
         cityMall: {
             color: isDarkTheme ? Colors.white : Colors.black,
             fontFamily: 'HMpangram-Bold',
-            fontSize: 24,
+            fontSize: 14,
             textTransform: 'uppercase',
             textAlign: 'center'
         }
@@ -129,7 +129,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                                 <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={styles.cityMall}>სითი მოლი</Text>
+                        <Text style={styles.cityMall}>{props.pageName}</Text>
                     </View>
                    
                         
