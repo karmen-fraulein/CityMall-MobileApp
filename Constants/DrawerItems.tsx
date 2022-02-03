@@ -185,10 +185,14 @@ export default [
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'ჩვენს შესახებ'
+                name: 'ჩვენს შესახებ',
+                routeName: 'AboutUs',
+                id: 1
+                
             },
             {
-                name: 'ლოიალობის შესახებ'
+                name: 'ლოიალობის შესახებ',
+                id: 2
             }
         ],
         categories: [],

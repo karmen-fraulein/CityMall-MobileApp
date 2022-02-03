@@ -3,9 +3,9 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
-import {navigate} from '../../Services/NavigationServices';
-import AppLayout from '../AppLayout';
+import {GoBack, navigate} from '../../Services/NavigationServices';
 import MessagesInfo from '../CustomComponents/MessagesInfo';
+import Layout from '../Layouts/Layout';
 
 const EmailChanged = () => {
   const {width} = useDimension();
@@ -13,7 +13,7 @@ const EmailChanged = () => {
   const {isDarkTheme} = state;
 
   return (
-    <AppLayout>
+    <Layout hasBackArrow pageName="სასაჩუქრე ბარათი" onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -36,7 +36,7 @@ const EmailChanged = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </AppLayout>
+    </Layout>
   );
 };
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
 
   btnStyle: {
-    top: 15,
+    top: 25,
     width: 325,
     height: 66,
     borderRadius: 50,

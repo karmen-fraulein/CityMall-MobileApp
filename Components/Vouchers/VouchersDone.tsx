@@ -34,7 +34,7 @@ const VouchersDone = () => {
         </View>
 
         <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.btnStyle}>
+          <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('Parameters')}>
             <Text style={styles.btnText}>დახურვა</Text>
           </TouchableOpacity>
         </View>
