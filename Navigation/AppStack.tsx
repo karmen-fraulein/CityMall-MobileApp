@@ -27,7 +27,7 @@ import VouchersDone from '../Components/Vouchers/VouchersDone';
 import Parameters from '../Components/Parameters/Parameters';
 import ProfileInfo from '../Components/Parameters/ProfileInfo';
 import EmailChanged from '../Components/Parameters/EmailChanged';
-import AboutUs from '../Components/AboutUs/AboutUs';
+import AboutUs from '../Screens/AboutUs/AboutUs';
 
 import RegistrationScreen3 from '../Screens/RegistrationScreen3';
 
