@@ -7,9 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { withDecay } from 'react-native-reanimated';
 import {Colors} from '../../Colors/Colors';
 
 import {Item} from '../../Constants/ShopList';
+import {useDimension} from '../../Hooks/UseDimension';
+import AppCheckBox from './AppCheckBox';
 
 export interface IAppBtnProps {
   text: string;
@@ -21,118 +24,92 @@ export interface IAppBtnProps {
   icon: ImageSourcePropType;
 }
 
-const VoucherCardLayout: React.FC<IAppBtnProps> = props => {
-  const {text, amountText, amount, percent, image, more, icon} = props;
-  const [isMore, setIsMore] = useState<boolean>(false);
-  
-  // console.log(Item);
+interface IIAppBtnProps {
+  item: IAppBtnProps;
+}
 
+const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
+  const {text, amountText, amount, percent, image, more, icon} = props.item;
+  const [isMore, setIsMore] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  const {width} = useDimension();
+
+  console.log('Vouchers', width);
+  const toggleCheck = () => {
+    setIsChecked(!isChecked);
+  };
   return (
     <>
-    <View style={{paddingBottom: 25}}>
-    <View style={styles.main}>
-        <View style={styles.cardWrapper}>
-          <View style={styles.cardView}>
-            <View>
-              <Text
-                style={{
-                  color: Colors.white,
-                  fontSize: 90,
-                  fontFamily: 'HMpangram-Bold',
-                }}>
-                {amount}
-              </Text>
-            </View>
-            <View>
+      <View style={styles.mainWrap}>
+        <View style={styles.main}>
+          <View style={styles.cardWrapper}>
+            <View style={styles.cardView}>
+              <Text style={styles.amountText}>{amount}</Text>
               <View>
-                <View>
-                  <Text style={{color: Colors.white, fontSize: 35,fontFamily: 'HMpangram-Bold',}}>
-                    {percent}
-                  </Text>
-                </View>
-
+                <Text style={styles.percentStyle}>%</Text>
                 <Image source={image} style={{width: 29.23, height: 29.23}} />
               </View>
             </View>
-          </View>
-          <View style={{width: '40%'}}>
-            <Text
-              style={{
-                color: Colors.btnGrey,
-                fontSize: 10,
-                bottom: 15,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-              }}>
-              {text}
-            </Text>
-            <Text
-              style={{
-                color: Colors.btnGrey,
-                fontSize: 10,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-              }}>
-              {amountText}
-            </Text>
-            <TouchableOpacity
-              onPress={() => setIsMore(!isMore)}
-              style={{top: 20, flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontFamily: 'HMpangram-Bold',
-                  textTransform: 'uppercase',
-                }}>
-                {more}
-              </Text>
-              <Image
-                source={icon}
-                style={
-                  isMore
-                    ? {
-                        width: 5,
-                        height: 5,
-                        left: 5,
-                        transform: [{rotate: '90deg'}],
-                      }
-                    : {width: 5, height: 5, left: 5}
-                }
-              />
-            </TouchableOpacity>
+            <View style={{width: '40%'}}>
+              <Text style={styles.textStyle}>{text}</Text>
+              <Text style={styles.amountTextStyle}>{amountText}</Text>
+              <TouchableOpacity
+                onPress={() => setIsMore(!isMore)}
+                style={{top: 20, flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={styles.moreBtnTitle}>{more}</Text>
+                <Image
+                  source={icon}
+                  style={[
+                    styles.isMoreImgStyle,
+                    {transform: [{rotate: isMore ? '90deg' : '0deg'}]},
+                  ]}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
+        <View style={styles.checkboxCont}>
+          <AppCheckBox checked={false} isRequired={false} name={''} />
+        </View>
       </View>
-    </View>
-      
+
+      <View style={styles.voucherPriceText}>
+        <Text style={{color: Colors.white}}>ფასი: 1000 </Text>
+        <Image source={require('../../assets/images/Star.png')} />
+      </View>
       {isMore &&
         Item.map((el: any, i: React.Key) => (
-          <View key={i} style={{justifyContent: 'space-between',
-          paddingVertical: 5}} >
-            <View style={{flexDirection: 'row', alignItems: 'center', top: -15}}>
-            <Image source={el.image} />
-            <Text
-              style={{
-                color: Colors.white,
-                fontFamily: 'HMpangram-Bold',
-                textTransform: 'uppercase',
-                fontSize: 8,
-                paddingHorizontal: 10,
-              }}>
-              {el.name} {el.address}
-            </Text>
-          </View>
+          <View
+            key={i}
+            style={{
+              justifyContent: 'space-between',
+              paddingVertical: 5,
+              marginTop: 10,
+              marginLeft: 30,
+              width: '100%',
+            }}>
+            <View
+              style={{flexDirection: 'row', alignItems: 'center', top: -15}}>
+              <Image source={el.image} />
+              <Text style={styles.nameAddressTextStyle}>
+                {el.name} {el.address}
+              </Text>
             </View>
-
+          </View>
         ))}
-
-      
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  mainWrap: {
+    flexDirection: 'row',
+    backgroundColor: 'red',
+    width: '100%',
+    
+  },
+
   main: {
     width: '100%',
     maxWidth: 342,
@@ -140,18 +117,81 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: Colors.white,
     borderWidth: 1,
-    paddingHorizontal: 10,
+    marginVertical: 10,
     justifyContent: 'center',
+
   },
+
+  checkboxCont: {
+      justifyContent: 'center',
+      width: 30,
+      alignItems: 'flex-end',
+  },
+
   cardWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: 'green',
   },
   cardView: {
     flexDirection: 'row',
     alignItems: 'center',
-    
+  },
+
+  amountText: {
+    color: Colors.white,
+    fontSize: 90,
+    fontFamily: 'HMpangram-Bold',
+  },
+
+  percentStyle: {
+    color: Colors.white,
+    fontSize: 35,
+    fontFamily: 'HMpangram-Bold',
+  },
+
+  voucherPriceText: {
+    flexDirection: 'row',
+    paddingVertical: 7,
+    paddingBottom: 26,
+  },
+
+  textStyle: {
+    color: Colors.btnGrey,
+    fontSize: 10,
+    bottom: 15,
+    fontFamily: 'HMpangram-Bold',
+    textTransform: 'uppercase',
+  },
+
+  amountTextStyle: {
+    color: Colors.btnGrey,
+    fontSize: 10,
+    bottom: 15,
+    fontFamily: 'HMpangram-Bold',
+    textTransform: 'uppercase',
+  },
+
+  moreBtnTitle: {
+    color: Colors.white,
+    fontSize: 10,
+    fontFamily: 'HMpangram-Bold',
+    textTransform: 'uppercase',
+  },
+
+  nameAddressTextStyle: {
+    color: Colors.white,
+    fontFamily: 'HMpangram-Bold',
+    textTransform: 'uppercase',
+    fontSize: 8,
+    paddingHorizontal: 10,
+  },
+
+  isMoreImgStyle: {
+    width: 5,
+    height: 5,
+    left: 5,
   },
 });
 export default VoucherCardLayout;

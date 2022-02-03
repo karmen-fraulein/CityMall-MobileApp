@@ -1,68 +1,49 @@
 import React, {useContext, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
-import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
-import {navigate} from '../../Services/NavigationServices';
-import AppLayout from '../AppLayout';
+import {GoBack, navigate} from '../../Services/NavigationServices';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import VouchersButton from '../CustomComponents/VouchersButton';
-import  Data  from '../../Constants/VouchersDummyData'
-import {Item} from '../../Constants/ShopList';
-import { ScrollView } from 'react-native-gesture-handler';
-
-
+import Data from '../../Constants/VouchersDummyData';
+import Layout from '../Layouts/Layout';
 
 const VouchersInfo = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
- 
 
   return (
-    <AppLayout>
-      <View
-        style={{
-          flexGrow: 1,
-          backgroundColor: isDarkTheme ? Colors.black : Colors.white,
-          paddingHorizontal: '7%',
-        }}>
-        <View style={styles.main}>
-          <VouchersButton
-            title="ვაუჩერის შეძენა"
-            onPress={() => navigate('BuyVouchers')}
-          />
-        </View>
-        <View style={styles.cardWrapper}>
-          {Data.map((el : any, i: React.Key) => (
-            
-            <View key={i}>
-              <VoucherCardLayout
-                amount={el.amount}
-                percent={el.percent}
-                text={el.text}
-                amountText={el.amountText}
-                image={el.image}
-                more={el.more}
-                icon={el.icon}
-              />
-            </View>
-          ))}
-        </View>
+    <Layout
+      hasBackArrow
+      hideArrows
+      pageName="ჩემი ვაუჩერები"
+      onPressBack={GoBack}>
+      <View style={styles.main}>
+        <VouchersButton
+          title="ვაუჩერის შეძენა"
+          onPress={() => navigate('BuyVouchers')}
+        />
       </View>
-    </AppLayout>
+      <View style={styles.cardWrapper}>
+        {Data.map((el: any, i: React.Key) => (
+          <VoucherCardLayout item={el} key={i} />
+        ))}
+      </View>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
   main: {
+    marginTop: 66,
     alignItems: 'center',
-    top: 88,
-    height: 175,
+    justifyContent: 'center',
+    marginBottom: 20,
   },
   cardWrapper: {
-    height: 445,
-    justifyContent: 'space-between',
+    flex: 1,
+    alignItems: 'center',
   },
 });
 

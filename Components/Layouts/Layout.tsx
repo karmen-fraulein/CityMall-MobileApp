@@ -17,7 +17,7 @@ interface ILayoutProp {
 const Layout: React.FC<ILayoutProp> = (props) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
-    
+
     const DownArrowAnim = useRef(new Animated.Value(0));
     const UpArrowAnim = useRef(new Animated.Value(0));
 
@@ -114,40 +114,42 @@ const Layout: React.FC<ILayoutProp> = (props) => {
 
     return (
         <SafeAreaView style={styles.layout}>
-            {props.hideArrows && keyBoardShown ?
-                null :
-                <View style={{ flex: props.hideArrows ? 1 : 2, flexDirection: 'row' }}>
-
-                    <View style={styles.headerAction}>
-                        <View style={{ flexDirection: 'row' }}>
-                            {props.hasBackArrow ?
+            <View style={{ flex: props.hideArrows ? 1 : 2, flexDirection: 'row'}}>
+                <View style={styles.headerAction}>
+                    <View style={{ flexDirection: 'row' }}>
+                        {
+                            props.hasBackArrow ?
                                 <TouchableOpacity style={{ marginLeft: 25 }} onPress={props.onPressBack}>
                                     <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
                                 </TouchableOpacity>
-                                : null}
-                            <TouchableOpacity >
-                                <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={styles.cityMall}>სითი მოლი</Text>
+                                :
+                                null
+                        }
+                        <TouchableOpacity >
+                            <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>ENG</Text>
+                        </TouchableOpacity>
                     </View>
-                   
-                        
-                        <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
+                    <Text style={styles.cityMall}>{props.pageName}</Text>
                 </View>
-            }
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 10 }}>
+                {
+                    (keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
+                        null
+                        :
+                        <Animated.Image style={[styles.downArrow, downArrowStyle]} source={require('../../assets/images/arrow-down.png')} />
+                }
+            </View>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: props.hideArrows ? 11 : 8}}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
                     {props.children}
                 </ScrollView>
-
             </KeyboardAvoidingView>
-            {(keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
-                null
-                :
-                <Animated.View style={{ flex: 2, justifyContent: 'flex-end' }}>
-                    <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
-                </Animated.View >
+            {
+                (keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
+                    null
+                    :
+                    <Animated.View style={{ flex: 2, justifyContent: 'flex-end' }}>
+                        <Animated.Image style={[styles.upArrow, upArrowStyle]} source={require('../../assets/images/arrow-up.png')} />
+                    </Animated.View >
             }
         </SafeAreaView>
 
