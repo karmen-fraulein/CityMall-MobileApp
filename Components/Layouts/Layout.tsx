@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
 
     cityMall: {
         fontFamily: 'HMpangram-Bold',
-        fontSize: 24,
+        fontSize: 14,
         textTransform: 'uppercase',
         textAlign: 'center'
     }

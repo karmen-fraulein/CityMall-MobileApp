@@ -17,15 +17,19 @@ const ContactUs = () => {
   const [textArea, setTextArea] = useState('');
 
   return (
-    <Layout hasBackArrow pageName="მოგვწერე" onPressBack={GoBack}>
+    <Layout 
+    pageName="მოგვწერე" 
+    hasBackArrow
+    onPressBack={GoBack}>
       <View
         style={{
-          flexGrow: 1,
-          backgroundColor: isDarkTheme ? Colors.black : Colors.white,
+         flex: 1,
+         
           paddingHorizontal: '7%',
+          
         }}>
    
-        <View style={{height: 100}}>
+        <View >
           <Text style={styles.title}>გამოგვიგზავნეთ შეტყობინება</Text>
           <View style={{paddingTop: 15}}>
             <Text style={styles.text}>

@@ -5,13 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from '../Services/NavigationServices';
 import HomeScreen from '../Screens/HomeScreen';
 import AuthScreen from '../Screens/AuthScreen';
-import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
-import RegistrationScreen2 from '../Screens/RegistrationScreen2';
 import {ScreenOne, ScreenTwo, ScreenThree } from '../Screens/Registration/index';
 import AuthService from '../Services/AuthService';
 import { Text } from 'react-native';
@@ -26,11 +24,10 @@ import VouchersDone from '../Components/Vouchers/VouchersDone';
 import Parameters from '../Components/Parameters/Parameters';
 import ProfileInfo from '../Components/Parameters/ProfileInfo';
 import EmailChanged from '../Components/Parameters/EmailChanged';
-import AboutUs from '../Screens/AboutUs/AboutUs';
-import Loiality from '../Screens/Loiality/Loiality';
-import RegistrationScreen3 from '../Screens/RegistrationScreen3';
-import ContactUs from '../Screens/ContactUs/ContactUs';
-import PlanVisit from '../Components/PlanVisit/PlanVisit';
+import ContactUs from '../Screens/ShopGuid/ContactUs';
+import PlanVisit from '../Screens/ShopGuid/PlanVisit';
+import AboutUsIndex from '../Screens/AboutUs/Index';
+import ShopGuid from '../Screens/ShopGuid/ShopGuid';
 
 
 
@@ -221,35 +218,32 @@ const AppStack = () => {
                 />
                 <Stack.Screen
                     name='AboutUs'
-                    component={AboutUs}
+                    component={AboutUsIndex}
                     options={{
                         headerShown: false,
                     }}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='Loiality'
                     component={Loiality}
                     options={{
                         headerShown: false,
                     }}
-                />
-                 <Stack.Screen
+                /> */}
+                 {/* <Stack.Screen
                     name='ContactUs'
                     component={ContactUs}
                     options={{
                         headerShown: false,
                     }}
-                />
+                /> */}
                 <Stack.Screen
-                    name='PlanVisit'
-                    component={PlanVisit}
+                    name='ShopGuid'
+                    component={ShopGuid}
                     options={{
                         headerShown: false,
                     }}
                 />
-
-
-
                 </>)}
             </Stack.Navigator>
         </NavigationContainer>

@@ -110,9 +110,7 @@ const HomeScreen = (props: any) => {
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
                 </View>
-                {/**ქალაქის რუკაზე გადასასვლელი დროებითი ბათანი */}
-                <Button title='დაგეგმე ვიზიტი' onPress={() => navigate('PlanVisit')}/>
-                {/**ქალაქის რუკაზე გადასასვლელი დროებითი ბათანი */}
+            
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>

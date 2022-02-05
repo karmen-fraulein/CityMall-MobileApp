@@ -12,16 +12,9 @@ interface IBmItem {
     item: IDrawerItem
 };
 
-// interface IBmItemProps {
-//     name: string,
-//     _children: Array<any>,
-//     icon: ImageSourcePropType,
-// };
-
-
-const BurgerMenuItem: React.FC<IBmItem> = ({item}) => {
+const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
     const { state } = useContext(AppContext);
-    const { isDarkTheme } = state;
+    const { isDarkTheme, clientDetails } = state;
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
     useEffect(() => {
@@ -31,30 +24,26 @@ const BurgerMenuItem: React.FC<IBmItem> = ({item}) => {
     }, []);
 
     const handleOnMenuItemPress = () => {
-        if(item.location?.length == 0) {
+        if (item.location?.length == 0) {
             return navigate(item.routeName!);
         } else {
             return setIsCollapsed(!isCollapsed);
         };
     };
-
- 
-
-
     return (
-        <View style = {{marginBottom: 20}}>
+        <View style={{ marginBottom: 20 }}>
             <TouchableOpacity style={styles.mainContStyle}
                 onPress={handleOnMenuItemPress}>
-                { 
-                item?.location?.length! !== 0 ?
-                    <Image
-                    style={[
-                        styles.arrowImgStyle,
-                        { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }
-                    ]}
-                    source={require('../../assets/images/arrow-sm.png')} />
-                    :
-                    null
+                {
+                    item?.location?.length! !== 0 ?
+                        <Image
+                            style={[
+                                styles.arrowImgStyle,
+                                { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }
+                            ]}
+                            source={require('../../assets/images/arrow-sm.png')} />
+                        :
+                        null
                 }
                 <Text
                     style={[
@@ -64,12 +53,19 @@ const BurgerMenuItem: React.FC<IBmItem> = ({item}) => {
                     {item.name}
                 </Text>
             </TouchableOpacity>
-            {isCollapsed && 
-            <View style={{marginBottom: 5}}>
-               {item?.location?.map((el, i) => (
-                   <BurgerMenuLocation item = {el} key = {i} categories = {item.categories} routeName = {item.routeName!}/>
-               ))}     
-            </View>}
+            {
+                isCollapsed &&
+                <View style={{ marginBottom: 5 }}>
+                    {
+                        clientDetails.length === 0 && item.routeName === 'ProfileScreen' ?
+                            <BurgerMenuLocation item={item?.location?.[1]!} key={item.id} categories={item.categories} routeName={item.routeName!} />
+                            :
+                            item?.location?.map((el, i) => (
+                                <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} />
+                            ))
+                    }
+                </View>
+            }
         </View>
     );
 };
