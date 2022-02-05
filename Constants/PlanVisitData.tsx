@@ -25,7 +25,6 @@ export default [
         icon:  require('../assets/images/bigArrow.png'),
         content: <></>
       
-    
     },
     {
         id: 3,
