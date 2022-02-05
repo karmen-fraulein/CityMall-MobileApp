@@ -35,7 +35,6 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
 
   const {width} = useDimension();
 
-  console.log('Vouchers', width);
   const toggleCheck = () => {
     setIsChecked(!isChecked);
   };
@@ -74,10 +73,10 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
         </View>
       </View>
 
-      <View style={styles.voucherPriceText}>
+      {/* <View style={styles.voucherPriceText}>
         <Text style={{color: Colors.white}}>ფასი: 1000 </Text>
         <Image source={require('../../assets/images/Star.png')} />
-      </View>
+      </View> */}
       {isMore &&
         Item.map((el: any, i: React.Key) => (
           <View
@@ -105,7 +104,6 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
 const styles = StyleSheet.create({
   mainWrap: {
     flexDirection: 'row',
-    backgroundColor: 'red',
     width: '100%',
     
   },
@@ -132,7 +130,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'green',
   },
   cardView: {
     flexDirection: 'row',

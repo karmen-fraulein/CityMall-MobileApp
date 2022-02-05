@@ -104,7 +104,6 @@ const ScreenTwo: React.FC = (props: any) => {
     };
 
     const handleDistrictSelect = (item: string) => {
-        console.log(item)
         setSelectedDistrict(item);
         setDistrictError('');
     };
@@ -160,27 +159,11 @@ const ScreenTwo: React.FC = (props: any) => {
     };
 
     const formatDate = (date: Date) => {
-        console.log(date)
         let dateArray = date.toLocaleDateString().split('/');
         return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
     }
 
     const handleAddVirtualCard = () => {
-        // if (dateOfBirth === '') {
-        //     console.log('dateOfBirth ===>', dateOfBirth)
-        //     setBirthDateError(true);
-        //     return;
-        // } else if (selectedDistrict === '' || (selectedDistrict === 'სხვა' && district === '')) {
-        //     setDistrictError('გთხოვთ შეავსოთ ველი');
-        //     return;
-        // } else if (!agreedTerms) {
-        //     setDistrictError('');
-        //     setAgreedTerms((prev: any) => {
-        //         return {
-        //             ...prev, error: true
-        //         };
-        //     });
-        // };
         if (errorMessages.length > 0) {
             setHasError(true);
             console.log(errorMessages)
@@ -189,7 +172,6 @@ const ScreenTwo: React.FC = (props: any) => {
         setGeneralError('');
         setButtonLoading(true);
         let date = dateOfBirth.toLocaleDateString().split('/');
-        console.log('date', date)
         
         let data = {
             firstName: routeObject.firstName,

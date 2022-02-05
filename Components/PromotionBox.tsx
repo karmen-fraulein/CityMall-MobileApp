@@ -3,10 +3,21 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
+import {IOffer} from '../Services/Api/Offers/OffersApi';
 
-const PromotionBox = (props: any) => {
+
+
+
+interface IPromotionData {
+    data: IOffer
+    index?: number
+    style?:  any
+}
+
+const PromotionBox:React.FC<IPromotionData> = (props) => {
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
+
 
 
     const BoxColor = (i: number) => {
@@ -27,22 +38,23 @@ const PromotionBox = (props: any) => {
 
     };
 
+
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
             <View style={styles.promotionBox}>
-                <View style={[styles.container, BoxColor(props.index)]}>
-                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}>  {props.data.name}</Text>
+                <View style={[styles.container, BoxColor(props.index!)]}>
+                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}>  {props.data.offerType}</Text>
                 </View>
-                <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl || props.data.imageUrl }} />
+                <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl}} />
 
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {props.data.subtitle || props.data.name}
                 </Text>
                 <Text style={[styles.promotionBodyText, { color: isDarkTheme ? Colors.white : Colors.black }]} numberOfLines={1}>
-                    {props.data.txt || props.data.categoryNames}
+                    {props.data.txt }
                 </Text>
                 <View style={styles.promotionBottom}>
-                    {
+                    {/* {
                     props.data.floor ?
                     <View>
                         <Text  style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
@@ -50,7 +62,7 @@ const PromotionBox = (props: any) => {
                         </Text>
                     </View>
                     : null
-                    }
+                    } */}
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             ვრცლად

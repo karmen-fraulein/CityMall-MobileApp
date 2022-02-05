@@ -1,16 +1,27 @@
-import { bool } from "prop-types";
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { 
+    View, 
+    Text, 
+    ScrollView, 
+    StyleSheet,  
+    NativeScrollEvent
+} from 'react-native';
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { AppContext } from "../../AppContext/AppContext";
 import AppLayout from "../../Components/AppLayout";
 import PaginationDots from "../../Components/PaginationDots";
 import PromotionBox from "../../Components/PromotionBox";
-import { useDimension } from "../../Hooks/UseDimension";
 import { paginationDotCount } from "../../Services/Utils";
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { IOffers } from '../../AppContext/AppState';
+import { 
+    RouteProp, 
+    useRoute 
+} from '@react-navigation/native';
 import {CategoryTypes} from '../../Constants/Categories';
+import {
+    GetNews, 
+    GetOffers, 
+    IOffer
+} from '../../Services/Api/Offers/OffersApi';
 
 type RouteParamList = {
     params: {
@@ -19,38 +30,49 @@ type RouteParamList = {
     }
 }
 
-const OffersScreen = (props: any) => {
-    const { state, setGlobalState } = useContext(AppContext);
-    const { offersArray, isDarkTheme } = state;
+const OffersScreen = () => {
+    const { state } = useContext(AppContext);
+    const {isDarkTheme } = state;
 
     const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-    const { width } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offersView, setOffersView] = useState<any[]>();
-    const [filteredOffers, setFilteredOffers] = useState<IOffers[] | []>([]);
-    const [initLoading, setInitLoading] = useState<boolean>(true);
+    const [filteredOffers, setFilteredOffers] = useState<IOffer[] | []>([]);
+    
+    useEffect(() => {
+        if(routeParams.params.id === 0) {
+            handleGetOffers();
+        } else {
+            handleGetNews();
+        };
+    }, [routeParams.params.routeId, routeParams.params.id]);
+    
+    useEffect(() => {
+        handleSetOffers();
+    }, [filteredOffers]);
 
-
-    const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        let overView = event.nativeEvent.contentOffset.x / (width - 25);
-        setOffersStep(Math.round(overView));
+    const handleGetOffers = () => {
+        setOffersView([]);
+        GetOffers(routeParams.params.routeId).then(res => {
+            setFilteredOffers(res.data.data);
+        }).catch(e => {
+            console.log('error ===>', e);
+        });
     };
 
-    const handleFilterOffers = () => {
-        //routeParams.params.id is to filter offers 
-        //routeParams.params.routeId is to filter the locations of CityMall ('CityMall Gldani ===1, CityMall Saburtalo ===2)
-
-        //Filter Offers with location and offer type: 
-        let filteredOffersArray = offersArray.filter((el: IOffers) => el.offerType === routeParams.params.id && el.address === routeParams.params.routeId);
-        setFilteredOffers(filteredOffersArray);
-    }
+    const handleGetNews = () => {
+        setOffersView([]);
+        GetNews(routeParams.params.routeId).then(res => {
+            setFilteredOffers(res.data.data);
+        }).catch(e => {
+            console.log('error ===>', e);
+        });
+    };
 
     const handleSetOffers = () => {
         if (filteredOffers !== undefined) {
-           
-            for (let i = 8; i < filteredOffers!.length + 8; i += 8) {
-                
+            for (let i = 8; i < filteredOffers!.length + 8 ; i += 8) {
                 const renderElement =
                     <View style={styles.promotions}>
                         {filteredOffers![i - 8] && <PromotionBox data={filteredOffers![i - 8]} index={i - 8} />}
@@ -62,21 +84,21 @@ const OffersScreen = (props: any) => {
                         {filteredOffers![i - 2] && <PromotionBox data={filteredOffers![i - 2]} index={i - 2} />}
                         {filteredOffers![i - 1] && <PromotionBox data={filteredOffers![i - 1]} index={i - 1} />}
                     </View>
-                setOffersView([renderElement]);
+                 setOffersView(prev => {
+                    return [...(prev || []), renderElement]
+                });
             };
-
         };
-
     };
-    
-    useEffect(() => {
-        handleSetOffers();
-        
-    }, [filteredOffers]);
 
-    useEffect(() => {
-        handleFilterOffers()
-    }, [offersArray,routeParams.params.id])
+    const handleOffersScroll = (nativeEvent: NativeScrollEvent) => {
+        if (nativeEvent) {
+            const slide = Math.ceil(
+              nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
+            );
+            setOffersStep(slide);
+          };
+    };
 
     return (
         <AppLayout >
@@ -85,14 +107,14 @@ const OffersScreen = (props: any) => {
                     <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {'შეთავაზებები | ' + CategoryTypes[routeParams.params.id] }
                     </Text>
-                    <PaginationDots length={paginationDotCount(offersArray!, 8)} step={offersStep} />
+                    <PaginationDots length={paginationDotCount(filteredOffers!, 8)} step={offersStep} />
                 </View>
                 <View style={{ flex: 11 }}>
                     <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                        <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%', }}
+                        <ScrollView contentContainerStyle={{ flexDirection: 'row', paddingHorizontal: '7%', }}
                             showsHorizontalScrollIndicator={false}
                             horizontal={true}
-                            onScroll={handleOffersScroll}>
+                            onScroll={({ nativeEvent }) => handleOffersScroll(nativeEvent)}>
                             {offersView?.map((el, i) => (
                                 <View key={i} >
                                     {el}
@@ -130,7 +152,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     promotionsTitle: {
-
         fontFamily: 'HMpangram-Bold',
         fontSize: 14,
         lineHeight: 17,
@@ -142,8 +163,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-
     },
-
-
 });
