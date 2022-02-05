@@ -23,18 +23,7 @@ export default [
     {
         name: 'მთავარი',
         icon: require('../assets/images/arrow-sm.png'),
-        location: [
-            {
-                name: 'სითმოლი საბურთალო',
-                routeName: 'HomeScreen',
-                id: 1
-            },
-            {
-                name: 'სითმოლი გლდანი',
-                routeName: 'HomeScreen',
-                id: 2
-            }
-        ],
+        location: [],
         categories: [],
         id: 1,
         routeName: 'HomeScreen',
@@ -45,13 +34,11 @@ export default [
         location: [
             {
                 name: 'სითმოლი საბურთალო',
-               
                 id:1
 
             },
             {
                 name: 'სითმოლი გლდანი',
-                
                 id: 2
             },
 
@@ -65,14 +52,16 @@ export default [
                 id: 1,
                 name: 'სიახლეები'
             },
-            {
-                id: 2,
-                name: 'ღონისძიებები'
-            }
+            // {
+            //     id: 2,
+            //     name: 'ღონისძიებები'
+            // }
         ],
         routeName: 'OffersScreen',
         id: 2,
     },
+
+
     {
         name: 'მაღაზიები',
         icon: require('../assets/images/arrow-sm.png'),

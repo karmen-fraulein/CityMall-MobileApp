@@ -88,7 +88,7 @@ const HomeScreen = (props: any) => {
 
     const getOffers = () => {
         ApiServices.GetOffers().then(res => {
-            setGlobalState({ offersArray: res.data })
+            setGlobalState({ offersArray: res.data.data })
         }).catch(e => {
             console.log('error ===>', e)
         });
@@ -105,7 +105,7 @@ const HomeScreen = (props: any) => {
                                 '$1  $2  $3  $4',
                             )}
                             navigateToBarCode={() => navigate('UserCardWithBarcode')}
-                            navigateToReg={() => navigate('RegistrationScreen')} />
+                            navigateToReg={() => navigate('REGSTEP_ONE')} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
@@ -120,7 +120,7 @@ const HomeScreen = (props: any) => {
                             <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 შეთავაზებები
                             </Text>
-                            <PaginationDots length={paginationDotCount(offersArray, 4)} step={offersStep} />
+                            <PaginationDots length={paginationDotCount(offersArray, 4)}  step={offersStep} />
                         </View>
                         <View style={{ flex: 10 }}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>

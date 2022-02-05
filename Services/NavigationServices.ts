@@ -12,6 +12,7 @@ export function navigate(route: string, params?: any) {
   
   if (navigationRef.isReady()) {
     console.log(route)
+    closeDrawer();
     navigationRef.navigate(route, params);
   }
 }

@@ -1,37 +1,48 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Keyboard, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import React, {
+    useState,
+    useEffect,
+    useContext
+} from 'react';
+import {
+    Keyboard,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    ScrollView,
+} from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
 import AppInput from '../../Components/CustomComponents/AppInput';
 import Layout from '../../Components/Layouts/Layout';
-import { GoBack, navigate } from '../../Services/NavigationServices';
-import Grid from '../../Styles/grid';
+import {
+    GoBack,
+    navigate
+} from '../../Services/NavigationServices';
 
 export interface IRegistrationProps {
-    firstName?: string,
-    lastName?: string,
-    personCode?: string,
-    gender?: boolean,
-    birthDate?: string,
-    district?: string,
-    email?: string,
-    phone?: string,
-    address?: string,
-    sex?: Object,
-    mailOtp?: string
+    firstName?: string;
+    lastName?: string;
+    personCode?: string;
+    gender?: boolean;
+    birthDate?: string;
+    district?: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+    sex?: Object;
+    mailOtp?: string;
 }
 
 export interface IGenderTypes {
-    male: boolean,
-    female: boolean,
+    male: boolean;
+    female: boolean;
 }
-
 
 const ScreenOne: React.FC = () => {
     const { state, setGlobalState } = useContext(AppContext);
-    const { isDarkTheme} = state;
-
+    const { isDarkTheme } = state;
 
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
@@ -47,9 +58,8 @@ const ScreenOne: React.FC = () => {
     useEffect(() => {
         if (errorMessages.length === 0) {
             setHasError(false);
-        };
+        }
     }, [errorMessages]);
-
 
     const validateInputs = (actionType: string, inputName: string) => {
         if (actionType === 'add') {
@@ -57,12 +67,12 @@ const ScreenOne: React.FC = () => {
             errorArray.push(inputName);
             let uniqueNames = [...new Set(errorArray)];
             setErrorMessages(prevState => {
-                return [...prevState, ...uniqueNames]
+                return [...prevState, ...uniqueNames];
             });
         } else {
             let errorArray = errorMessages.filter(e => e !== inputName);
             setErrorMessages(errorArray);
-        };
+        }
     };
 
     const handleGenderChange = (type: string) => {
@@ -77,131 +87,136 @@ const ScreenOne: React.FC = () => {
                 male: false,
                 female: true,
             });
-        };
+        }
     };
 
     const handleStep = () => {
         // if (errorMessages.length > 0) {
         //     setHasError(true);
         //     return
-        // };
+        // }; სანახავია პიდარობის მოწმობის ვალიდაცია
+        
         const data: IRegistrationProps = {
             firstName: name,
             lastName: lastName,
             personCode: idNumber,
-            sex: gender
+            sex: gender,
         };
-        setGlobalState({routeObject: data})
-        navigate('RegistrationScreen2');
+        setGlobalState({ routeObject: data });
+        navigate('REGSTEP_TWO');
     };
 
     return (
-        <Layout
-            hasBackArrow={true}
-            onPressBack={() => GoBack()}
-        >
-            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
-                <View style={{flex: 1}}>
+        <Layout 
+        hasBackArrow={true} 
+        onPressBack={() => GoBack()}
+        pageName={'სითი მოლი'}>
+            <ScrollView
+                keyboardShouldPersistTaps="always"
+                contentContainerStyle={{
+                    paddingHorizontal: '10%',
+                    position: 'relative',
+                    flexGrow: 1,
+                }}>
+                <View style={{ flex: 1 }}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         რეგისტრაცია
                     </Text>
                 </View>
                 <ScrollView style={{ flex: 9 }}>
                     <AppInput
-                        placeholder='სახელი'
-                        name='name'
+                        placeholder="სახელი"
+                        name="name"
                         value={name}
                         hasError={hasError}
                         addValidation={validateInputs}
                         errors={errorMessages}
                         isRequired={true}
-                        validationRule='required'
+                        validationRule="required"
                         onChangeText={(val: string) => setName(val)}
                     />
                     <AppInput
-                        placeholder='გვარი'
-                        name='lastName'
+                        placeholder="გვარი"
+                        name="lastName"
                         value={lastName}
                         hasError={hasError}
                         addValidation={validateInputs}
                         errors={errorMessages}
                         isRequired={true}
-                        validationRule='required'
+                        validationRule="required"
                         onChangeText={(val: string) => setLastName(val)}
                     />
                     <View>
                         <AppInput
-                            placeholder='პირადი ნომერი'
-                            name='idNumber'
+                            placeholder="პირადი ნომერი"
+                            name="idNumber"
                             value={idNumber}
                             hasError={hasError}
                             addValidation={validateInputs}
                             errors={errorMessages}
                             isRequired={true}
-                            validationRule='idNumber'
+                            validationRule="idNumber"
                             maxLength={isForeignResident ? undefined : 11}
                             keyboardType={isForeignResident ? 'default' : 'number-pad'}
                             onChangeText={(val: string) => setIdNumber(val)}
                         />
                         <TouchableOpacity
                             style={styles.inputWithLabel}
-                            onPress={() => setIsForeignResident(!isForeignResident)}
-                        >
+                            onPress={() => setIsForeignResident(!isForeignResident)}>
                             <AppCheckBox
-                                name='isForeign'
+                                name="isForeign"
                                 checked={isForeignResident}
                                 onChange={() => setIsForeignResident(!isForeignResident)}
                                 isRequired={false}
                             />
-                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 უცხო ქვეყნის მოქალაქე
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={[styles.genderCheck, { borderBottomColor: isDarkTheme ? Colors.white : Colors.black, }]}>
-                        <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>
+                    <View
+                        style={[
+                            styles.genderCheck,
+                            { borderBottomColor: isDarkTheme ? Colors.white : Colors.black },
+                        ]}>
+                        <Text style={{ color: isDarkTheme ? Colors.white : Colors.black, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>
                             სქესი
                         </Text>
                         <TouchableOpacity
                             style={styles.inputWithLabel}
-                            onPress={() => handleGenderChange('female')}
-                        >
+                            onPress={() => handleGenderChange('female')}>
                             <AppCheckBox
-                                name='gender'
+                                name="gender"
                                 checked={gender.female}
                                 onChange={() => handleGenderChange('female')}
                                 hasError={hasError}
                                 addValidation={validateInputs}
                                 isRequired={true}
                             />
-                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 მდედრობითი
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.inputWithLabel}
-                            onPress={() => handleGenderChange('male')}
-                        >
+                            onPress={() => handleGenderChange('male')}>
                             <AppCheckBox
-                                name='gender'
+                                name="gender"
                                 checked={gender.male}
                                 onChange={() => handleGenderChange('male')}
                                 hasError={hasError}
                                 addValidation={validateInputs}
                                 isRequired={true}
                             />
-                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 მამრობითი
                             </Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
-                <View style={{flex: 2, alignItems: 'flex-end'}}>
-                    <TouchableOpacity
-                        style={styles.authBtn}
-                        onPress={handleStep}
-                    >
-                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                <View style={{ flex: 2, alignItems: 'flex-end', marginVertical: 20 }}>
+                    <TouchableOpacity style={styles.authBtn} onPress={handleStep}>
+                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             შემდეგი
                         </Text>
                     </TouchableOpacity>
@@ -216,21 +231,18 @@ export default ScreenOne;
 const styles = StyleSheet.create({
     regTitle: {
         textAlign: 'center',
-
         fontFamily: 'HMpangram-Bold',
         fontSize: 18,
         fontWeight: '700',
         lineHeight: 22,
         alignItems: 'center',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
     },
 
     authBtn: {
-        
         alignSelf: 'center',
         width: 325,
-        height: '100%',
-        maxHeight: 66,
+        height: 66,
         backgroundColor: Colors.darkGrey,
         borderRadius: 50,
         justifyContent: 'center',
@@ -238,7 +250,7 @@ const styles = StyleSheet.create({
         shadowColor: Colors.black,
         shadowOffset: {
             width: 0,
-            height: 2
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
@@ -249,7 +261,7 @@ const styles = StyleSheet.create({
         lineHeight: 17,
         fontWeight: '800',
         fontFamily: 'HMpangram-Bold',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
     },
 
     labelText: {
@@ -257,24 +269,24 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '700',
         lineHeight: 15,
-        marginLeft: 7
+        marginLeft: 7,
     },
 
     inputWithLabel: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 10,
     },
 
     genderCheck: {
         marginTop: '6%',
         borderBottomWidth: 1,
-        paddingBottom: 12
+        paddingBottom: 12,
     },
 
     errorText: {
         color: Colors.red,
         fontSize: 11,
-        fontFamily: 'HMpangram-Medium'
-    }
+        fontFamily: 'HMpangram-Medium',
+    },
 });

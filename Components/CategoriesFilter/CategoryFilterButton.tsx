@@ -24,16 +24,13 @@ const CategoryFilterButton: React.FC<ICatButton> = (props) => {
         if(!isChosen ) {
             let tempArray = subCategoryArray;
             tempArray.filter((el: number) =>{ 
-              console.log(el, '<============, tempArray');
               return el !== props.data?.id
             });
-            console.log('tempArray====>',tempArray, props.data?.id)
             setGlobalState({subCategoryArray:[...tempArray]});
         } else {
             let tempArray = subCategoryArray;
             
             tempArray.push(props.data?.id);
-            console.log('tempArray push',tempArray, '*****', props.data?.id)
             setGlobalState({subCategoryArray: tempArray});
         }}
 

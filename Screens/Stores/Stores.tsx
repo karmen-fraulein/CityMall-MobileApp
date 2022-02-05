@@ -109,7 +109,6 @@ const Stores: React.FC = () => {
     })
   }
 
-console.log('subCategoryArray', subCategoryArray)
 
   useEffect(() => {
     getServiceCategories();
@@ -120,7 +119,6 @@ console.log('subCategoryArray', subCategoryArray)
   }, [routeParams.params.routeId])
 
   useEffect(()=> {
-    console.log('usefffect', subCategoryArray)
     if(subCategoryArray !== undefined){
     getServiceSubCategories(subCategoryArray)
     }
