@@ -63,6 +63,7 @@ const PaginationDots: React.FC<IPageProps> = (props) => {
     
 
     useEffect(() => {
+        if(!props.length) return
         setLength([...Array(props.length).keys()].map(() => 0))
     }, [props.length]);
 

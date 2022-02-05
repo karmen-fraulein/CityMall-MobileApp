@@ -30,6 +30,7 @@ import AboutUs from '../Screens/AboutUs/AboutUs';
 import Loiality from '../Screens/Loiality/Loiality';
 import RegistrationScreen3 from '../Screens/RegistrationScreen3';
 import ContactUs from '../Screens/ContactUs/ContactUs';
+import PlanVisit from '../Components/PlanVisit/PlanVisit';
 
 
 
@@ -235,6 +236,13 @@ const AppStack = () => {
                  <Stack.Screen
                     name='ContactUs'
                     component={ContactUs}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='PlanVisit'
+                    component={PlanVisit}
                     options={{
                         headerShown: false,
                     }}
