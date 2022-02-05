@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button } from 'react-native';
 import ApiServices from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
 import PaginationDots from "../Components/PaginationDots";
@@ -110,6 +110,9 @@ const HomeScreen = (props: any) => {
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
                 </View>
+                {/**ქალაქის რუკაზე გადასასვლელი დროებითი ბათანი */}
+                <Button title='დაგეგმე ვიზიტი' onPress={() => navigate('PlanVisit')}/>
+                {/**ქალაქის რუკაზე გადასასვლელი დროებითი ბათანი */}
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>
