@@ -1,23 +1,27 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    Image,
+    RefreshControlBase
+} from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
-import {IOffer} from '../Services/Api/Offers/OffersApi';
-
-
+import { IOffer } from '../Services/Api/OffersApi';
 
 
 interface IPromotionData {
     data: IOffer
     index?: number
-    style?:  any
+    style?: any
 }
 
-const PromotionBox:React.FC<IPromotionData> = (props) => {
+const PromotionBox: React.FC<IPromotionData> = ({ data, index, style }) => {
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
-
 
 
     const BoxColor = (i: number) => {
@@ -33,36 +37,34 @@ const PromotionBox:React.FC<IPromotionData> = (props) => {
     };
 
     const handlePromotionBoxClick = () => {
-        setGlobalState({ singleOffer: props.data })
+        setGlobalState({ singleOffer: data })
         navigate('SingleOfferScreen');
 
     };
 
-
     return (
-        <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
+        <TouchableOpacity onPress={handlePromotionBoxClick} style={style}>
             <View style={styles.promotionBox}>
-                <View style={[styles.container, BoxColor(props.index!)]}>
-                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}>  {props.data.offerType}</Text>
+                <View style={[styles.container, BoxColor(index!)]}>
+                    {/* <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}> {data.offerType.name}</Text> */}
                 </View>
-                <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl}} />
-
+                <Image style={styles.promotionImg} source={{ uri: data.imgUrl }} />
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {props.data.subtitle || props.data.name}
+                    {data.name}
                 </Text>
                 <Text style={[styles.promotionBodyText, { color: isDarkTheme ? Colors.white : Colors.black }]} numberOfLines={1}>
-                    {props.data.txt }
+                    {data.subtitle}
                 </Text>
                 <View style={styles.promotionBottom}>
-                    {/* {
-                    props.data.floor ?
-                    <View>
-                        <Text  style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            {`სართული: ${props.data.floor}`}
-                        </Text>
-                    </View>
-                    : null
-                    } */}
+                    {
+                        data.floor ?
+                            <View>
+                                <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                                    {`სართული: ${data.floor[0]}`}
+                                </Text>
+                            </View>
+                            : null
+                    }
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             ვრცლად
@@ -74,8 +76,6 @@ const PromotionBox:React.FC<IPromotionData> = (props) => {
         </TouchableOpacity>
     );
 };
-
-
 
 export default PromotionBox;
 

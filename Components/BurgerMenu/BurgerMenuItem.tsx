@@ -1,11 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { 
+    useContext,
+    useState 
+} from "react";
+import { 
+    Image, 
+    StyleSheet, 
+    Text, 
+    TouchableOpacity, 
+    View 
+} from "react-native";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
 import { IDrawerItem } from "../../Constants/DrawerItems";
 import { navigate } from "../../Services/NavigationServices";
-import Grid from "../../Styles/grid";
 import BurgerMenuLocation from "./BurgerMenuLocation";
 
 interface IBmItem {
@@ -13,43 +20,34 @@ interface IBmItem {
 };
 
 const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
-    const { state } = useContext(AppContext);
-    const { isDarkTheme, clientDetails } = state;
+    const { state, setGlobalState } = useContext(AppContext);
+    const { isDarkTheme, clientDetails  } = state;
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-
-    useEffect(() => {
-        return () => {
-            setIsCollapsed(false);
-        };
-    }, []);
 
     const handleOnMenuItemPress = () => {
         if (item.location?.length == 0) {
             return navigate(item.routeName!);
         } else {
-            return setIsCollapsed(!isCollapsed);
+            if(item.objectTypeId !== undefined) {
+                return [setGlobalState({objectTypeId: item.objectTypeId}), setIsCollapsed(!isCollapsed)]
+            } else {
+                return setIsCollapsed(!isCollapsed);
+            }   
         };
     };
+
     return (
         <View style={{ marginBottom: 20 }}>
             <TouchableOpacity style={styles.mainContStyle}
                 onPress={handleOnMenuItemPress}>
                 {
                     item?.location?.length! !== 0 ?
-                        <Image
-                            style={[
-                                styles.arrowImgStyle,
-                                { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }
-                            ]}
+                        <Image style={[ styles.arrowImgStyle, { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] } ]}
                             source={require('../../assets/images/arrow-sm.png')} />
                         :
                         null
                 }
-                <Text
-                    style={[
-                        styles.listName,
-                        { color: isDarkTheme ? Colors.white : Colors.black }
-                    ]}>
+                <Text style={[styles.listName, { color: isDarkTheme ? Colors.white : Colors.black } ]}>
                     {item.name}
                 </Text>
             </TouchableOpacity>
@@ -69,7 +67,6 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
         </View>
     );
 };
-
 
 export default BurgerMenuItem;
 

@@ -13,10 +13,9 @@ export interface IBmItem {
 }
 
 
-
 const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName}) => {
     const { state } = useContext(AppContext);
-    const { isDarkTheme, clientDetails } = state;
+    const { isDarkTheme } = state;
     const [isCollapsed, setIsCollapsed] = useState<Boolean>(false);
 
     let MenuItemCategories = categories;
@@ -28,8 +27,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName}) =>
             MenuItemCategories = categories;
         }    
     } 
-    
-console.log('*')
+
     return (
         <View style={{ marginLeft: 10, marginVertical: 7 }}>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} 

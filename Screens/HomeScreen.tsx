@@ -11,11 +11,12 @@ import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
 import { paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
+import { GetOffers } from "../Services/Api/OffersApi";
 
 
 
 
-const HomeScreen = (props: any) => {
+const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
     const { clientDetails, offersArray, isDarkTheme } = state;
 
@@ -30,6 +31,7 @@ const HomeScreen = (props: any) => {
     useEffect(() => {
         getOffers();
         handleGetClientCards();
+        // getObjectTypes();
     }, []);
 
     useEffect(() => {
@@ -87,12 +89,13 @@ const HomeScreen = (props: any) => {
     };
 
     const getOffers = () => {
-        ApiServices.GetOffers().then(res => {
+        GetOffers(undefined).then(res => {
             setGlobalState({ offersArray: res.data.data })
         }).catch(e => {
             console.log('error ===>', e)
         });
     };
+
 
     return (
         <AppLayout pageTitle = {'მთავარი'}>

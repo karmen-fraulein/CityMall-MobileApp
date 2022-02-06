@@ -14,7 +14,7 @@ type RouteParamList = {
 
  const ShopGuid = () => {
     const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
-    console.log('routeParams.params ==>', routeParams.params)
+    
     useEffect(() => {
 
     }, [routeParams.params.id])

@@ -21,7 +21,7 @@ import {
     GetNews, 
     GetOffers, 
     IOffer
-} from '../../Services/Api/Offers/OffersApi';
+} from '../../Services/Api/OffersApi';
 
 type RouteParamList = {
     params: {

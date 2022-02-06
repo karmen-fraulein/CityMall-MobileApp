@@ -11,7 +11,7 @@ export const navigationRef = createNavigationContainerRef()
 export function navigate(route: string , params?: any) {
   
   if (navigationRef.isReady()) {
-    console.log(route)
+    console.log('Route ==>', route)
     closeDrawer();
     navigationRef.navigate(route, params);
   }

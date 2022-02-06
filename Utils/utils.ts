@@ -1,4 +1,4 @@
-export function ChunckArrays<T>(iterable: T[], perChunk: number): Array<T[]> {
+export function ChunkArrays<T>(iterable: T[], perChunk: number): Array<T[]> {
   if (!Array.isArray(iterable)) return [[]];
   if (!perChunk || perChunk <= 0) return [[...iterable]];
 

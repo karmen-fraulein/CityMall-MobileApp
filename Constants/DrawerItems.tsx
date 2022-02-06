@@ -13,7 +13,8 @@ export interface IDrawerItem {
     name?: string,
     location?: ILocation[],
     categories?: ICategories[] | [],
-    routeName?: string 
+    routeName?: string,
+    objectTypeId: number | undefined 
 
 
 }
@@ -26,6 +27,7 @@ export default [
         categories: [],
         id: 1,
         routeName: 'HomeScreen',
+        objectTypeId: undefined,
     },
     {
         name: 'შეთავაზებები',
@@ -55,6 +57,7 @@ export default [
         ],
         routeName: 'OffersScreen',
         id: 2,
+        objectTypeId: undefined,
     },
     {
         name: 'მაღაზიები',
@@ -80,7 +83,8 @@ export default [
             },
         ],
         routeName: 'Stores',
-        id:3
+        id:3,
+        objectTypeId: 100013,
     },
     {
         name: 'გართობა',
@@ -97,7 +101,7 @@ export default [
         ],
         categories: [],
         routeName: 'Stores',
-        objectTypeId: 2,
+        objectTypeId: 100020,
         id:4
     },
     {
@@ -115,7 +119,7 @@ export default [
         ],
         categories: [],
         routeName: 'Stores',
-        objectTypeId: 3,
+        objectTypeId: 100018,
         id:5
     },
     {
@@ -133,7 +137,7 @@ export default [
         ],
         categories: [],
         routeName: 'Stores',
-        objectTypeId: 4,
+        objectTypeId: 100015,
          id:6,
     },
     {

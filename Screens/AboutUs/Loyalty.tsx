@@ -11,7 +11,7 @@ const Loyalty = () => {
   const { width } = useDimension();
   const { state } = useContext(AppContext);
   const { isDarkTheme, clientDetails } = state;
-  console.log(clientDetails)
+  
   return (
     <Layout hasBackArrow pageName="ლოიალობის შესახებ" onPressBack={GoBack}>
       <View style={styles.mainView}>

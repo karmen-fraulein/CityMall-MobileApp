@@ -22,7 +22,6 @@ const SingleOfferScreen = () => {
 
     const routeObj = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-    console.log('single offers',routeObj.params)
 
 
     return (
