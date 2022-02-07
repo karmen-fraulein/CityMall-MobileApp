@@ -46,6 +46,7 @@ const HomeScreen = () => {
     }, [clientDetails]);
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      
         let overView = event.nativeEvent.contentOffset.x / (width - 25);
         setOffersStep(Math.round(overView));
     };
@@ -75,7 +76,7 @@ const HomeScreen = () => {
         if (offersArray !== undefined) {
             for (let i = 4; i < offersArray!.length + 4; i += 4) {
                 const renderElement =
-                    <View style={styles.promotions}>
+                    <View style={[styles.promotions, {width: width}]}>
                         {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} index = {i - 4}/>}
                         {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} index = {i - 3}/>}
                         {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} index = {i - 2}/>}
@@ -95,6 +96,9 @@ const HomeScreen = () => {
             console.log('error ===>', e)
         });
     };
+
+
+
 
 
     return (
@@ -125,7 +129,8 @@ const HomeScreen = () => {
                         </View>
                         <View style={{ flex: 10 }}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                                <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                                <ScrollView 
+                                 pagingEnabled={true} contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
                                     {offersView?.map((el, i) => (
                                         <View key={i}>
                                             {el}
@@ -156,7 +161,8 @@ const styles = StyleSheet.create({
     promotions: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        width: 400,
+        justifyContent: 'space-around',
+        
     },
     promotionContainer: {
         marginTop: 10,

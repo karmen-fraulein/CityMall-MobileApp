@@ -1,9 +1,9 @@
-import React, { 
-  createRef, 
-  useContext, 
-  useEffect, 
-  useRef, 
-  useState 
+import React, {
+  createRef,
+  useContext,
+  useEffect,
+  useRef,
+  useState
 } from 'react';
 import {
   View,
@@ -15,6 +15,7 @@ import {
   TouchableOpacity,
   Animated,
   Dimensions,
+  Alert,
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import AppLayout from '../../Components/AppLayout';
@@ -23,17 +24,17 @@ import PaginationDots from '../../Components/PaginationDots';
 import { ChunkArrays as ChunkArrays } from '../../Utils/utils';
 import RenderCategories from '../../Components/CategoriesFilter/RenderCategories';
 import {
-   RouteProp, 
-   useRoute 
-  } from '@react-navigation/native';
+  RouteProp,
+  useRoute
+} from '@react-navigation/native';
 import ShopDetailBox from '../../Components/ShopDetailBox';
 import {
-  GetMainCategories, 
-  GetSubCategories, 
+  GetMainCategories,
+  GetSubCategories,
   IMainCategories
 } from '../../Services/Api/CategoryApi';
 import {
-  GetMerchants, 
+  GetMerchants,
   IMerchant
 } from '../../Services/Api/ShopsApi';
 
@@ -53,8 +54,8 @@ export interface IServiceSubCategories {
 
 type RouteParamList = {
   params: {
-      id: number,
-      routeId: number
+    id: number,
+    routeId: number
   }
 }
 
@@ -67,13 +68,17 @@ const Stores: React.FC = () => {
   const { isDarkTheme, objectTypeId, subCategoryArray, categoryArray } = state;
   const itemChunk = 4;
 
+  let isEndFetching = false;
+  let startFetching = false;
+
   const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-  console.log('Shops Rout Param Id ==>', routeParams.params.routeId  )
 
   const [mainCategories, setMainCategories] = useState<IMainCategories[]>();
   const [subCategories, setSubCategories] = useState<IServiceSubCategories[]>([])
-  const [merchants, setMerchants] = useState<IMerchant[]>()
+  const [merchants, setMerchants] = useState<IMerchant[]>([]);
+  const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
+  const [pagPage, setPagPage] = useState<number>(1);
 
   useEffect(() => {
     handleGetMainCategories()
@@ -81,23 +86,35 @@ const Stores: React.FC = () => {
 
   useEffect(() => {
     handleGetSubCategories();
-    handleGetMerchants();
-  }, [categoryArray]);
+  }, [categoryArray.length]);
 
   useEffect(() => {
+    if(merchants.length <= 0) {
+      return;
+    } else {
+      setPagPage(1);
+      isEndFetching = false;
+    };
    
+  }, [subCategoryArray.length, categoryArray.length, objectTypeId, routeParams.params.routeId, routeParams.params.id])
+
+  useEffect(() => {
     handleGetMerchants();
-  }, [objectTypeId, subCategoryArray, categoryArray, routeParams.params.routeId])
+  }, [objectTypeId, subCategoryArray.length, categoryArray.length, routeParams.params.routeId, routeParams.params.id, pagPage]);
 
+  useEffect(() => {
+    if (isFetchingData) {
+      setPagPage(pagPage + 1);
+    };
 
+  }, [isFetchingData])
 
 
 
   const handleGetMainCategories = () => {
-    console.log('--------update merchants---------')
-      GetMainCategories([objectTypeId])
+    GetMainCategories([objectTypeId])
       .then(res => {
-        setMainCategories(res.data)
+        setMainCategories(res.data);
       })
       .catch(e => {
         console.log(JSON.parse(JSON.stringify(e.response)))
@@ -105,7 +122,7 @@ const Stores: React.FC = () => {
   };
 
   const handleGetSubCategories = () => {
-      GetSubCategories(subCategoryArray)
+    GetSubCategories(categoryArray)
       .then(res => {
         setSubCategories(res.data);
       })
@@ -115,13 +132,34 @@ const Stores: React.FC = () => {
   };
 
   const handleGetMerchants = () => {
-    GetMerchants(routeParams.params.routeId,objectTypeId, false, categoryArray, subCategoryArray)
-    .then(res => {
-      setMerchants(res.data.data)
-    })
-    .catch(e => {
-      console.log(JSON.parse(JSON.stringify(e.response)))
-    })
+    let isPremium;
+    if (routeParams.params.id === 1) {
+      isPremium = false;
+    } else {
+      isPremium = true;
+    };
+    if(startFetching) return;
+    startFetching = true;
+    GetMerchants(routeParams.params.routeId, objectTypeId, isPremium, categoryArray, subCategoryArray, pagPage,)
+      .then(res => {
+        let tempMerchants = res.data.data;
+        if (tempMerchants.length < 16) {
+          isEndFetching = true;
+        };
+        if (isFetchingData) {
+          setMerchants(prevState => {
+            return [...prevState, ...tempMerchants]
+          });
+        } else {
+          setMerchants(res.data.data);
+        };
+        setIsFetchingData(false);
+        startFetching = false;
+      })
+      .catch(e => {
+        console.log(JSON.parse(JSON.stringify(e.response)));
+        startFetching = false;
+      })
   };
 
 
@@ -137,6 +175,13 @@ const Stores: React.FC = () => {
       );
 
       setSectStep(slide);
+    };
+    if (isFetchingData || isEndFetching) return;
+
+    let scrollPoint = Math.floor(nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width);
+    let scrollContentSize = Math.floor(nativeEvent.contentSize.width)
+    if (scrollPoint >= scrollContentSize - 20) {
+      setIsFetchingData(true);
     }
   };
 
@@ -200,7 +245,7 @@ const Stores: React.FC = () => {
             data={subCategories}
             title="ქვეკატეგორიები"
             style={styles.subCategories}
-            isCategory = {false}
+            isCategory={false}
           />
 
           <Image

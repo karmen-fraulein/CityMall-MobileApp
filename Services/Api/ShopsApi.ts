@@ -6,7 +6,7 @@ interface IGetMerchantsResponse {
    pageCount: number,
    pageSize: number,
    rowCount: number,
-   data: IMerchant[]
+   data: IMerchant[] 
 }
 
 export interface IMerchant {
@@ -25,17 +25,18 @@ export interface IMerchant {
 }
 
 
-export const GetMerchants = async(address: number, ObjectTypes:number,  isPremium: boolean, categories: number[], subCategories: number[]) => {
+export const GetMerchants = async(address: number, ObjectTypes:number,  isPremium: boolean, categories: number[], subCategories: number[], page: number) => {
     let CategoriesQuery = '';
     let SubCategoriesQuery = '';
-    if(CategoriesQuery) {
-        CategoriesQuery = categories.map((el: number) => `Categories=${el}`).join('&');
+   
+    if(categories.length > 0) {
+        CategoriesQuery = categories.map((el: number) => `&Categories=${el}`).join('&');
     };
 
-    if(SubCategoriesQuery) {
-        SubCategoriesQuery = subCategories.map((el: number) => `SubCategories=${el}`).join('&');
+    if(subCategories.length > 0) {
+        SubCategoriesQuery = subCategories.map((el: number) => `&SubCategories=${el}`).join('&');
     }
 
-    console.log(`${env.API_URL}/api/Mobile/GetMerchants?ObjectTypes=${ObjectTypes}&Address=${address}&isPremium=${isPremium}${CategoriesQuery}${SubCategoriesQuery}`)
-    return await axios.get<IGetMerchantsResponse>(`${env.API_URL}/api/Mobile/GetMerchants?ObjectTypes=${ObjectTypes}&Address=${address}&isPremium=${isPremium}&${CategoriesQuery}&${SubCategoriesQuery}`);
+    console.log(`${env.API_URL}/api/Mobile/GetMerchants?ObjectTypes=${ObjectTypes}&Address=${address}&isPremium=${isPremium}${CategoriesQuery}${SubCategoriesQuery}&Page=${page}&PageSize=16`)
+    return await axios.get<IGetMerchantsResponse>(`${env.API_URL}/api/Mobile/GetMerchants?ObjectTypes=${ObjectTypes}&Address=${address}&isPremium=${isPremium}${CategoriesQuery}${SubCategoriesQuery}&Page=${page}&PageSize=16`);
 }
