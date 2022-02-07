@@ -9,6 +9,7 @@ import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import {Item} from '../../Constants/ShopList';
 import  Data  from '../../Constants/VouchersDummyData'
 import AppCheckBox from '../CustomComponents/AppCheckBox';
+import Layout from '../Layouts/Layout';
 let hm = require('../../assets/images/H&M.png');
 
 const BuyVouchers = () => {
@@ -17,7 +18,7 @@ const BuyVouchers = () => {
   const {isDarkTheme} = state;
 
   return (
-    <AppLayout>
+    <Layout>
       <View
         style={{
           flexGrow: 1,
@@ -62,7 +63,7 @@ const BuyVouchers = () => {
         
       </View>
       
-    </AppLayout>
+    </Layout>
   );
 };
 
