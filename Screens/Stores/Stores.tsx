@@ -1,12 +1,16 @@
-import React, { createRef, useContext, useEffect, useRef, useState } from 'react';
+import React, { 
+  createRef, 
+  useContext, 
+  useEffect, 
+  useRef, 
+  useState 
+} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   ScrollView,
   NativeScrollEvent,
-  StyleProp,
-  ViewStyle,
   Image,
   TouchableOpacity,
   Animated,
@@ -16,12 +20,22 @@ import { AppContext } from '../../AppContext/AppContext';
 import AppLayout from '../../Components/AppLayout';
 import { Colors } from '../../Colors/Colors';
 import PaginationDots from '../../Components/PaginationDots';
-import { ChunckArrays as ChunkArrays } from '../../Utils/utils';
-
-import ApiServices, { IMerchants } from '../../Services/ApiServices';
+import { ChunkArrays as ChunkArrays } from '../../Utils/utils';
 import RenderCategories from '../../Components/CategoriesFilter/RenderCategories';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import {
+   RouteProp, 
+   useRoute 
+  } from '@react-navigation/native';
 import ShopDetailBox from '../../Components/ShopDetailBox';
+import {
+  GetMainCategories, 
+  GetSubCategories, 
+  IMainCategories
+} from '../../Services/Api/CategoryApi';
+import {
+  GetMerchants, 
+  IMerchant
+} from '../../Services/Api/ShopsApi';
 
 
 export interface IServiceCategories {
@@ -45,86 +59,73 @@ type RouteParamList = {
 }
 
 
-interface IData {
-  id: number;
-  imgUrl: string;
-  name: string;
-  txt: string;
-  subtitle: string;
-}
-
-
-interface ICatsProps {
-  data?: IServiceCategories[] | [];
-  style?: StyleProp<ViewStyle>;
-  title: string;
-}
-
-interface ICatsProps2 {
-  data?: IServiceCategories[] | [];
-  style?: StyleProp<ViewStyle>;
-  title: string;
-}
-
-
-
-
 const Stores: React.FC = () => {
   const [isFilterCollapsed, setIsFilterCollapsed] = useState<boolean>(true);
   const [secStep, setSectStep] = useState<number>(0);
   const carouselRef = createRef<ScrollView>();
-  const { isDarkTheme, subCategoryArray } = useContext(AppContext);
+  const { state } = useContext(AppContext);
+  const { isDarkTheme, objectTypeId, subCategoryArray, categoryArray } = state;
   const itemChunk = 4;
 
   const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-  console.log('routeParams', routeParams.params.routeId  )
+  console.log('Shops Rout Param Id ==>', routeParams.params.routeId  )
 
-  const [serviceCategories, setServiceCategories] = useState<IServiceCategories[]>();
-  const [serviceSubCategories, setServiceSubCategories] = useState<IServiceSubCategories[]>([])
-  const [merchants, setMerchants] = useState<IMerchants[]>()
+  const [mainCategories, setMainCategories] = useState<IMainCategories[]>();
+  const [subCategories, setSubCategories] = useState<IServiceSubCategories[]>([])
+  const [merchants, setMerchants] = useState<IMerchant[]>()
+
+  useEffect(() => {
+    handleGetMainCategories()
+  }, [objectTypeId]);
+
+  useEffect(() => {
+    handleGetSubCategories();
+    handleGetMerchants();
+  }, [categoryArray]);
+
+  useEffect(() => {
+   
+    handleGetMerchants();
+  }, [objectTypeId, subCategoryArray, categoryArray, routeParams.params.routeId])
 
 
-  const getServiceCategories = () => {
-    ApiServices.GetServiceCategories(1).then(res => {
-      setServiceCategories(res.data);
-    }).catch(e => {
-      console.log(e)
+
+
+
+  const handleGetMainCategories = () => {
+    console.log('--------update merchants---------')
+      GetMainCategories([objectTypeId])
+      .then(res => {
+        setMainCategories(res.data)
+      })
+      .catch(e => {
+        console.log(JSON.parse(JSON.stringify(e.response)))
+      })
+  };
+
+  const handleGetSubCategories = () => {
+      GetSubCategories(subCategoryArray)
+      .then(res => {
+        setSubCategories(res.data);
+      })
+      .catch(e => {
+        console.log(JSON.parse(JSON.stringify(e.response)))
+      })
+  };
+
+  const handleGetMerchants = () => {
+    GetMerchants(routeParams.params.routeId,objectTypeId, false, categoryArray, subCategoryArray)
+    .then(res => {
+      setMerchants(res.data.data)
     })
-  }
-
-  const getServiceSubCategories = (data: Array<number>) => {
-    ApiServices.GetServiceSubCategories(data).then(res => {
-      setServiceSubCategories(res.data)
-    }).catch(e => {
-      console.log(e)
+    .catch(e => {
+      console.log(JSON.parse(JSON.stringify(e.response)))
     })
   };
 
-  const getMerchants = () => {
-    ApiServices.GetMerchants(routeParams.params.routeId).then(res => {
-      setMerchants(res.data.data!)
-    }).catch(e => {
-      console.log(JSON.parse(JSON.stringify(e)))
-    })
-  }
 
-console.log('subCategoryArray', subCategoryArray)
 
-  useEffect(() => {
-    getServiceCategories();
-  }, [])
-
-  useEffect(() => {
-    getMerchants();
-  }, [routeParams.params.routeId])
-
-  useEffect(()=> {
-    console.log('usefffect', subCategoryArray)
-    if(subCategoryArray !== undefined){
-    getServiceSubCategories(subCategoryArray)
-    }
-  }, [subCategoryArray])
 
 
 
@@ -163,18 +164,18 @@ console.log('subCategoryArray', subCategoryArray)
   };
 
   const containerStyle = {
-    backgroundColor: !isDarkTheme ? Colors.black : Colors.white,
+    backgroundColor: isDarkTheme ? Colors.black : Colors.white,
   };
 
   const textStyle = {
-    color: !isDarkTheme ? Colors.white : Colors.black,
+    color: isDarkTheme ? Colors.white : Colors.black,
   };
 
   const itemStyle = {
     width: Dimensions.get('screen').width,
   };
 
-  const chunkedData = ChunkArrays<IMerchants>(merchants!, itemChunk);
+  const chunkedData = ChunkArrays<IMerchant>(merchants!, itemChunk);
   const fillSpace = (ln: number) => {
     if ((itemChunk - ln) === 0) return null;
     return Array.from(Array(itemChunk - ln).keys()).map(element => (
@@ -191,15 +192,15 @@ console.log('subCategoryArray', subCategoryArray)
           </Text>
 
           <RenderCategories
-          isCatregory
-            data={serviceCategories!}
+            isCategory
+            data={mainCategories!}
             title="კატეგორიები" />
 
           <RenderCategories
-            data={serviceSubCategories}
+            data={subCategories}
             title="ქვეკატეგორიები"
-            style={styles.subCategoryes}
-            isCatregory = {false}
+            style={styles.subCategories}
+            isCategory = {false}
           />
 
           <Image
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  subCategoryes: {
+  subCategories: {
     marginTop: 50,
   },
 

@@ -23,7 +23,7 @@ const UserCardSmall: React.FC<ICardSm> = (props) => {
             :
             <TouchableOpacity style={{ position: 'relative', justifyContent: 'center', alignItems: 'center', height: '100%' }} onPress={navigateToBarCode}>
                 <Image style={styles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
-                <Text style={{ color: Colors.white, position: 'absolute', bottom: 85, fontSize: 20 }}>{cardNumber}</Text>
+                <Text style={{ color: Colors.white, position: 'absolute', bottom: 65, fontSize: 20 }}>{cardNumber}</Text>
             </TouchableOpacity>
     );
 };

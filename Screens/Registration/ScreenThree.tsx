@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ActivityIndicator, Keyboard, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {AppContext} from '../../AppContext/AppContext';
@@ -11,14 +11,19 @@ import Grid from '../../Styles/grid';
 
 const ScreenThree: React.FC = () => {
     const { isDarkTheme, setDetails } = useContext(AppContext);
+    const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
     const handleGetClientCards = () => {
+        setButtonLoading(false);
         ApiServices.GetClientCards().then(res => {
             setDetails(res.data);
+            setButtonLoading(false);
             navigate('HomeScreen')
         })
             .catch(e => {
                 console.log(JSON.parse(JSON.stringify(e.response)).data);
+                setButtonLoading(false);
+                navigate('HomeScreen')
             });
     };
 
@@ -34,7 +39,11 @@ const ScreenThree: React.FC = () => {
                 </View>
                 <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleGetClientCards}>
+                    {buttonLoading ?
+                            <ActivityIndicator animating={buttonLoading} color='#dadde1' />
+                            :
                         <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>დახურვა</Text>
+                    }
                     </TouchableOpacity>
                 </View>
             </ScrollView>
