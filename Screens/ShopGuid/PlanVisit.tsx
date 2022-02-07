@@ -16,8 +16,6 @@ import data from '../../Constants/PlanVisitData';
 import WorkingHours from '../../Components/PlanVisit/WorkingHours';
 
 
-
-
 const PlanVisit = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
