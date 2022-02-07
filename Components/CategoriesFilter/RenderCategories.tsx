@@ -1,10 +1,24 @@
-import React from 'react';
-import { createRef, useContext, useState } from 'react';
-import { View, Text, ScrollView, NativeScrollEvent, TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import React, {
+    createRef,
+    useContext,
+    useState
+} from 'react';
+import {
+    View,
+    Text,
+    ScrollView,
+    NativeScrollEvent,
+    StyleSheet,
+    StyleProp,
+    ViewStyle
+} from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import PaginationDots from '../PaginationDots';
-import { IServiceCategories, IServiceSubCategories } from '../../Screens/Stores/Stores';
+import {
+    IServiceCategories,
+    IServiceSubCategories
+} from '../../Screens/Stores/Stores';
 import CategoryFilterButton from './CategoryFilterButton';
 
 
@@ -13,23 +27,23 @@ interface ICatsProps {
     data?: IServiceCategories[] | IServiceSubCategories[];
     style?: StyleProp<ViewStyle>;
     title: string;
-    isCatregory?:boolean
+    isCategory?: boolean
 }
 
-const RenderCategories: React.FC<ICatsProps> = props => {
+const RenderCategories: React.FC<ICatsProps> = ({ data, style, title, isCategory }) => {
     const [catStep, setCatStep] = useState<number>(0);
 
     const carouselRef = createRef<ScrollView>();
-    const { isDarkTheme } = useContext(AppContext);
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
     const onChangeCategoriesSectionStep = (nativeEvent: NativeScrollEvent) => {
         if (nativeEvent) {
             const slide = Math.ceil(
                 nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
             );
-
             setCatStep(slide);
-        }
+        };
     };
 
 
@@ -38,15 +52,15 @@ const RenderCategories: React.FC<ICatsProps> = props => {
     };
 
     return (
-        <View style={[styles.catView, props.style]}>
+        <View style={[styles.catView, style]}>
             <View style={styles.catHeader}>
-                <Text style={[styles.catTitle, textStyle]}>{props.title}</Text>
+                <Text style={[styles.catTitle, textStyle]}>{title}</Text>
                 <PaginationDots
                     length={
-                        props.data?.length
-                            ? props.data?.length % 3 === 0
-                                ? props.data?.length / 3
-                                : Math.ceil(props.data?.length / 3)
+                        data?.length
+                            ? data?.length % 3 === 0
+                                ? data?.length / 3
+                                : Math.ceil(data?.length / 3)
                             : 1
                     }
                     step={catStep}
@@ -60,8 +74,8 @@ const RenderCategories: React.FC<ICatsProps> = props => {
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled={false}
                 horizontal>
-                {props.data?.map((el: IServiceCategories | IServiceSubCategories) => (
-                    <CategoryFilterButton key={el.id} data={el} isCatregory = {props.isCatregory}/>
+                {data?.map((el: IServiceCategories | IServiceSubCategories) => (
+                    <CategoryFilterButton key={el.id} data={el} isCategory={isCategory} />
                 ))}
             </ScrollView>
         </View>

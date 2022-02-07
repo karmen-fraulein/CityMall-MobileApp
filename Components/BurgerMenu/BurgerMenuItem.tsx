@@ -1,66 +1,72 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { 
+    useContext,
+    useState 
+} from "react";
+import { 
+    Image, 
+    StyleSheet, 
+    Text, 
+    TouchableOpacity, 
+    View 
+} from "react-native";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
 import { IDrawerItem } from "../../Constants/DrawerItems";
 import { navigate } from "../../Services/NavigationServices";
-import Grid from "../../Styles/grid";
 import BurgerMenuLocation from "./BurgerMenuLocation";
 
 interface IBmItem {
     item: IDrawerItem
 };
 
-// interface IBmItemProps {
-//     name: string,
-//     _children: Array<any>,
-//     icon: ImageSourcePropType,
-// };
-
-
-const BurgerMenuItem: React.FC<IBmItem> = (props) => {
-    const { state } = useContext(AppContext);
-    const { isDarkTheme } = state;
+const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
+    const { state, setGlobalState } = useContext(AppContext);
+    const { isDarkTheme, clientDetails  } = state;
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
-    useEffect(() => {
-        return () => {
-            setIsCollapsed(false);
+    const handleOnMenuItemPress = () => {
+        if (item.location?.length == 0) {
+            return navigate(item.routeName!);
+        } else {
+            if(item.objectTypeId !== undefined) {
+                return [setGlobalState({objectTypeId: item.objectTypeId}), setIsCollapsed(!isCollapsed)]
+            } else {
+                return setIsCollapsed(!isCollapsed);
+            }   
         };
-    }, []);
-
- 
-
+    };
 
     return (
-        <View style = {{marginBottom: 20}}>
+        <View style={{ marginBottom: 20 }}>
             <TouchableOpacity style={styles.mainContStyle}
-                onPress={() => setIsCollapsed(!isCollapsed)}>
-                <Image
-                    style={[
-                        styles.arrowImgStyle,
-                        { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }
-                    ]}
-                    source={require('../../assets/images/arrow-sm.png')} />
-                <Text
-                    style={[
-                        styles.listName,
-                        { color: isDarkTheme ? Colors.white : Colors.black }
-                    ]}>
-                    {props.item.name}
+                onPress={handleOnMenuItemPress}>
+                {
+                    item?.location?.length! !== 0 ?
+                        <Image style={[ styles.arrowImgStyle, { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] } ]}
+                            source={require('../../assets/images/arrow-sm.png')} />
+                        :
+                        null
+                }
+                <Text style={[styles.listName, { color: isDarkTheme ? Colors.white : Colors.black } ]}>
+                    {item.name}
                 </Text>
             </TouchableOpacity>
-            {isCollapsed && 
-            <View style={{marginBottom: 5}}>
-               {props.item?.location?.map((el, i) => (
-                   <BurgerMenuLocation item = {el} key = {i} categories = {props.item.categories} routeName = {props.item.routeName!}/>
-               ))}     
-            </View>}
+            {
+                isCollapsed &&
+                <View style={{ marginBottom: 5 }}>
+                    {
+                        clientDetails.length === 0 && item.routeName === 'ProfileScreen' ?
+                            <BurgerMenuLocation item={item?.location?.[1]!} key={item.id} categories={item.categories} routeName={item.routeName!} />
+                            :
+                            item?.location?.map((el, i) => (
+                                <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} />
+                            ))
+                    }
+                </View>
+            }
         </View>
     );
 };
-
 
 export default BurgerMenuItem;
 

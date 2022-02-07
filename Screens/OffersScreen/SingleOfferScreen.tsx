@@ -1,12 +1,13 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
 import { CategoryTypes } from "../../Constants/Categories";
 import { useDimension } from "../../Hooks/UseDimension";
+import { GoBack } from "../../Services/NavigationServices";
 
-import {IRegistrationProps} from '../RegistrationScreen';
 
 type RouteParamList = {
     params: {
@@ -21,17 +22,17 @@ const SingleOfferScreen = () => {
 
     const routeObj = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-    console.log('single offers',routeObj.params)
 
 
     return (
         <SafeAreaView style={{ flex: 1, position: 'relative', backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
+            <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
             <View style={styles.headerView}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton} onPress={()=>GoBack()}>
                     <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
                 </TouchableOpacity>
                 <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {CategoryTypes[singleOffer.offerType]}
+                    {singleOffer.name}
                 </Text>
             </View>
             <View style={{ flex: 6 }}>
@@ -46,10 +47,10 @@ const SingleOfferScreen = () => {
                 </View>
                 <View style={{ marginTop: 23 }}>
                     <Text style={[styles.merchantTitle, { color: isDarkTheme ? Colors.white : Colors.black }]} >
-                    {singleOffer.name}
+                    {singleOffer.subtitle}
                     </Text>
                     <Text style={[styles.merchantDesc, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {singleOffer.subtitle}
+                    {singleOffer.content}
                     </Text>
                 </View>
                 <View style={{ marginTop: 25 }}>
@@ -63,18 +64,23 @@ const SingleOfferScreen = () => {
                     </Text>
                 </View>
                 <View style={{ marginTop: 25 }}>
-                   {singleOffer.contactiInfoMerchant &&
+                   {singleOffer.contactiInfoMerchant? 
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>მაღაზია: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactiInfoMerchant}</Text>
-                    </View>}
-                    {singleOffer.contactInfoCityMall && <View style={{ flexDirection: 'row' }}>
+                    </View> 
+                    :
+                    null}
+                    {singleOffer.contactInfoCityMall? 
+                     <View style={{ flexDirection: 'row' }}>
                         <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>სითი მოლი: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactInfoCityMall}</Text>
-                    </View>}
+                    </View>
+                    :null}
 
                 </View>
             </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -96,7 +102,7 @@ const styles = StyleSheet.create({
     backButton: {
         width: 30, 
         height: 30, 
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 
     pageTitle: {
@@ -104,7 +110,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 17,
         marginLeft: 5,
-        textTransform: "uppercase"
+        textTransform: "uppercase",
+        textAlign: 'center',
+        width: '100%'
 
     },
 

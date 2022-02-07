@@ -1,18 +1,6 @@
-export interface IOffers {
-    address: number,
-    clientCategory: number,
-    contactInfoCityMall: string,
-    contactiInfoMerchant: string,
-    fromDate: string,
-    id: number,
-    imgUrl: string,
-    merchantUrl: string,
-    name: string,
-    offerType: number,
-    subtitle: string,
-    toDate: string,
-    txt: string
-}
+import {IOffer} from '../Services/Api/OffersApi';
+import { IMerchant } from '../Services/Api/ShopsApi';
+
 
 export interface IAppState {
     isAuthenticated: boolean,
@@ -22,9 +10,12 @@ export interface IAppState {
     userPhoneNumber: string,
     cardDetails: any,
     routeObject: any,
-    offersArray: IOffers[] | [],
-    singleOffer: IOffers | {},
-    subCategoryArray: Array<number>
+    offersArray: IOffer[] | [],
+    singleOffer: IOffer | {},
+    singleMerchant: IMerchant | {},
+    categoryArray: number[] | [],
+    subCategoryArray: number[] | [],
+    objectTypeId: number | undefined,
 }
 
 
@@ -38,5 +29,8 @@ export const AppState: IAppState = {
     routeObject: {},
     offersArray: [],
     singleOffer: {},
-    subCategoryArray: []
+    singleMerchant: {},
+    categoryArray: [],
+    subCategoryArray: [],
+    objectTypeId: undefined
 }

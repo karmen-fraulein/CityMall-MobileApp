@@ -10,7 +10,7 @@ const ShopDetailBox = (props: any) => {
     const { isDarkTheme } = state;
 
     const handlePromotionBoxClick = () => {
-        setGlobalState({ singleOffer: props.data })
+        setGlobalState({ singleMerchant: props.data })
         navigate('ShopDetailsScreen');
     };
 

@@ -5,7 +5,6 @@ export interface ICategories {
 
 export interface ILocation {
     name?: string,
-    routeName?: string,
     id?: number
 }
 
@@ -14,7 +13,8 @@ export interface IDrawerItem {
     name?: string,
     location?: ILocation[],
     categories?: ICategories[] | [],
-    routeName?: string 
+    routeName?: string,
+    objectTypeId: number | undefined 
 
 
 }
@@ -23,21 +23,11 @@ export default [
     {
         name: 'მთავარი',
         icon: require('../assets/images/arrow-sm.png'),
-        location: [
-            {
-                name: 'სითმოლი საბურთალო',
-                routeName: 'HomeScreen',
-                id: 1
-            },
-            {
-                name: 'სითმოლი გლდანი',
-                routeName: 'HomeScreen',
-                id: 2
-            }
-        ],
+        location: [],
         categories: [],
         id: 1,
         routeName: 'HomeScreen',
+        objectTypeId: undefined,
     },
     {
         name: 'შეთავაზებები',
@@ -45,13 +35,11 @@ export default [
         location: [
             {
                 name: 'სითმოლი საბურთალო',
-               
                 id:1
 
             },
             {
                 name: 'სითმოლი გლდანი',
-                
                 id: 2
             },
 
@@ -65,13 +53,11 @@ export default [
                 id: 1,
                 name: 'სიახლეები'
             },
-            {
-                id: 2,
-                name: 'ღონისძიებები'
-            }
+            
         ],
         routeName: 'OffersScreen',
         id: 2,
+        objectTypeId: undefined,
     },
     {
         name: 'მაღაზიები',
@@ -97,7 +83,8 @@ export default [
             },
         ],
         routeName: 'Stores',
-        id:3
+        id:3,
+        objectTypeId: 100013,
     },
     {
         name: 'გართობა',
@@ -114,7 +101,7 @@ export default [
         ],
         categories: [],
         routeName: 'Stores',
-        objectTypeId: 2,
+        objectTypeId: 100020,
         id:4
     },
     {
@@ -132,11 +119,11 @@ export default [
         ],
         categories: [],
         routeName: 'Stores',
-        objectTypeId: 3,
+        objectTypeId: 100018,
         id:5
     },
     {
-        name: 'სერვისი',
+        name: 'სერვისები',
          icon: require('../assets/images/arrow-sm.png'),
          location: [
             {
@@ -150,43 +137,41 @@ export default [
         ],
         categories: [],
         routeName: 'Stores',
-        objectTypeId: 4,
+        objectTypeId: 100015,
          id:6,
     },
-    // {
-    //     name: 'სასაჩუქრე ბარათები',
-    //      icon: require('../assets/images/arrow-sm.png'),
-    //     location: [
-    //         {
-    //             name: 'სასაჩუქრე ბარათის შეკვეთა',
-    //             routeName: 'OrderGiftCardScreen'
-    //         },
-    //         {
-    //             name: 'ნაშთის შემოწმება'
-    //         }
-    //     ],
-    //     id:7,
-    // },
-    // {
-    //     name: 'მოლის გზამკვლევი',
-    //      icon: require('../assets/images/arrow-sm.png'),
-    //     location: [
-    //         {
-    //             name: 'სითმოლი საბურთალო'
-    //         },
-    //         {
-    //             name: 'სითმოლი გლდანი'
-    //         }
-    //     ],
-    //     id:8,
-    // },
+    {
+        name: 'მოლის გზამკვლევი',
+         icon: require('../assets/images/arrow-sm.png'),
+        location: [
+            {
+                name: 'სითმოლი საბურთალო',
+                id: 1
+            },
+            {
+                name: 'სითმოლი გლდანი',
+                id: 2
+            }
+        ],
+        categories: [
+            {
+                id: 1,
+                name: 'დაგეგმე ვიზიტი'
+            },
+            {
+                id: 2,
+                name: 'მოგვწერე'
+            },
+        ],
+        routeName: 'ShopGuid',
+        id:8,
+    },
     {
         name: 'ჩვენს შესახებ',
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
                 name: 'ჩვენს შესახებ',
-                routeName: 'AboutUs',
                 id: 1
                 
             },
@@ -194,16 +179,11 @@ export default [
                 name: 'ლოიალობის შესახებ',
                 id: 2
             },
-            {
-                name: 'მოგვწერე',
-                id: 3
-            }
+            
         ],
         categories: [],
         id:9,
-        // routeName: 'AboutUs',
-        // routeName: 'Loiality',
-        routeName: 'ContactUs',
+        routeName: 'AboutUs',
     },
     {
         name: '_blank',
@@ -212,12 +192,14 @@ export default [
         name: 'პირადი კაბინეტი',
         icon: require('../assets/images/arrow-sm.png'),
         location: [
-            {
-                name: 'პარამეტრები'
+            {   
+                name: 'პირადი კაბინეტი',
+                id: 1
             },
             {
-                name: 'პირადი კაბინეტი',
-                routeName: 'ProfileScreen'
+                
+                name: 'პარამეტრები',
+                id: 2
             }
         ],
         categories: [],
@@ -236,5 +218,20 @@ export default [
     //         }
     //     ],
     //     id:11,
+    // },
+
+      // {
+    //     name: 'სასაჩუქრე ბარათები',
+    //      icon: require('../assets/images/arrow-sm.png'),
+    //     location: [
+    //         {
+    //             name: 'სასაჩუქრე ბარათის შეკვეთა',
+    //             routeName: 'OrderGiftCardScreen'
+    //         },
+    //         {
+    //             name: 'ნაშთის შემოწმება'
+    //         }
+    //     ],
+    //     id:7,
     // },
 ]

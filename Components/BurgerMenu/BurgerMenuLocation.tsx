@@ -13,26 +13,27 @@ export interface IBmItem {
 }
 
 
-
-const BurgerMenuLocation: React.FC<IBmItem> = (props) => {
+const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName}) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
     const [isCollapsed, setIsCollapsed] = useState<Boolean>(false);
 
-    const hasCategories = () => {
-        if (props.categories!?.length > 0) {
-            return true;
+    let MenuItemCategories = categories;
+
+   if (routeName === 'Stores') {
+        if(item.id === 2) {
+            MenuItemCategories = categories?.filter(c => c.id !==2);
         } else {
-            return false;
-        }
-    };
-console.log('*')
+            MenuItemCategories = categories;
+        }    
+    } 
+
     return (
         <View style={{ marginLeft: 10, marginVertical: 7 }}>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} 
-            onPress={() =>props.categories!?.length > 0 ? setIsCollapsed(!isCollapsed) : navigate(props.routeName!)}>
+            onPress={() =>categories!?.length > 0 ? setIsCollapsed(!isCollapsed) : navigate(routeName!, {routeId: item.id})}>
                 {
-                   props.categories!?.length > 0 ?
+                   categories!?.length > 0 ?
                         <Image
                             style={[
                                 styles.arrowImgStyle,
@@ -41,12 +42,12 @@ console.log('*')
                             source={require('../../assets/images/arrow-sm.png')} /> :
                         null
                 }
-                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}> {props.item.name}</Text>
+                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}> {item.name}</Text>
             </TouchableOpacity>
             {
                 isCollapsed && <View>
-                    {props.categories?.map((el, i) => (
-                        <BurgerMenuCategories item={el} key={i} routeName = {props.routeName!} routeId = {props.item.id}  />
+                    {MenuItemCategories?.map((el, i) => (
+                        <BurgerMenuCategories item={el} key={i} routeName = {routeName!} routeId = {item.id}  />
                     ))}
                 </View>
             }

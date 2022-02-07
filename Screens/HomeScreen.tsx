@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button } from 'react-native';
 import ApiServices from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
 import PaginationDots from "../Components/PaginationDots";
@@ -11,11 +11,12 @@ import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
 import { paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
+import { GetOffers } from "../Services/Api/OffersApi";
 
 
 
 
-const HomeScreen = (props: any) => {
+const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
     const { clientDetails, offersArray, isDarkTheme } = state;
 
@@ -30,6 +31,7 @@ const HomeScreen = (props: any) => {
     useEffect(() => {
         getOffers();
         handleGetClientCards();
+        // getObjectTypes();
     }, []);
 
     useEffect(() => {
@@ -87,12 +89,13 @@ const HomeScreen = (props: any) => {
     };
 
     const getOffers = () => {
-        ApiServices.GetOffers().then(res => {
-            setGlobalState({ offersArray: res.data })
+        GetOffers(undefined).then(res => {
+            setGlobalState({ offersArray: res.data.data })
         }).catch(e => {
             console.log('error ===>', e)
         });
     };
+
 
     return (
         <AppLayout pageTitle = {'მთავარი'}>
@@ -105,11 +108,12 @@ const HomeScreen = (props: any) => {
                                 '$1  $2  $3  $4',
                             )}
                             navigateToBarCode={() => navigate('UserCardWithBarcode')}
-                            navigateToReg={() => navigate('RegistrationScreen')} />
+                            navigateToReg={() => navigate('REGSTEP_ONE')} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
                 </View>
+            
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>
@@ -117,7 +121,7 @@ const HomeScreen = (props: any) => {
                             <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 შეთავაზებები
                             </Text>
-                            <PaginationDots length={paginationDotCount(offersArray, 4)} step={offersStep} />
+                            <PaginationDots length={paginationDotCount(offersArray, 4)}  step={offersStep} />
                         </View>
                         <View style={{ flex: 10 }}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>
