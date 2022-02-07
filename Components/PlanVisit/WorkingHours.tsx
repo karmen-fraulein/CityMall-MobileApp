@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     width: 150,
   },
 });
