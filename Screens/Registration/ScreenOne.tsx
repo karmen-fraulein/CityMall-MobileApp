@@ -91,10 +91,10 @@ const ScreenOne: React.FC = () => {
     };
 
     const handleStep = () => {
-        // if (errorMessages.length > 0) {
-        //     setHasError(true);
-        //     return
-        // }; სანახავია პიდარობის მოწმობის ვალიდაცია
+        if (errorMessages.length > 0) {
+            setHasError(true);
+            return
+        }; //სანახავია პიდარობის მოწმობის ვალიდაცია
         
         const data: IRegistrationProps = {
             firstName: name,

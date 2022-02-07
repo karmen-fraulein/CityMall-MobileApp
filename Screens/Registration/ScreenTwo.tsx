@@ -60,12 +60,20 @@ const ScreenTwo: React.FC = (props: any) => {
         GetDistricts();
 
     }, []);
+    console.log(district)
 
     useEffect(() => {
         if (errorMessages.length === 0) {
             setHasError(false);
         };
     }, [errorMessages]);
+
+    useEffect(() => {
+        if(selectedDistrict !== 'სხვა'){
+            let errorArray = errorMessages.filter(e => e !== 'district');
+            setErrorMessages(errorArray);
+        }
+    }, [selectedDistrict ]);
 
     const validateInputs = (actionType: string, inputName: string) => {
         if (actionType === 'add') {
@@ -204,7 +212,7 @@ const ScreenTwo: React.FC = (props: any) => {
                     .then(async (response: any) => {
                         AuthService.setToken(response.data.access_token, response.data.refresh_token);
                         setButtonLoading(false);
-                        navigate('RegistrationScreen3');
+                        navigate('REGSTEP_THREE');
                     })
                     .catch((e: any) => {
                         setButtonLoading(false);

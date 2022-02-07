@@ -99,6 +99,7 @@ const AppStack = () => {
                     name='REGSTEP_TWO'
                     component={ScreenTwo}
                     options={{
+                        animationEnabled:false,
                         headerShown: false,
                     }}
                 />
@@ -106,6 +107,7 @@ const AppStack = () => {
                     name='REGSTEP_THREE'
                     component={ScreenThree}
                     options={{
+                        animationEnabled:false,
                         headerShown: false,
                     }}
                 />
