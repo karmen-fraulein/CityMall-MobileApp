@@ -29,12 +29,13 @@ export const GetMainCategories = async (data: Array<number>) => {
 };
 
 export const GetSubCategories = async (data: Array<number>) => {
+    
     let queryParams = '';
     if(data.length) {
         queryParams = data.map((el: number) => `ObjectTypes=${el}`).join('&');
         queryParams = `?${queryParams}`
     };
-
+    console.log(`${env.API_URL}/api/Category/GetSubCategories${queryParams}`)
     return await axios.get<IMainCategories[]>(`${env.API_URL}/api/Category/GetSubCategories${queryParams}`);
 };
 

@@ -7,10 +7,11 @@ import { AppContext } from '../../AppContext/AppContext';
 
 interface ICatButton {
   data?: IServiceCategories | IServiceSubCategories,
-  isCategory?: boolean
+  isCategory?: boolean,
+  onPress: () => void
 }
 
-const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory }) => {
+const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory, onPress }) => {
   const { state, setGlobalState } = useContext(AppContext);
   const { isDarkTheme,categoryArray, subCategoryArray } = state;
   const [isChosen, setIsChosen] = useState<boolean>(false);
@@ -18,6 +19,11 @@ const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory }) => {
   const handleChoseCategory = (catId: number) => {
     setIsChosen(!isChosen)
   };
+
+  const startFilter = () => {
+    onPress();
+    handleChoseCategory(data?.id!);
+  }
 
 
   useEffect(() => {
@@ -71,7 +77,7 @@ const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory }) => {
   return (
     <TouchableOpacity
       style={[styles.catItem, borderStyle, isChosen ? buttonBgColorActive : buttonBgColor]}
-      onPress={() => handleChoseCategory(data?.id!)}>
+      onPress={startFilter}>
       <Text
         style={[styles.catItemTitle, isChosen ? textStyleActive : textStyle]}>
         {data?.name}

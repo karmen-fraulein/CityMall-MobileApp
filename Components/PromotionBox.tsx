@@ -24,17 +24,17 @@ const PromotionBox: React.FC<IPromotionData> = ({ data, index, style }) => {
     const { isDarkTheme } = state;
 
 
-    const BoxColor = (i: number) => {
-        if (i % 4 === 1) {
-            return styles.promotionRed;
-        } else if (i % 4 === 2) {
-            return styles.promotionBlue;
-        } if (i % 4 === 3) {
-            return styles.promotionLightBlue;
-        } else {
-            return styles.promotionYellow;
-        }
-    };
+    // const BoxColor = (i: number) => {
+    //     if (i % 4 === 1) {
+    //         return styles.promotionRed;
+    //     } else if (i % 4 === 2) {
+    //         return styles.promotionBlue;
+    //     } if (i % 4 === 3) {
+    //         return styles.promotionLightBlue;
+    //     } else {
+    //         return styles.promotionYellow;
+    //     }
+    // };
 
     const handlePromotionBoxClick = () => {
         setGlobalState({ singleOffer: data })
@@ -45,8 +45,8 @@ const PromotionBox: React.FC<IPromotionData> = ({ data, index, style }) => {
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={style}>
             <View style={styles.promotionBox}>
-                <View style={[styles.container, BoxColor(index!)]}>
-                    {/* <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}> {data.offerType.name}</Text> */}
+                <View style={[styles.container, {backgroundColor: data.offerType.color}]}>
+                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}> {data.offerType.name}</Text>
                 </View>
                 <Image style={styles.promotionImg} source={{ uri: data.imgUrl }} />
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>

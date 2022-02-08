@@ -28,7 +28,7 @@ export interface IMerchant {
 export const GetMerchants = async(address: number, ObjectTypes:number,  isPremium: boolean, categories: number[], subCategories: number[], page: number) => {
     let CategoriesQuery = '';
     let SubCategoriesQuery = '';
-   
+    
     if(categories.length > 0) {
         CategoriesQuery = categories.map((el: number) => `&Categories=${el}`).join('&');
     };
