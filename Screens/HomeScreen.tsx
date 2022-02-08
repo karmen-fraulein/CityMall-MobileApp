@@ -112,7 +112,7 @@ const HomeScreen = () => {
                                 '$1  $2  $3  $4',
                             )}
                             navigateToBarCode={() => navigate('UserCardWithBarcode')}
-                            navigateToReg={() => navigate('REGSTEP_ONE')} />
+                            navigateToReg={() => navigate('AboutUs', {routeId: 2})} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }

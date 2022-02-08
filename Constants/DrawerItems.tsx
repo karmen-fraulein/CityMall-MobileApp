@@ -191,20 +191,18 @@ export default [
     {
         name: 'პირადი კაბინეტი',
         icon: require('../assets/images/arrow-sm.png'),
-        location: [
-            {   
-                name: 'პირადი კაბინეტი',
-                id: 1
-            },
-            {
-                
-                name: 'პარამეტრები',
-                id: 2
-            }
-        ],
+        location: [],
         categories: [],
         id:10,
         routeName: 'ProfileScreen'
+    },
+    {
+        name: 'პარამეტრები',
+        icon: require('../assets/images/arrow-sm.png'),
+        location: [],
+        categories: [],
+        id:11,
+        routeName: 'Parameters'
     },
     // {
     //     name: 'ფიზიკური ბარათის შეკვეთა',

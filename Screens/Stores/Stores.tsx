@@ -15,7 +15,8 @@ import {
   TouchableOpacity,
   Animated,
   Dimensions,
-  Alert,
+  ActivityIndicator,
+  Pressable,
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import AppLayout from '../../Components/AppLayout';
@@ -63,16 +64,16 @@ type RouteParamList = {
 const Stores: React.FC = () => {
   const [isFilterCollapsed, setIsFilterCollapsed] = useState<boolean>(true);
   const [secStep, setSectStep] = useState<number>(0);
+
   const carouselRef = createRef<ScrollView>();
+  const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
   const { state } = useContext(AppContext);
   const { isDarkTheme, objectTypeId, subCategoryArray, categoryArray } = state;
+
   const itemChunk = 4;
 
   let isEndFetching = false;
   let startFetching = false;
-
-  const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
-
 
   const [mainCategories, setMainCategories] = useState<IMainCategories[]>();
   const [subCategories, setSubCategories] = useState<IServiceSubCategories[]>([])
@@ -89,25 +90,20 @@ const Stores: React.FC = () => {
   }, [categoryArray.length]);
 
   useEffect(() => {
-    if(merchants.length <= 0) {
+    console.log('update - 1');
+    if (merchants.length <= 0) {
       return;
     } else {
-      setPagPage(1);
+ 
       isEndFetching = false;
     };
-   
+
   }, [subCategoryArray.length, categoryArray.length, objectTypeId, routeParams.params.routeId, routeParams.params.id])
 
   useEffect(() => {
     handleGetMerchants();
-  }, [objectTypeId, subCategoryArray.length, categoryArray.length, routeParams.params.routeId, routeParams.params.id, pagPage]);
+  }, [objectTypeId, subCategoryArray.length, categoryArray.length, routeParams.params.routeId, routeParams.params.id]);
 
-  useEffect(() => {
-    if (isFetchingData) {
-      setPagPage(pagPage + 1);
-    };
-
-  }, [isFetchingData])
 
 
 
@@ -131,22 +127,25 @@ const Stores: React.FC = () => {
       })
   };
 
-  const handleGetMerchants = () => {
+  const handleGetMerchants = (push: boolean = false, p: number = 1) => {
     let isPremium;
     if (routeParams.params.id === 1) {
       isPremium = false;
     } else {
       isPremium = true;
     };
-    if(startFetching) return;
+    if (startFetching) return;
     startFetching = true;
-    GetMerchants(routeParams.params.routeId, objectTypeId, isPremium, categoryArray, subCategoryArray, pagPage,)
+
+
+    GetMerchants(routeParams.params.routeId, objectTypeId, isPremium, categoryArray, subCategoryArray, p)
       .then(res => {
         let tempMerchants = res.data.data;
         if (tempMerchants.length < 16) {
           isEndFetching = true;
         };
-        if (isFetchingData) {
+        console.log('isfetching', isFetchingData)
+        if (push) {
           setMerchants(prevState => {
             return [...prevState, ...tempMerchants]
           });
@@ -180,8 +179,14 @@ const Stores: React.FC = () => {
 
     let scrollPoint = Math.floor(nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width);
     let scrollContentSize = Math.floor(nativeEvent.contentSize.width)
-    if (scrollPoint >= scrollContentSize - 20) {
+    if (scrollPoint >= scrollContentSize - 1) {
+      setPagPage(prevState => prevState + 1);
       setIsFetchingData(true);
+      setTimeout(() => {
+        handleGetMerchants(true, pagPage);
+      }, 1000);
+
+      console.log(pagPage)
     }
   };
 
@@ -239,14 +244,22 @@ const Stores: React.FC = () => {
           <RenderCategories
             isCategory
             data={mainCategories!}
+            onPress={() => {
+              setPagPage(1);
+              setTimeout(() => {
+                setMerchants([]);
+              }, 5000);
+              console.log('***********************>>>>>>>>>>>')
+            }}
             title="კატეგორიები" />
 
-          <RenderCategories
+         {subCategories.length > 0 && <RenderCategories
             data={subCategories}
             title="ქვეკატეგორიები"
             style={styles.subCategories}
+            onPress={() => setPagPage(1)}
             isCategory={false}
-          />
+          />}
 
           <Image
             source={require('./../../assets/images/gradient-line.png')}
@@ -273,6 +286,10 @@ const Stores: React.FC = () => {
             style={styles.dataPagination}
           />
         )}
+        <Pressable onPress={() => setMerchants([])} >
+          <Text>fdsfdsfdsfdfd</Text>
+        </Pressable>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <ScrollView>
           <ScrollView
             style={styles.dataScroller}
@@ -281,6 +298,7 @@ const Stores: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}
             horizontal={isFilterCollapsed}>
+
             {chunkedData.map((data, i) => (
               <View key={i} style={[styles.dataContent, itemStyle]}>
                 {data.map((item, index) => (
@@ -291,11 +309,26 @@ const Stores: React.FC = () => {
                     style={styles.dataItem}
                   />
                 ))}
+
                 {fillSpace(data.length)}
+
               </View>
+
             ))}
+          
+
           </ScrollView>
         </ScrollView>
+        {
+              isFetchingData && pagPage > 1?
+              <View style={{ flex: 1, maxWidth: 50, justifyContent: 'center', marginRight:10,  paddingHorizontal: 20, backgroundColor: 'red' }}>
+              <ActivityIndicator size={'large'} color={'#FFFFFF'} />
+            </View>
+                : null
+            }
+       
+        </View>
+        
       </View>
     </AppLayout>
   );
@@ -304,6 +337,7 @@ const Stores: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+   
   },
   collapsible: {
     overflow: 'hidden',

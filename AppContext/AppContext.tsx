@@ -17,8 +17,6 @@ const createAppProvider = (initialState: IAppState) => ({children}: any) => {
             ...updateValue
         }));
     };
-    console.log('objectTypeId ==>', appState.objectTypeId);
- 
     
     return <AppContext.Provider
         value ={{

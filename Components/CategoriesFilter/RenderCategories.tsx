@@ -27,10 +27,11 @@ interface ICatsProps {
     data?: IServiceCategories[] | IServiceSubCategories[];
     style?: StyleProp<ViewStyle>;
     title: string;
-    isCategory?: boolean
+    isCategory?: boolean;
+    onPress: () => void;
 }
 
-const RenderCategories: React.FC<ICatsProps> = ({ data, style, title, isCategory }) => {
+const RenderCategories: React.FC<ICatsProps> = ({ data, style, title, isCategory, onPress }) => {
     const [catStep, setCatStep] = useState<number>(0);
 
     const carouselRef = createRef<ScrollView>();
@@ -75,7 +76,7 @@ const RenderCategories: React.FC<ICatsProps> = ({ data, style, title, isCategory
                 pagingEnabled={false}
                 horizontal>
                 {data?.map((el: IServiceCategories | IServiceSubCategories) => (
-                    <CategoryFilterButton key={el.id} data={el} isCategory={isCategory} />
+                    <CategoryFilterButton key={el.id} data={el} isCategory={isCategory} onPress={onPress} />
                 ))}
             </ScrollView>
         </View>
