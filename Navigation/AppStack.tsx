@@ -28,6 +28,8 @@ import ContactUs from '../Screens/ShopGuid/ContactUs';
 import PlanVisit from '../Screens/ShopGuid/PlanVisit';
 import AboutUsIndex from '../Screens/AboutUs/Index';
 import ShopGuid from '../Screens/ShopGuid/ShopGuid';
+import FloorMap from '../Components/FloorMap';
+import ShopDetailBox from '../Components/ShopDetailBox';
 
 
 
@@ -242,6 +244,13 @@ const AppStack = () => {
                 <Stack.Screen
                     name='ShopGuid'
                     component={ShopGuid}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='FloorMap'
+                    component={FloorMap}
                     options={{
                         headerShown: false,
                     }}
