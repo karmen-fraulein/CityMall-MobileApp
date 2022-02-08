@@ -14,7 +14,10 @@ import { navigate } from "../Services/NavigationServices";
 import { GetOffers } from "../Services/Api/OffersApi";
 
 
-
+enum mallIds {
+    citiMallGldan = 1,
+    cityMallSaburtalo = 2,
+}
 
 const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
@@ -26,7 +29,6 @@ const HomeScreen = () => {
     const [offersView, setOffersView] = useState<any[]>();
     const [barcode, setBarCode] = useState<string>('');
     const [initLoading, setInitLoading] = useState<boolean>(true);
-
 
     useEffect(() => {
         getOffers();
@@ -119,6 +121,9 @@ const HomeScreen = () => {
                 </View>
             
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
+                <TouchableOpacity onPress={() => navigate('FloorMap', {mallId: mallIds.citiMallGldan})} style={{backgroundColor: '#fcfcfc', paddingVertical: 15}}>
+                    <Text style={{color: 'red', textAlign: 'center'}}>FLOOR MAP</Text>
+                </TouchableOpacity>
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.promotionContainer}>
