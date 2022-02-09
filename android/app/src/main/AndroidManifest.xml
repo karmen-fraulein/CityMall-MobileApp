@@ -13,9 +13,9 @@
        <meta-data
      android:name="com.google.android.geo.API_KEY"
      android:value="AIzaSyA1jr6_XW2vZLemxi2KV4p6pUEKMowGW7w"/>
-     <queries>
+     <!-- <queries>
     <package android:name="com.google.android.apps.maps" />
-  </queries>
+  </queries> -->
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
