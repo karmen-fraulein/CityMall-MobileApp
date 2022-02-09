@@ -7,11 +7,10 @@ import { AppContext } from '../../AppContext/AppContext';
 
 interface ICatButton {
   data?: IServiceCategories | IServiceSubCategories,
-  isCategory?: boolean,
-  onPress: () => void
+  isCategory?: boolean
 }
 
-const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory, onPress }) => {
+const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory }) => {
   const { state, setGlobalState } = useContext(AppContext);
   const { isDarkTheme,categoryArray, subCategoryArray } = state;
   const [isChosen, setIsChosen] = useState<boolean>(false);
@@ -21,7 +20,6 @@ const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory, onPress 
   };
 
   const startFilter = () => {
-    onPress();
     handleChoseCategory(data?.id!);
   }
 
