@@ -1,13 +1,13 @@
-import React, { 
+import React, {
     useContext,
-    useState 
+    useState
 } from "react";
-import { 
-    Image, 
-    StyleSheet, 
-    Text, 
-    TouchableOpacity, 
-    View 
+import {
+    Image,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from "react-native";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
@@ -21,20 +21,32 @@ interface IBmItem {
 
 const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
     const { state, setGlobalState } = useContext(AppContext);
-    const { isDarkTheme, clientDetails  } = state;
+    const { isDarkTheme, clientDetails } = state;
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
     const handleOnMenuItemPress = () => {
         if (item.location?.length == 0) {
-            return navigate(item.routeName!);
+            if(clientDetails.length === 0 && item.id === 10) {
+                return navigate('AboutUs', {routeId: 2})
+            } else {
+                return navigate(item.routeName!);
+            };
+            
         } else {
-            if(item.objectTypeId !== undefined) {
-                return [setGlobalState({objectTypeId: item.objectTypeId}), setIsCollapsed(!isCollapsed)]
+            if (item.objectTypeId !== undefined) {
+                return [setGlobalState({ objectTypeId: item.objectTypeId }), setIsCollapsed(!isCollapsed)]
             } else {
                 return setIsCollapsed(!isCollapsed);
-            }   
+            }
         };
     };
+
+    const themeTextColor = {
+        color: isDarkTheme ? Colors.white : Colors.black
+    };
+    const notRegisteredTextColor = {
+        color: Colors.red
+    }
 
     return (
         <View style={{ marginBottom: 20 }}>
@@ -42,12 +54,12 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                 onPress={handleOnMenuItemPress}>
                 {
                     item?.location?.length! !== 0 ?
-                        <Image style={[ styles.arrowImgStyle, { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] } ]}
+                        <Image style={[styles.arrowImgStyle, { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }]}
                             source={require('../../assets/images/arrow-sm.png')} />
                         :
                         null
                 }
-                <Text style={[styles.listName, { color: isDarkTheme ? Colors.white : Colors.black } ]}>
+                <Text style={[styles.listName, clientDetails.length ===0 && item.id === 10? notRegisteredTextColor :  themeTextColor]}>
                     {item.name}
                 </Text>
             </TouchableOpacity>
@@ -55,12 +67,9 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                 isCollapsed &&
                 <View style={{ marginBottom: 5 }}>
                     {
-                        clientDetails.length === 0 && item.routeName === 'ProfileScreen' ?
-                            <BurgerMenuLocation item={item?.location?.[1]!} key={item.id} categories={item.categories} routeName={item.routeName!} />
-                            :
-                            item?.location?.map((el, i) => (
-                                <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} />
-                            ))
+                        item?.location?.map((el, i) => (
+                            <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} />
+                        ))
                     }
                 </View>
             }

@@ -12,7 +12,7 @@ export interface IBmCategoriesItem {
 }
 
 const BurgerMenuCategories: React.FC<IBmCategoriesItem> = ({item, routeName, routeId}) => {
-    // console.log('From Burger Menu routeId ==>', routeId)
+    // console.log('From Burger Menu routeId ==>', 'routeId', routeId, 'itemid', item?.id)
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
     return (

@@ -27,7 +27,7 @@ interface ICatsProps {
     data?: IServiceCategories[] | IServiceSubCategories[];
     style?: StyleProp<ViewStyle>;
     title: string;
-    isCategory?: boolean
+    isCategory?: boolean;
 }
 
 const RenderCategories: React.FC<ICatsProps> = ({ data, style, title, isCategory }) => {

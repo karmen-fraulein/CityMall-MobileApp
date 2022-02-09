@@ -19,6 +19,10 @@ const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory }) => {
     setIsChosen(!isChosen)
   };
 
+  const startFilter = () => {
+    handleChoseCategory(data?.id!);
+  }
+
 
   useEffect(() => {
     if (isCategory) {
@@ -71,7 +75,7 @@ const CategoryFilterButton: React.FC<ICatButton> = ({ data, isCategory }) => {
   return (
     <TouchableOpacity
       style={[styles.catItem, borderStyle, isChosen ? buttonBgColorActive : buttonBgColor]}
-      onPress={() => handleChoseCategory(data?.id!)}>
+      onPress={startFilter}>
       <Text
         style={[styles.catItemTitle, isChosen ? textStyleActive : textStyle]}>
         {data?.name}
