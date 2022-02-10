@@ -310,7 +310,10 @@ const Stores: React.FC = () => {
           ]}>
           <ScrollView
             contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
-            onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}>
+            onScroll={({nativeEvent}) => {
+              if(isFilterCollapsed) return;
+              onChangeSectionStep(nativeEvent)
+            }}>
             {merchants.length > 0 && (
               <ScrollView
                 scrollToOverflowEnabled={true}
@@ -318,6 +321,7 @@ const Stores: React.FC = () => {
                   styles.dataScroller,
                   isFilterCollapsed && {height: 500},
                 ]}
+                contentContainerStyle={{paddingRight: 5}}
                 ref={carouselRef}
                 onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
                 showsHorizontalScrollIndicator={false}
