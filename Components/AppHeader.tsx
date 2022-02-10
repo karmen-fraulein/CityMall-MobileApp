@@ -43,7 +43,7 @@ const AppHeader = (props: any) => {
             </View>
             <Text style={[styles.titletext, { color: isDarkTheme ? Colors.white : Colors.black }]}>{props.pageTitle}</Text>
             <View style={[styles.appHeaderLeft, { width: (width / 3.6) }]}>
-                <TouchableOpacity style={[styles.iconCircle, { borderColor: isDarkTheme ? Colors.white : Colors.black }]} >
+                <TouchableOpacity onPress={() => navigate("Searches")} style={[styles.iconCircle, { borderColor: isDarkTheme ? Colors.white : Colors.black }]} >
                     <Image style={styles.icons} source={require('../assets/images/loupe.png')} />
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.iconCircle, { borderColor: isDarkTheme ? Colors.white : Colors.black }]} onPress={handleIconPress}>

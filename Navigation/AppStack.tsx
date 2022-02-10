@@ -31,6 +31,7 @@ import ShopGuid from '../Screens/ShopGuid/ShopGuid';
 import FloorMap from '../Components/FloorMap';
 import ShopDetailBox from '../Components/ShopDetailBox';
 import GoogleMap from '../Components/GoogleMap';
+import Searches from '../Screens/Stores/Searches';
 
 
 
@@ -259,6 +260,13 @@ const AppStack = () => {
                  <Stack.Screen
                     name='GoogleMap'
                     component={GoogleMap}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='Searches'
+                    component={Searches}
                     options={{
                         headerShown: false,
                     }}
