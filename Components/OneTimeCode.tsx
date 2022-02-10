@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
+import SmsRetriever from 'react-native-sms-retriever';
 
 interface IOtpProps {
     getValue: (val: string) => void,
@@ -15,6 +16,26 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
     const { getValue, resend, hasError } = props;
 
     const [oneTimeCode, setOneTimeCode] = useState<string>('');
+
+    const onSmsListener = async () => {
+        try {
+          const registered = await SmsRetriever.startSmsRetriever();
+          if (registered) {
+            SmsRetriever.addSmsListener(event => {
+              const otp = /(\d{4})/g.exec(event.message || '');
+              if(otp){
+                setOneTimeCode(otp[1]);
+              }
+            });
+          }
+        } catch (error) {}
+      };
+    
+      useEffect(() => {
+        onSmsListener();
+    
+        return () => SmsRetriever.removeSmsListener();
+      }, []);
 
     useEffect(() => {
         getValue(oneTimeCode);
