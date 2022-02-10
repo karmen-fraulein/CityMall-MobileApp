@@ -20,7 +20,6 @@ import AuthService from '../Services/AuthService';
 import { setItem, getItem } from '../Services/StorageService';
 import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
-import SmsRetriever from 'react-native-sms-retriever';
 
 const AuthScreen = () => {
     const { setGlobalState } = useContext(AppContext);
@@ -39,26 +38,6 @@ const AuthScreen = () => {
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
     const [agreedTermsError, setAgreedTermsError] = useState<boolean>(false);
     const [alreadyAgreedTerms, setAlreadyAgreedTerms] = useState<boolean>(false);
-
-    const onSmsListener = async () => {
-        try {
-          const registered = await SmsRetriever.startSmsRetriever();
-          if (registered) {
-            SmsRetriever.addSmsListener(event => {
-              const otp = /(\d{4})/g.exec(event.message || '');
-              if(otp){
-                setOtp(otp[1]);
-              }
-            });
-          }
-        } catch (error) {}
-      };
-    
-      useEffect(() => {
-        onSmsListener();
-    
-        return () => SmsRetriever.removeSmsListener();
-      }, []);
 
     useEffect(() => {
         getItem('hasAgreedTerms').then(value => {

@@ -46,7 +46,7 @@ export default () => {
           setGlobalState({singleMerchant: res.data});
           navigate('ShopDetailsScreen');
           setIsLoading(false);
-        });
+        }).catch(() => setIsLoading(true));
     }
   }, [roomId]);
 

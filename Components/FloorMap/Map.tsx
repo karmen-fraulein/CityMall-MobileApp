@@ -5,7 +5,7 @@ enum SvgElTypes {
   image = 'image',
   polygon = 'polygon',
   rect = 'rect',
-  path = 'path'
+  path = 'path',
 }
 
 interface ISvgElemntAttributes {
@@ -106,25 +106,25 @@ const MapComponent: React.FC<IComponentProps> = props => {
           );
         }
         break;
-        case SvgElTypes.path:
-          {
-            svgVDoms.push(
-              <Path
-                key={index}
-                stroke={
-                  element.attributes.room === activeId
-                    ? activeBorderColor
-                    : '#ffffff'
-                }
-                strokeWidth={
-                  element.attributes.room === activeId ? activeBorderWidth : 0
-                }
-                d={`${element.attributes.d}`}
-                onPress={() => onPress!(element.attributes.room)}
-              />,
-            );
-          }
-          break;
+      case SvgElTypes.path:
+        {
+          svgVDoms.push(
+            <Path
+              key={index}
+              stroke={
+                element.attributes.room === activeId
+                  ? activeBorderColor
+                  : '#ffffff'
+              }
+              strokeWidth={
+                element.attributes.room === activeId ? activeBorderWidth : 0
+              }
+              d={`${element.attributes.d}`}
+              onPress={() => onPress!(element.attributes.room)}
+            />,
+          );
+        }
+        break;
     }
   });
 
