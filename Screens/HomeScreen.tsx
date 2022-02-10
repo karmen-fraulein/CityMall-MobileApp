@@ -124,6 +124,9 @@ const HomeScreen = () => {
                 <TouchableOpacity onPress={() => navigate('FloorMap', {mallId: mallIds.citiMallGldan})} style={{backgroundColor: '#fcfcfc', paddingVertical: 15}}>
                     <Text style={{color: 'red', textAlign: 'center'}}>FLOOR MAP</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate('GoogleMap')} style={{backgroundColor: '#fcfcfc', paddingVertical: 15}}>
+                    <Text style={{color: 'red', textAlign: 'center'}}>GoogleMap</Text>
+                </TouchableOpacity>
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.promotionContainer}>

@@ -221,10 +221,19 @@ const Stores: React.FC = () => {
     }).start();
   }, [isFilterCollapsed]);
 
+  let collapsableHeight = 266;
+  if(subCategories.length <= 0) {
+    collapsableHeight = 180;
+  }
+
+  if(!mainCategories || mainCategories.length <= 0) {
+    collapsableHeight = 120;
+  }
+
   const collapsibleHeight = {
     height: animatedIsCollapsed.current.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, subCategories.length > 0 ? 266 : 180],
+      outputRange: [0, collapsableHeight],
     }),
   };
 
@@ -255,12 +264,13 @@ const Stores: React.FC = () => {
           <Text style={[styles.headerText, textStyle]}>
             <Text style={styles.baseText}>მაღაზიები</Text> | სითი მოლი საბურთალო
           </Text>
-
+          {(mainCategories && mainCategories.length > 0) && (
           <RenderCategories
             isCategory
             data={mainCategories!}
             title="კატეგორიები"
           />
+          )}
 
           {subCategories.length > 0 && (
             <RenderCategories
@@ -310,7 +320,10 @@ const Stores: React.FC = () => {
           ]}>
           <ScrollView
             contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
-            onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}>
+            onScroll={({nativeEvent}) => {
+              if(isFilterCollapsed) return;
+              onChangeSectionStep(nativeEvent)
+            }}>
             {merchants.length > 0 && (
               <ScrollView
                 scrollToOverflowEnabled={true}
@@ -318,6 +331,7 @@ const Stores: React.FC = () => {
                   styles.dataScroller,
                   isFilterCollapsed && {height: 500},
                 ]}
+                contentContainerStyle={{paddingRight: 5}}
                 ref={carouselRef}
                 onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
                 showsHorizontalScrollIndicator={false}

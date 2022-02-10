@@ -51,14 +51,14 @@ const Parameters = () => {
                 <Text style={styles.name}>პროფილის გვერდი</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconView}>
+          {/* <TouchableOpacity style={styles.iconView}>
             <View style={{width: 30}}>
             <Image source={require('../../assets/images/lock.png')} />
             </View>
             <View>
                 <Text style={styles.name}>პაროლის ცვლილება</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </Layout>

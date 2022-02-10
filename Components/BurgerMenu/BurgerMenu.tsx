@@ -20,7 +20,7 @@ const BurgerMenu = () => {
                 </Text>
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
-            <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingLeft: '8%', flexGrow: 1 }}>
+            <ScrollView style={{ flex: 1,  }} contentContainerStyle={{ paddingLeft: '8%', flexGrow: 1, paddingBottom: 100 }}>
                 {DrawerItems.map((item: any, index: number) => (
                     item.name === '_blank' ?
                         <View style={styles.burgerMenuSeparator} key='_blank'>
@@ -30,7 +30,7 @@ const BurgerMenu = () => {
                         <BurgerMenuItem item={item} key={index} />
                 ))}
             </ScrollView>
-            <View style={[Grid.col_1, { justifyContent: 'flex-start', marginLeft: '8%' }]}>
+            <View style={[Grid.col_1, { justifyContent: 'flex-start', marginLeft: '8%',  }]}>
                 <TouchableOpacity style={styles.logoutBtn} onPress={() => {
                     AuthService.SignOut();
                     setGlobalState({ isAuthenticated: false });
