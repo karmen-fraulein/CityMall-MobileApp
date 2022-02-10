@@ -27,10 +27,10 @@ const MapToggleInfo = () => {
 
 const styles = StyleSheet.create({
     main: {
-        height: 60,
+      height: 60,
       paddingVertical: 10,
       justifyContent: 'space-between',
-      left: 11,
+      left: 9,
     },
     text: {
         color: Colors.white,
