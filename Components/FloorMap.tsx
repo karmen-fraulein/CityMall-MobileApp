@@ -1,6 +1,13 @@
 import axios from 'axios';
 import React, {useContext, useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Modal,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
@@ -9,7 +16,7 @@ import MapComponent from './FloorMap/Map';
 import ZoomableView from './FloorMap/ZoomableView';
 import envs from './../config/env';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import { navigate } from '../Services/NavigationServices';
+import {navigate} from '../Services/NavigationServices';
 
 type RouteParamList = {
   params: {
@@ -27,21 +34,21 @@ export default () => {
   const [pickerPositionTop, setPickerPositionTop] = useState<
     number | undefined
   >(undefined);
+  const [isLoading, setIsLoading] = useState(false);
   const [floor, setFloor] = useState<any>();
 
-    useEffect(() => {
-        if(roomId) {
-            axios
-            .get(
-              `${envs.API_URL}/api/Mobile/GetConnectStore?StoreIds=${roomId}`,
-            )
-            .then(res => {
-                console.log(res.data)
-                setGlobalState({singleMerchant: res.data});
-                navigate('ShopDetailsScreen');
-            });
-        }
-    }, [roomId])
+  useEffect(() => {
+    if (!isNaN(parseInt(roomId?.toString() || ''))) {
+      setIsLoading(true);
+      axios
+        .get(`${envs.API_URL}/api/Mobile/GetConnectStore?StoreId=${roomId}`)
+        .then(res => {
+          setGlobalState({singleMerchant: res.data});
+          navigate('ShopDetailsScreen');
+          setIsLoading(false);
+        });
+    }
+  }, [roomId]);
 
   useEffect(() => {
     axios
@@ -64,51 +71,63 @@ export default () => {
   }, [floors, floorIndex]);
 
   return (
-    <AppLayout pageTitle={'სართულის გეგმა'}>
-      <View
-        style={[
-          styles.sectionContainer,
-          {backgroundColor: isDarkTheme ? Colors.black : Colors.white},
-        ]}>
-        {floor !== undefined && (
-          <ZoomableView
-            maxZoom={1.5}
-            minZoom={1}
-            zoomStep={0.5}
-            initialZoom={1}
-            bindToBorders={true}>
-            <MapComponent
-              passHeight={h => {
-                setPickerPositionTop(
-                  Dimensions.get('screen').height - (h - 50),
-                );
-              }}
-              SvgXmlString={floor.svgToJson}
-              activeBorderWidth={20}
-              activeBorderColor="green"
-              activeId={roomId}
-              onPress={setRoomId}
-            />
-            {floors.length > 0 && pickerPositionTop && (
-              <Picker
-                dropdownIconColor={'#FFCA06'}
-                selectedValue={floorIndex}
-                mode='dropdown'
-                style={[styles.floorPicker, {top: pickerPositionTop}]}
-                onValueChange={itemValue => setFloorIndex(itemValue)}>
-                {floors.map((f, i) => (
-                  <Picker.Item
-                    key={f.id}
-                    label={`სართული ${i + 1}`}
-                    value={i}
-                  />
-                ))}
-              </Picker>
-            )}
-          </ZoomableView>
-        )}
-      </View>
-    </AppLayout>
+    <>
+      <AppLayout pageTitle={'სართულის გეგმა'}>
+        <View
+          style={[
+            styles.sectionContainer,
+            {backgroundColor: isDarkTheme ? Colors.black : Colors.white},
+          ]}>
+          {floor !== undefined && (
+            <ZoomableView
+              maxZoom={1.5}
+              minZoom={1}
+              zoomStep={0.5}
+              initialZoom={1}
+              bindToBorders={true}>
+              <MapComponent
+                passHeight={h => {
+                  setPickerPositionTop(
+                    Dimensions.get('screen').height - (h - 0),
+                  );
+                }}
+                SvgXmlString={floor.svgToJson}
+                activeBorderWidth={20}
+                activeBorderColor="green"
+                activeId={roomId}
+                onPress={setRoomId}
+              />
+              {floors.length > 0 && pickerPositionTop && (
+                <Picker
+                  dropdownIconColor={'#FFCA06'}
+                  selectedValue={floorIndex}
+                  mode="dropdown"
+                  style={[styles.floorPicker, {top: pickerPositionTop}]}
+                  onValueChange={itemValue => setFloorIndex(itemValue)}>
+                  {floors.map((f, i) => (
+                    <Picker.Item
+                      key={f.id}
+                      label={`სართული ${i + 1}`}
+                      value={i}
+                    />
+                  ))}
+                </Picker>
+              )}
+            </ZoomableView>
+          )}
+        </View>
+      </AppLayout>
+      <Modal visible={isLoading} animationType="slide" transparent={true}>
+        <ActivityIndicator
+          size={'small'}
+          color={'#ffffff'}
+          style={{
+            alignSelf: 'center',
+            transform: [{translateY: Dimensions.get('screen').height / 2}],
+          }}
+        />
+      </Modal>
+    </>
   );
 };
 

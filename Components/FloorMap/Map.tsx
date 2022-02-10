@@ -1,20 +1,22 @@
 import React, {useState} from 'react';
-import Svg, {Polygon, Rect, Image} from 'react-native-svg';
+import Svg, {Polygon, Rect, Image, Path} from 'react-native-svg';
 
 enum SvgElTypes {
   image = 'image',
   polygon = 'polygon',
   rect = 'rect',
+  path = 'path'
 }
 
 interface ISvgElemntAttributes {
   width: number | undefined;
   height: number | undefined;
-  'xlink:href': string;
+  src: string;
   x: number | undefined;
   y: number | undefined;
   room: number | undefined;
   points: string | undefined;
+  d: string | undefined;
 }
 
 interface ISvgElemnt {
@@ -58,7 +60,7 @@ const MapComponent: React.FC<IComponentProps> = props => {
               width={`${element.attributes.width}`}
               height={`${element.attributes.height}`}
               //@ts-ignore
-              href={`http://citymall.connect.ge/source/../static/media/nL3OcrchuUIQMPUpLtpSpvT3pgRm8GM6g438gIUE.png`}
+              href={`${element.attributes.src}`}
             />,
           );
         }
@@ -104,6 +106,25 @@ const MapComponent: React.FC<IComponentProps> = props => {
           );
         }
         break;
+        case SvgElTypes.path:
+          {
+            svgVDoms.push(
+              <Path
+                key={index}
+                stroke={
+                  element.attributes.room === activeId
+                    ? activeBorderColor
+                    : '#ffffff'
+                }
+                strokeWidth={
+                  element.attributes.room === activeId ? activeBorderWidth : 0
+                }
+                d={`${element.attributes.d}`}
+                onPress={() => onPress!(element.attributes.room)}
+              />,
+            );
+          }
+          break;
     }
   });
 
