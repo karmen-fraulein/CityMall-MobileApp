@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -21,6 +21,7 @@ export default () => {
   const {isDarkTheme} = state;
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [keyword, setKeyword] = useState<string>();
+  const ttlRef = useRef<NodeJS.Timeout>();
   const itemChunk = 4;
 
   const itemStyle = {
@@ -28,13 +29,22 @@ export default () => {
   };
 
   useEffect(() => {
-    if (!keyword) return;
+    if(ttlRef.current) clearTimeout(ttlRef.current);
+    if (!keyword) {
+        if(merchants?.length) {
+            setMerchants([]);
+        }
+        return;
+    }
 
-    axios
-      .get(`${envs.API_URL}/api/Mobile/SearchMerchants?keyword=${keyword}`)
-      .then(res => {
-        setMerchants(res.data);
-      });
+    ttlRef.current = setTimeout(() => {
+        axios
+        .get(`${envs.API_URL}/api/Mobile/SearchMerchants?keyword=${keyword}`)
+        .then(res => { 
+            if(res.data?.data)
+                  setMerchants(res.data?.data);
+        });
+    }, 1500);
   }, [keyword]);
 
   const chunkedData = ChunkArrays<IMerchant>(merchants!, itemChunk);
@@ -72,15 +82,14 @@ export default () => {
             source={require('./../../assets/images/icon-search-red.png')}
           />
         </View>
-      </View>
-      <View>
-        <ScrollView contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}>
+
+      <View style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white,}}>
+        <ScrollView contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}} horizontal>
           {merchants.length > 0 && (
             <ScrollView
               scrollToOverflowEnabled={true}
               style={[styles.dataScroller]}
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled={true}>
+              showsHorizontalScrollIndicator={false} >
               {chunkedData.map((data, i) => (
                 <View key={i} style={[styles.dataContent, itemStyle]}>
                   {data.map((item, index) => (
@@ -98,6 +107,7 @@ export default () => {
             </ScrollView>
           )}
         </ScrollView>
+        </View>
       </View>
     </AppLayout>
   );
