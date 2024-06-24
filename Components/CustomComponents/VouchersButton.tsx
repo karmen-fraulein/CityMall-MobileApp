@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import {Colors} from '../../Colors/Colors';
 
 
@@ -12,20 +12,17 @@ export interface IAppBtnProps {
 
 
 const VouchersButton: React.FC<IAppBtnProps> = (props) => {
-
-
     const { onPress,title} = props;
-    //const styles = StyleSheet.create({});
+
     return (
         <TouchableOpacity
             onPress={onPress}>
-            
             <View style={styles.btn}>
+                <Image source={require('../../assets/images/vaucher.png')} style ={{width: 21, height: 16, marginRight: 10  }} />
                 <Text style={styles.btnTitle}>{title}</Text>
-
             </View>
         </TouchableOpacity>
-    )
+    );
 }
 
 const styles = StyleSheet.create ({
@@ -36,6 +33,7 @@ const styles = StyleSheet.create ({
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection:'row'
     },
     btnTitle: {
         color: Colors.white,

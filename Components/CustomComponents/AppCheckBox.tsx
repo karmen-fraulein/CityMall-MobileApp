@@ -7,8 +7,8 @@ interface IAppCheckBox {
     checked: boolean,
     onChange?: () => void,
     hasError?: boolean,
-    isRequired: boolean,
-    name : string,
+    isRequired?: boolean,
+    name?: string,
     addValidation?: (actionTpe: string, inputName: string) => void;
 };
 
@@ -60,7 +60,7 @@ const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
         <TouchableOpacity style={[styles.roundCheck,{borderColor: isDarkTheme? Colors.white : Colors.black}, isChecked ? activeColor : inactiveColor]} onPress={onChange}>
             <View style={[styles.checkmark, {borderBottomColor: isDarkTheme? Colors.black : Colors.white, borderRightColor: isDarkTheme? Colors.black : Colors.white}]}/>
         </TouchableOpacity>
-           {hasError && <Text style={styles.errorText}>{validations[name]}</Text> }
+           {hasError && <Text style={styles.errorText}>{name !== undefined && validations[name]}</Text> }
         </>
     );
 };

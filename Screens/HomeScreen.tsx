@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button } from 'react-native';
 import ApiServices from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
 import PaginationDots from "../Components/PaginationDots";
@@ -11,11 +11,15 @@ import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
 import { paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
+import { GetOffers } from "../Services/Api/OffersApi";
 
 
+enum mallIds {
+    citiMallGldan = 1,
+    cityMallSaburtalo = 2,
+}
 
-
-const HomeScreen = (props: any) => {
+const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
     const { clientDetails, offersArray, isDarkTheme } = state;
 
@@ -26,10 +30,10 @@ const HomeScreen = (props: any) => {
     const [barcode, setBarCode] = useState<string>('');
     const [initLoading, setInitLoading] = useState<boolean>(true);
 
-
     useEffect(() => {
         getOffers();
         handleGetClientCards();
+        // getObjectTypes();
     }, []);
 
     useEffect(() => {
@@ -44,6 +48,7 @@ const HomeScreen = (props: any) => {
     }, [clientDetails]);
 
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      
         let overView = event.nativeEvent.contentOffset.x / (width - 25);
         setOffersStep(Math.round(overView));
     };
@@ -73,7 +78,7 @@ const HomeScreen = (props: any) => {
         if (offersArray !== undefined) {
             for (let i = 4; i < offersArray!.length + 4; i += 4) {
                 const renderElement =
-                    <View style={styles.promotions}>
+                    <View style={[styles.promotions, {width: width}]}>
                         {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} index = {i - 4}/>}
                         {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} index = {i - 3}/>}
                         {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} index = {i - 2}/>}
@@ -87,12 +92,16 @@ const HomeScreen = (props: any) => {
     };
 
     const getOffers = () => {
-        ApiServices.GetOffers().then(res => {
-            setGlobalState({ offersArray: res.data })
+        GetOffers(undefined).then(res => {
+            setGlobalState({ offersArray: res.data.data })
         }).catch(e => {
             console.log('error ===>', e)
         });
     };
+
+
+
+
 
     return (
         <AppLayout pageTitle = {'მთავარი'}>
@@ -105,23 +114,31 @@ const HomeScreen = (props: any) => {
                                 '$1  $2  $3  $4',
                             )}
                             navigateToBarCode={() => navigate('UserCardWithBarcode')}
-                            navigateToReg={() => navigate('RegistrationScreen')} />
+                            navigateToReg={() => navigate('AboutUs', {routeId: 2})} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
                 </View>
+            
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
+                <TouchableOpacity onPress={() => navigate('FloorMap', {mallId: mallIds.citiMallGldan})} style={{backgroundColor: '#fcfcfc', paddingVertical: 15}}>
+                    <Text style={{color: 'red', textAlign: 'center'}}>FLOOR MAP</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate('GoogleMap')} style={{backgroundColor: '#fcfcfc', paddingVertical: 15}}>
+                    <Text style={{color: 'red', textAlign: 'center'}}>GoogleMap</Text>
+                </TouchableOpacity>
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.promotionContainer}>
                             <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 შეთავაზებები
                             </Text>
-                            <PaginationDots length={paginationDotCount(offersArray, 4)} step={offersStep} />
+                            <PaginationDots length={paginationDotCount(offersArray, 4)}  step={offersStep} />
                         </View>
                         <View style={{ flex: 10 }}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                                <ScrollView contentContainerStyle={{ flexDirection: 'row', padding: '7%' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                                <ScrollView 
+                                 pagingEnabled={true} contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
                                     {offersView?.map((el, i) => (
                                         <View key={i}>
                                             {el}
@@ -152,7 +169,8 @@ const styles = StyleSheet.create({
     promotions: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        width: 400,
+        justifyContent: 'space-around',
+        
     },
     promotionContainer: {
         marginTop: 10,

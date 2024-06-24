@@ -5,14 +5,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from '../Services/NavigationServices';
 import HomeScreen from '../Screens/HomeScreen';
 import AuthScreen from '../Screens/AuthScreen';
-import RegistrationScreen from '../Screens/RegistrationScreen';
 import UserCardWithBarcode from '../Screens/UserCardWithBarcode';
 import ShopDetailsScreen from '../Screens/ShopDetailsScreen';
 import OrderGiftCardScreen from '../Screens/OrderGiftCardScreen';
 import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
-import RegistrationScreen2 from '../Screens/RegistrationScreen2';
-import { ScreenTwo } from '../Screens/Registration';
+import {ScreenOne, ScreenTwo, ScreenThree } from '../Screens/Registration/index';
 import AuthService from '../Services/AuthService';
 import { Text } from 'react-native';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
@@ -23,13 +21,17 @@ import BuyVouchers from '../Components/Vouchers/BuyVouchers';
 import Stores from '../Screens/Stores/Stores';
 import SelectedVouchers from '../Components/Vouchers/SelectedVouchers';
 import VouchersDone from '../Components/Vouchers/VouchersDone';
-
 import Parameters from '../Components/Parameters/Parameters';
 import ProfileInfo from '../Components/Parameters/ProfileInfo';
 import EmailChanged from '../Components/Parameters/EmailChanged';
-import AboutUs from '../Components/AboutUs/AboutUs';
-
-import RegistrationScreen3 from '../Screens/RegistrationScreen3';
+import ContactUs from '../Screens/ShopGuid/ContactUs';
+import PlanVisit from '../Screens/ShopGuid/PlanVisit';
+import AboutUsIndex from '../Screens/AboutUs/Index';
+import ShopGuid from '../Screens/ShopGuid/ShopGuid';
+import FloorMap from '../Components/FloorMap';
+import ShopDetailBox from '../Components/ShopDetailBox';
+import GoogleMap from '../Components/GoogleMap';
+import Searches from '../Screens/Stores/Searches';
 
 
 
@@ -91,23 +93,25 @@ const AppStack = () => {
                     }}
                 />
                 <Stack.Screen
-                    name='RegistrationScreen'
-                    component={RegistrationScreen}
+                    name='REGSTEP_ONE'
+                    component={ScreenOne}
                     options={{
                         headerShown: false,
                     }}
                 />
                 <Stack.Screen
-                    name='RegistrationScreen2'
-                    component={RegistrationScreen2}
+                    name='REGSTEP_TWO'
+                    component={ScreenTwo}
                     options={{
+                        animationEnabled:false,
                         headerShown: false,
                     }}
                 />
                  <Stack.Screen
-                    name='RegistrationScreen3'
-                    component={RegistrationScreen3}
+                    name='REGSTEP_THREE'
+                    component={ScreenThree}
                     options={{
+                        animationEnabled:false,
                         headerShown: false,
                     }}
                 />
@@ -220,14 +224,53 @@ const AppStack = () => {
                 />
                 <Stack.Screen
                     name='AboutUs'
-                    component={AboutUs}
+                    component={AboutUsIndex}
                     options={{
                         headerShown: false,
                     }}
                 />
-
-
-
+                {/* <Stack.Screen
+                    name='Loiality'
+                    component={Loiality}
+                    options={{
+                        headerShown: false,
+                    }}
+                /> */}
+                 {/* <Stack.Screen
+                    name='ContactUs'
+                    component={ContactUs}
+                    options={{
+                        headerShown: false,
+                    }}
+                /> */}
+                <Stack.Screen
+                    name='ShopGuid'
+                    component={ShopGuid}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='FloorMap'
+                    component={FloorMap}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                 <Stack.Screen
+                    name='GoogleMap'
+                    component={GoogleMap}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name='Searches'
+                    component={Searches}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
                 </>)}
             </Stack.Navigator>
         </NavigationContainer>

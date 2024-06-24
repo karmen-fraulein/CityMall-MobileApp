@@ -139,12 +139,6 @@ const ProfileScreen = () => {
     }, []);
 
 
-
-
-    console.log('client data', clientInfo)
-
-
-
     const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         let overView = event.nativeEvent.contentOffset.x / (width - 25);
         setOffersStep(Math.round(overView));
@@ -201,7 +195,7 @@ const ProfileScreen = () => {
                     <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
                         <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
                             {offersArray?.map((el: any, i: number) => (
-                                <PromotionBox key={i} data={el} />
+                                <PromotionBox key={i} data={el}  />
 
                             ))}
                         </ScrollView>

@@ -8,6 +8,7 @@ import {navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import AppSwitch from '../CustomComponents/AppSwitch';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
+import Layout from '../Layouts/Layout';
 
 const Parameters = () => {
   const {width} = useDimension();
@@ -17,7 +18,7 @@ const Parameters = () => {
 
 
   return (
-    <AppLayout>
+    <Layout>
       <View
         style={{
           flexGrow: 1,
@@ -50,17 +51,17 @@ const Parameters = () => {
                 <Text style={styles.name}>პროფილის გვერდი</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconView}>
+          {/* <TouchableOpacity style={styles.iconView}>
             <View style={{width: 30}}>
             <Image source={require('../../assets/images/lock.png')} />
             </View>
             <View>
                 <Text style={styles.name}>პაროლის ცვლილება</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
-    </AppLayout>
+    </Layout>
   );
 };
 

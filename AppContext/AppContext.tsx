@@ -1,9 +1,15 @@
 import React, { createContext, useState } from "react";
+import {IAppState} from './AppState';
 
 const AppContext = createContext<any>({});
 
-const createAppProvider = (initialState: any) => ({children}: any) => {
-    const [appState, setAppState] = useState<any>(initialState);
+interface IContextValue {
+    state: IAppState,
+    setGlobalState: (value: any) => void,
+}
+
+const createAppProvider = (initialState: IAppState) => ({children}: any) => {
+    const [appState, setAppState] = useState<IAppState>(initialState);
     
     const setGlobalState = (updateValue: any) => {
         setAppState((prevState: any)=>({
@@ -11,9 +17,9 @@ const createAppProvider = (initialState: any) => ({children}: any) => {
             ...updateValue
         }));
     };
-
+    
     return <AppContext.Provider
-        value={{
+        value ={{
             state: appState,
             setGlobalState,
         }}

@@ -21,7 +21,6 @@ import { setItem, getItem } from '../Services/StorageService';
 import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
 
-
 const AuthScreen = () => {
     const { setGlobalState } = useContext(AppContext);
 
